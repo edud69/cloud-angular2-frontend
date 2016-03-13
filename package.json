@@ -10,7 +10,7 @@
   "publishConfig" : {
     "registry" : "https://build.theshire.io:8444/nexus/content/repositories/npm/"
   },
-  "scripts": {
+"scripts": {
     "build.dev": "gulp build.dev",
     "build.dev.watch": "gulp build.dev.watch",
     "build.e2e": "gulp build.e2e",
@@ -24,8 +24,8 @@
     "karma": "karma",
     "karma.start": "karma start",
     "postinstall": "typings install && gulp check.versions && npm prune",
-    "reinstall": "npm cache clean && rimraf typings/* && rimraf node_modules/* && npm install",
-    "serve.coverage": "remap-istanbul -i coverage/coverage-final.json -o coverage -t html && npm run gulp -- serve.coverage",
+    "reinstall": "npm cache clean && git clean -dfx -e '.*' && npm install",
+    "serve.coverage": "remap-istanbul -b src/ -i coverage/coverage-final.json -o coverage -t html && npm run gulp -- serve.coverage",
     "serve.dev": "gulp serve.dev",
     "serve.e2e": "gulp serve.e2e",
     "start": "gulp serve.dev",
