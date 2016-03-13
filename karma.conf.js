@@ -120,5 +120,6 @@ module.exports = function(config) {
   
   if (process.env.JENKINS) {
     config.browsers = ['PhantomJS'];
+	config.singleRun = true;
   }
 };
