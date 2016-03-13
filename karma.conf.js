@@ -79,14 +79,6 @@ module.exports = function(config) {
       'PhantomJS',
       'Chrome'
     ],
-
-
-    customLaunchers: {
-      Chrome_travis_ci: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
-      }
-    },
     
     coverageReporter: {
       dir: 'coverage/',
@@ -107,17 +99,6 @@ module.exports = function(config) {
     }
   });
 
-  if (process.env.APPVEYOR) {
-    config.browsers = ['IE'];
-    config.singleRun = true;
-    config.browserNoActivityTimeout = 90000; // Note: default value (10000) is not enough
-  }
-
-  if (process.env.TRAVIS || process.env.CIRCLECI) {
-    config.browsers = ['Chrome_travis_ci'];
-    config.singleRun = true;
-  }
-  
   if (process.env.JENKINS) {
     config.browsers = ['PhantomJS'];
 	config.singleRun = true;

@@ -1,9 +1,9 @@
 {
-  "name": "angular2-seed",
-  "version": "0.0.0",
-  "description": "Seed for Angular 2 apps",
+  "name": "the-shire",
+  "version": "1.0.0",
+  "description": "The Shire Frontend",
   "repository": {
-    "url": "https://github.com/mgechev/angular2-seed"
+    "url": "https://bitbucket.org/the-shire/frontend-web"
   },
   "scripts": {
     "build.dev": "gulp build.dev",
@@ -29,8 +29,8 @@
     "webdriver-start": "webdriver-manager start",
     "webdriver-update": "webdriver-manager update"
   },
-  "author": "Minko Gechev <mgechev>",
-  "license": "MIT",
+  "author": "The Shire",
+  "license": "The Shire",
   "devDependencies": {
     "async": "^1.4.2",
     "browser-sync": "^2.11.1",
