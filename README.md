@@ -1,7 +1,7 @@
 # Introduction
 
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://github.com/mgechev/angular2-style-guide)
-[![Build Status](https://build.theshire.io/job/Frontend%20Build/)](https://build.theshire.io/job/Frontend%20Build/)
+[![Build Status](https://build.theshire.io/buildStatus/icon?job=Frontend%20Build)](https://build.theshire.io/job/Frontend%20Build/)
 
 A modular seed project for Angular 2 apps.
 
