@@ -1,3 +1,7 @@
+# Releasing an artifact
+
+Simply commit with the following git commit message : 'RELEASE CANDIDATE'. The build server will automatically take the changes and create an official release version artifacts (nexus release, git tagging, etc).
+
 # Introduction
 
 [![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://github.com/mgechev/angular2-style-guide)
