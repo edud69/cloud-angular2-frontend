@@ -5,6 +5,9 @@
   "repository": {
     "url": "https://bitbucket.org/the-shire/frontend-web"
   },
+  "publishConfig" : {
+    "registry" : "https://build.theshire.io:8444/nexus/content/repositories/npm/"
+  },
   "scripts": {
     "build.dev": "gulp build.dev",
     "build.dev.watch": "gulp build.dev.watch",
@@ -30,7 +33,6 @@
     "webdriver-update": "webdriver-manager update"
   },
   "author": "The Shire",
-  "license": "The Shire",
   "devDependencies": {
     "async": "^1.4.2",
     "browser-sync": "^2.11.1",
