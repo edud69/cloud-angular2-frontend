@@ -1,16 +1,16 @@
 {
   "name": "theshire",
   "author": "The Shire",
-  "version": "1.0.10",
+  "version": "1.0.11-0",
   "description": "The Shire Frontend",
   "license": "UNLICENSED",
   "repository": {
     "url": "https://bitbucket.org/the-shire/frontend-web"
   },
-  "publishConfig" : {
-    "registry" : "https://build.theshire.io:8444/nexus/content/repositories/npm/"
+  "publishConfig": {
+    "registry": "https://build.theshire.io:8444/nexus/content/repositories/npm/"
   },
-"scripts": {
+  "scripts": {
     "build.dev": "gulp build.dev",
     "build.dev.watch": "gulp build.dev.watch",
     "build.e2e": "gulp build.e2e",
