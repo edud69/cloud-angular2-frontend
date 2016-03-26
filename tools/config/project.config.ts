@@ -16,7 +16,7 @@ export class ProjectConfig extends SeedConfig {
   constructor() {
     super();
 
-	this.APP_TITLE = 'The Shire';
+    this.APP_TITLE = 'The Shire';
 
     let additional_deps: InjectableDependency[] = [
       {src: 'angular2-jwt/angular2-jwt.js', inject: 'libs'}

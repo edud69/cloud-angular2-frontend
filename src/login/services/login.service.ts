@@ -1,5 +1,5 @@
 //import {Inject} from 'angular2/core';
-//import {AuthHttp} from 'angular2-jwt';
+//import {AuthHttp} from 'angular2-jwt/angular2-jwt';
 
 declare var fetch : any;
 
