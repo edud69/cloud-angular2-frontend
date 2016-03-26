@@ -16,6 +16,10 @@ describe('App', () => {
       expect(element(by.css('sd-app sd-navbar nav a:first-child')).getText()).toEqual('HOME');
   });
 
+  it('should have correct nav text for Login', () => {
+      expect(element(by.css('sd-app sd-navbar nav a:nth-child(2)')).getText()).toEqual('LOGIN');
+  });
+
   it('should have correct nav text for About', () => {
       expect(element(by.css('sd-app sd-navbar nav a:last-child')).getText()).toEqual('ABOUT');
   });

@@ -5,9 +5,12 @@ import {InjectableDependency} from './seed.config.interfaces';
 export class ProjectConfig extends SeedConfig {
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
 
+  // Api urls
+  AUTHSERVICE_API_login = '<%= ENV %>' === 'prod' ? 'https://region1.theshire.io/api/auth/login' : 'http://localhost:17501/login';
+
   constructor() {
     super();
-    // this.APP_TITLE = 'Put name of your app here';
+    this.APP_TITLE = 'TheShire';
     let additional_deps: InjectableDependency[] = [
       // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
       // {src: 'lodash/lodash.min.js', inject: 'libs'},
