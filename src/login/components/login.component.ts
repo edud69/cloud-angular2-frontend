@@ -11,20 +11,18 @@ import {LoginService} from '../services/login.service';
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
 export class LoginComponent {
-  newName: string;
+
+  socialProviderLinks : any = {
+    facebook : '<%= AUTHSERVICE_API_facebookLogin %>'
+  };
+
   constructor(public loginService: LoginService) {}
 
-  /*
-   * @param newname  any text as input.
-   * @returns return false to prevent default form submit behavior to refresh the page.
-   */
-  addName(): boolean {
-    this.loginService.add(this.newName);
-    this.newName = '';
-    return false;
+  login(event : Event, username : string, password : string) {
+    this.loginService.login(event, username, password);
   }
 
-  login(event : Event, username : string, password : string) {
-	this.loginService.login(event, username, password);
+  refreshAccessToken() {
+    this.loginService.refreshAccessToken();
   }
 }

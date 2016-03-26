@@ -1,5 +1,6 @@
 <!-- template -->
  <!-- On form submit, we call the Login event with the username and the password from the inputs -->
+ <p>Force Login (uses admin / asdfasdf, form values are not considered at all)</p>
  <form (submit)="login($event, username.value, password.value)">
    <label for="username">Username</label>
    <!-- Using #username, we can identify this input to get the value on the form's submit event -->
@@ -9,7 +10,18 @@
    <input type="password" #password class="form-control" id="password" placeholder="Password">
    <button type="submit">Submit</button>
  </form>
-
-<form ngNoForm action="<$= AUTHSERVICE_API_facebookLogin %>" method="POST">
-	<button type="submit">Signin With Facebook</button>
-</form>
+<br/>
+<br/>
+<br/>
+<div>
+  Refresh token test (a refresh_token must be in the localStorage first).
+  <button type="submit" (click)="refreshAccessToken()">Refresh</button>
+</div>
+<br/>
+<br/>
+<br/>
+<div>
+  <form ngNoForm action="{{socialProviderLinks.facebook}}" method="POST">
+    <button type="submit">Signin With Facebook</button>
+  </form>
+</div>

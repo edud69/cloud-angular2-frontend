@@ -1,21 +1,42 @@
+//import {Inject} from 'angular2/core';
+//import {AuthHttp} from 'angular2-jwt';
+
 declare var fetch : any;
 
 export class LoginService {
-  names = [
-    'Edsger Dijkstra',
-    'Donald Knuth',
-    'Alan Turing',
-    'Grace Hopper'
-  ];
 
-  get(): string[] {
-    return this.names;
+  //constructor(@Inject(AuthHttp) public authHttp: AuthHttp) {}
+
+  refreshAccessToken() {
+    var parameters : string = '?refresh_token=' + localStorage.getItem('jwt_refresh_token');
+
+    fetch('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-Tenant-id': 'master' //TODO use the given tenant
+      }
+    })
+    .then((response : any) => response.json())
+    .then((json : any) => {
+      this.updateJwt(json);
+    })
+    .catch((error : any) => {
+      alert(error.message);
+      console.log(error.message);
+    });
+
+  //  this.authHttp.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '')
+  //    .subscribe(
+  //      (data : any) => this.updateJwt(JSON.parse(data._body)),
+  //      (err : any) => console.log(err),
+  //      () => console.log('Refresh completed')
+  //    );
   }
-  add(value: string): void {
-    this.names.push(value);
-  }
+
   login(event : Event, username : string, password : string) {
-	// This will be called when the user clicks on the Login button
+    // This will be called when the user clicks on the Login button
     event.preventDefault();
 
     // We call our API to log the user in. The username and password are entered by the user
@@ -24,19 +45,23 @@ export class LoginService {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-		'X-Tenant-id': 'master',
-		'Authorization': 'Basic YWRtaW46YXNkZmFzZGY='
+        'X-Tenant-id': 'master', //TODO use the given tenant
+        'Authorization': 'Basic YWRtaW46YXNkZmFzZGY=' //TODO create a Basic Auth value from username/password
       }
     })
     .then((response : any) => response.json())
-	.then((json : any) => {
-		console.log(json);
-		console.log('refresh token: ' + json.refresh_token);
-		console.log('access token: ' + json.access_token);
-	})
+    .then((json : any) => {
+      this.updateJwt(json);
+    })
     .catch((error : any) => {
       alert(error.message);
       console.log(error.message);
     });
+  }
+
+  private updateJwt(json : any) {
+    alert(JSON.stringify(json));
+    sessionStorage.setItem('jwt_access_token', json.access_token);
+    localStorage.setItem('jwt_refresh_token', json.refresh_token);
   }
 }

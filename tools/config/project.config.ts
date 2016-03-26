@@ -10,6 +10,8 @@ export class ProjectConfig extends SeedConfig {
     '<%= ENV %>' === 'prod' ? 'https://region1.theshire.io/api/auth/signin/facebook' : 'http://localhost:17501/signin/facebook';
   AUTHSERVICE_API_login =
     '<%= ENV %>' === 'prod' ? 'https://region1.theshire.io/api/auth/login' : 'http://localhost:17501/login';
+  AUTHSERVICE_API_refreshJwtToken =
+    '<%= ENV %>' === 'prod' ? 'https://region1.theshire.io/api/auth/token/refresh' : 'http://localhost:17501/token/refresh';
 
   constructor() {
     super();
@@ -17,6 +19,8 @@ export class ProjectConfig extends SeedConfig {
 	this.APP_TITLE = 'The Shire';
 
     let additional_deps: InjectableDependency[] = [
+      {src: 'angular2-jwt/angular2-jwt.js', inject: 'libs'}
+
       // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
       // {src: 'lodash/lodash.min.js', inject: 'libs'},
     ];

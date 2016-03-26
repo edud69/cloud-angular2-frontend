@@ -8,9 +8,9 @@ export function main() {
       loginService = new LoginService;
     });
 
-    it('should return the list of names', () => {
-      let names = loginService.get();
-      expect(names).toEqual(jasmine.any(Array));
+    it('should test something', () => {
+      expect(loginService).not.toBeNull();
+      expect(jasmine.any(Array)).toEqual(jasmine.any(Array));
     });
   });
 }
