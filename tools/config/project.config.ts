@@ -7,11 +7,11 @@ export class ProjectConfig extends SeedConfig {
 
   // Api urls
   AUTHSERVICE_API_facebookLogin =
-    '<%= ENV %>' === 'prod' ? 'https://region1.theshire.io/api/auth/signin/facebook' : 'http://localhost:17501/signin/facebook';
+    this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/signin/facebook' : 'http://localhost:17501/signin/facebook';
   AUTHSERVICE_API_login =
-    '<%= ENV %>' === 'prod' ? 'https://region1.theshire.io/api/auth/login' : 'http://localhost:17501/login';
+    this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/login' : 'http://localhost:17501/login';
   AUTHSERVICE_API_refreshJwtToken =
-    '<%= ENV %>' === 'prod' ? 'https://region1.theshire.io/api/auth/token/refresh' : 'http://localhost:17501/token/refresh';
+    this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/token/refresh' : 'http://localhost:17501/token/refresh';
 
   constructor() {
     super();
