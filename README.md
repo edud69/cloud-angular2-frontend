@@ -35,7 +35,6 @@ npm install -g ts-node
 
 In order to start the seed use:
 
-
 ```bash
 git clone --depth 1 https://github.com/mgechev/angular2-seed.git
 cd angular2-seed
