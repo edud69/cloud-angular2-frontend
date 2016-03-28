@@ -26,8 +26,10 @@ It is something similar to the Angular Quick Start but does the entire build wit
 # How to start
 
 **Note** that this seed project requires node v4.x.x or higher and npm 2.14.7.
+
+You need to install typings globally first:
 ```bash
-npm install -g ts-node
+npm install -g typings
 ```
 
 In order to start the seed use:
