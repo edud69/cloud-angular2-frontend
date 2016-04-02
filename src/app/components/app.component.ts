@@ -6,13 +6,14 @@ import {HomeComponent} from '../../home/components/home.component';
 import {SigninComponent} from '../../modules/authentication/signin/components/signin.component';
 import {SignupComponent} from '../../modules/authentication/signup/components/signup.component';
 import {AboutComponent} from '../../about/components/about.component';
+import {AuthTokenService} from '../../shared/services/auth-token.service';
 import {NameListService} from '../../shared/services/name-list.service';
 import {SigninService} from '../../modules/authentication/signin/services/signin.service';
 import {SignupService} from '../../modules/authentication/signup/services/signup.service';
 
 @Component({
   selector: 'sd-app',
-  viewProviders: [NameListService, SigninService, SignupService],
+  viewProviders: [AuthTokenService, NameListService, SigninService, SignupService],
   moduleId: module.id,
   templateUrl: './app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]

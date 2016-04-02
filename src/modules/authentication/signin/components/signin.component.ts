@@ -1,6 +1,7 @@
 import {Component} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
+import {AuthTokenService} from '../../../../shared/services/auth-token.service';
 import {SigninService} from '../services/signin.service';
 
 @Component({
@@ -16,13 +17,13 @@ export class SigninComponent {
     facebook : '<%= AUTHSERVICE_API_facebookLogin %>'
   };
 
-  constructor(public signinService: SigninService) {}
+  constructor(public signinService: SigninService, public authTokenService : AuthTokenService) {}
 
   login(event : Event, username : string, password : string) {
     this.signinService.login(event, username, password);
   }
 
   refreshAccessToken() {
-    this.signinService.refreshAccessToken();
+    this.authTokenService.refreshAccessToken();
   }
 }

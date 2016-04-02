@@ -1,5 +1,7 @@
-//import {Inject} from 'angular2/core';
+import {Inject} from 'angular2/core';
 //import {AuthHttp} from 'angular2-jwt/angular2-jwt';
+
+import {AuthTokenService} from '../../../../shared/services/auth-token.service';
 
 declare var fetch : any;
 
@@ -7,33 +9,7 @@ export class SigninService {
 
   //constructor(@Inject(AuthHttp) public authHttp: AuthHttp) {}
 
-  refreshAccessToken() {
-    var parameters : string = '?refresh_token=' + localStorage.getItem('jwt_refresh_token');
-
-    fetch('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-Tenant-id': 'master' //TODO use the given tenant
-      }
-    })
-    .then((response : any) => response.json())
-    .then((json : any) => {
-      this.updateJwt(json);
-    })
-    .catch((error : any) => {
-      alert(error.message);
-      console.log(error.message);
-    });
-
-  //  this.authHttp.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '')
-  //    .subscribe(
-  //      (data : any) => this.updateJwt(JSON.parse(data._body)),
-  //      (err : any) => console.log(err),
-  //      () => console.log('Refresh completed')
-  //    );
-  }
+  constructor(@Inject(AuthTokenService) public authTokenService: AuthTokenService) {}
 
   login(event : Event, username : string, password : string) {
     // This will be called when the user clicks on the Login button
@@ -51,7 +27,7 @@ export class SigninService {
     })
     .then((response : any) => response.json())
     .then((json : any) => {
-      this.updateJwt(json);
+      this.authTokenService.updateToken(json);
     })
     .catch((error : any) => {
       alert(error.message);
@@ -59,9 +35,4 @@ export class SigninService {
     });
   }
 
-  private updateJwt(json : any) {
-    alert(JSON.stringify(json));
-    sessionStorage.setItem('jwt_access_token', json.access_token);
-    localStorage.setItem('jwt_refresh_token', json.refresh_token);
-  }
 }
