@@ -16,8 +16,8 @@ npm install -g typings
 In order to start the seed use:
 
 ```bash
-git clone --depth 1 https://github.com/mgechev/angular2-seed.git
-cd angular2-seed
+git clone --depth 1 https://bitbucket.org/the-shire/frontend-web.git
+cd theshire-frontend
 # install the project's dependencies
 npm install
 # watches your files and uses livereload by default
