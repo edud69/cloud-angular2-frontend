@@ -1,27 +1,8 @@
-[![Angular 2 Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://github.com/mgechev/angular2-style-guide)
 [![Build Status](https://build.theshire.io/buildStatus/icon?job=Frontend%20Build)](https://build.theshire.io/job/Frontend%20Build/)
 
 # Releasing an artifact
 
 Simply commit with the following git commit message : `RELEASE CANDIDATE`. The build server will automatically take the changes and create an official release version (nexus, git tagging, etc).
-
-# Introduction
-
-A modular seed project for Angular 2 apps.
-
-It is something similar to the Angular Quick Start but does the entire build with gulp.
-
-`angular2-seed` provides the following features:
-
-- Allows you to painlessly update the seed tasks of your already existing project.
-- Ready to go, statically typed build system using gulp for working with TypeScript.
-- Production and development builds.
-- Sample unit tests with Jasmine and Karma including code coverage via [istanbul](https://gotwarlost.github.io/istanbul/).
-- End-to-end tests with Protractor.
-- Development server with Livereload.
-- Following the [best practices for your application’s structure](https://github.com/mgechev/angular2-style-guide).
-- Manager of your type definitions using [typings](https://github.com/typings/typings).
-- Basic Service Worker, which implements "Cache then network strategy".
 
 # How to start
 
@@ -52,21 +33,6 @@ npm run build.prod
 
 _Does not rely on any global dependencies._
 
-# Table of Content
-
-- [Introduction](#introduction)
-- [How to start](#how-to-start)
-- [Table of Content](#table-of-content)
-- [Configuration](#configuration)
-- [How to extend?](#how-to-extend)
-- [Running tests](#running-tests)
-- [Contributing](#contributing)
-- [Examples](#examples)
-- [Directory Structure](#directory-structure)
-- [Contributors](#contributors)
-- [Change Log](#change-log)
-- [License](#license)
-
 # Configuration
 
 Default application server configuration
@@ -83,10 +49,6 @@ Configure at runtime
 ```bash
 npm start -- --port 8080 --reload-port 4000 --base /my-app/
 ```
-
-# How to extend?
-
-Visit the [Wiki page](https://github.com/mgechev/angular2-seed/wiki) of the project.
 
 # Running tests
 
@@ -115,23 +77,6 @@ npm run e2e
 npm run e2e.live
 ```
 You can learn more about [Protractor Interactive Mode here](https://github.com/angular/protractor/blob/master/docs/debugging.md#testing-out-protractor-interactively)
-
-# Contributing
-
-Please see the [CONTRIBUTING](https://github.com/mgechev/angular2-seed/blob/master/.github/CONTRIBUTING.md) file for guidelines.
-
-# Examples
-
-Forks of this project demonstrate how to extend and integrate with other libraries:
-
- - https://github.com/justindujardin/angular2-seed - integration with [ng2-material](https://github.com/justindujardin/ng2-material)
- - https://github.com/archfirst/angular2-seed-sass - integration with [Sass](http://sass-lang.com/)
- - https://github.com/AngularShowcase/angular2-sample-app - sample Angular 2 application
- - https://github.com/AngularShowcase/ng2-bootstrap-sbadmin - ng2-bootstrap-sbadmin
- - https://github.com/AngularShowcase/angular2-seed-ng2-highcharts - Simple application including a [Highcharts](http://www.highcharts.com) graph.
- - https://github.com/tarlepp/angular-sailsjs-boilerplate-frontend-angular2 - Example application for [Sails.js](http://sailsjs.org/) integration.
- - https://github.com/ludohenin/ng2-wp-blog - Angular 2 application using Wordpress [JSON-API](http://v2.wp-api.org) backend.
- - https://github.com/AngularShowcase/angular2-seed-example-mashup - Angular 2 application demonstrating the use of [Redux](http://redux.js.org/), [D3](https://github.com/mbostock/d3), [socket io](https://github.com/socketio), [Google Charts](https://developers.google.com/chart/), and [RxJs](https://github.com/Reactive-Extensions/RxJS)
 
 # Directory Structure
 
