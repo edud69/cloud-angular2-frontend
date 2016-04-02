@@ -12,16 +12,21 @@ import {AuthTokenService} from '../../shared/services/auth-token.service';
 import {NameListService} from '../../shared/services/name-list.service';
 
 // lazy-loaded routes
+var signinLazyLoadRoute : AsyncRoute = new AsyncRoute({
+    path: '/signin',
+    name: 'Signin',
+    loader: () => System.import('../../modules/authentication/signin/components/signin.component').then((m : any) => m.SigninComponent)
+  });
 var signupLazyLoadRoute : AsyncRoute = new AsyncRoute({
     path: '/signup',
     name: 'Signup',
     loader: () => System.import('../../modules/authentication/signup/components/signup.component').then((m : any) => m.SignupComponent)
   });
-
-var signinLazyLoadRoute : AsyncRoute = new AsyncRoute({
-    path: '/signin',
-    name: 'Signin',
-    loader: () => System.import('../../modules/authentication/signin/components/signin.component').then((m : any) => m.SigninComponent)
+var signupConfirmationLazyLoadRoute : AsyncRoute = new AsyncRoute({
+    path: '/signup/confirm',
+    name: 'SignupConfirmation',
+    loader: () => System.import('../../modules/authentication/signup/components/signup-confirmation.component')
+                    .then((m : any) => m.SignupConfirmationComponent)
   });
 
 
@@ -38,6 +43,7 @@ var signinLazyLoadRoute : AsyncRoute = new AsyncRoute({
   { path: '/',      name: 'Home',  component: HomeComponent  },
   signinLazyLoadRoute,
   signupLazyLoadRoute,
+  signupConfirmationLazyLoadRoute,
   { path: '/about', name: 'About', component: AboutComponent }
 ])
 export class AppComponent {}

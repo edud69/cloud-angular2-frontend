@@ -1,25 +1,24 @@
 import {Inject} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 
-export class SignupService {
+export class SignupConfirmationService {
 
   constructor(@Inject(Http) public http:Http) {}
 
-  signup(username : string, password : string) {
+  confirmSignup(email : string, newPassword : string, confirmationToken : string) {
     var headers : Headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
     headers.append('X-Tenant-id', 'master'); //TODO
 
     var body : string = JSON.stringify({
-        email: username,
-        password: password,
-        tenantId: 'master' //TODO
+        tenantId : 'master', //TODO
+        confirmationToken: confirmationToken
       });
 
-    this.http.post('<%= AUTHSERVICE_API_userSubscribe %>', body, { headers: headers })
+    this.http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers })
     .subscribe(
-      json => alert('Check your mailbox!'),
+      json => alert('Account is now active!'),
       error => alert(error),
       () => console.log('Request completed')
     );

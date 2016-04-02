@@ -14,6 +14,9 @@ export class ProjectConfig extends SeedConfig {
     this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/token/refresh' : 'http://localhost:17501/token/refresh';
   AUTHSERVICE_API_userSubscribe =
     this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/user/subscription' : 'http://localhost:17501/user/subscription';
+  AUTHSERVICE_API_userSubscribeConfirmation =
+    this.ENV === 'prod' ?
+      'https://region1.theshire.io/api/auth/user/subscription/activation' : 'http://localhost:17501/user/subscription/activation';
 
   constructor() {
     super();
