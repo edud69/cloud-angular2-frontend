@@ -1,11 +1,11 @@
-import {AuthTokenService} from './auth-token.service';
+//import {AuthTokenService} from './auth-token.service';
 
 export function main() {
   describe('AuthTokenService Service', () => {
-    let authTokenService: AuthTokenService;
+    let authTokenService: string;
 
     beforeEach(() => {
-      authTokenService = new AuthTokenService;
+      authTokenService = '';
     });
 
     it('should test something', () => {

@@ -1,11 +1,11 @@
-import {SigninService} from './signin.service';
+//import {SigninService} from './signin.service';
 
 export function main() {
   describe('Signin Service', () => {
-    let signinService: SigninService;
+    let signinService: string;
 
     beforeEach(() => {
-      signinService = new SigninService;
+      signinService = '';
     });
 
     it('should test something', () => {
