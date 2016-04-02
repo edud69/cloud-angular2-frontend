@@ -5,10 +5,10 @@ import {
 } from 'angular2/testing';
 import {Component} from 'angular2/core';
 //import {DOM} from 'angular2/src/platform/dom/dom_adapter';
-import {LoginComponent} from './login.component';
+import {SignupComponent} from './signup.component';
 
 export function main() {
-  describe('Login component', () => {
+  describe('Signup component', () => {
     it('should work', () => {
         expect(true).toBe(true);
     });
@@ -17,7 +17,7 @@ export function main() {
 
 @Component({
   selector: 'test-cmp',
-  directives: [LoginComponent],
-  template: '<sd-login></sd-login>'
+  directives: [SignupComponent],
+  template: '<sd-signup></sd-signup>'
 })
 class TestComponent {}

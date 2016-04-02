@@ -3,7 +3,7 @@
 
 declare var fetch : any;
 
-export class LoginService {
+export class SigninService {
 
   //constructor(@Inject(AuthHttp) public authHttp: AuthHttp) {}
 

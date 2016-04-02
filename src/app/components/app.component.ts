@@ -3,21 +3,24 @@ import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {NavbarComponent} from './navbar.component';
 import {ToolbarComponent} from './toolbar.component';
 import {HomeComponent} from '../../home/components/home.component';
-import {LoginComponent} from '../../login/components/login.component';
+import {SigninComponent} from '../../modules/authentication/signin/components/signin.component';
+import {SignupComponent} from '../../modules/authentication/signup/components/signup.component';
 import {AboutComponent} from '../../about/components/about.component';
 import {NameListService} from '../../shared/services/name-list.service';
-import {LoginService} from '../../login/services/login.service';
+import {SigninService} from '../../modules/authentication/signin/services/signin.service';
+import {SignupService} from '../../modules/authentication/signup/services/signup.service';
 
 @Component({
   selector: 'sd-app',
-  viewProviders: [NameListService, LoginService],
+  viewProviders: [NameListService, SigninService, SignupService],
   moduleId: module.id,
   templateUrl: './app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
 @RouteConfig([
   { path: '/',      name: 'Home',  component: HomeComponent  },
-  { path: '/login', name: 'Login', component: LoginComponent  },
+  { path: '/login', name: 'Login', component: SigninComponent  },
+  { path: '/signup', name: 'Signup', component: SignupComponent  },
   { path: '/about', name: 'About', component: AboutComponent }
 ])
 export class AppComponent {}

@@ -1,0 +1,6 @@
+<p>Register test</p>
+<form (submit)="signup($event, email.value)">
+   <label for="email">Email</label>
+   <input type="email" #email class="form-control" id="email" placeholder="Email">
+   <button type="submit">Submit</button>
+</form>
