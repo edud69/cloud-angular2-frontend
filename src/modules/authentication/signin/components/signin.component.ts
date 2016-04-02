@@ -7,6 +7,7 @@ import {SigninService} from '../services/signin.service';
 @Component({
   selector: 'sd-signin',
   moduleId: module.id,
+  providers: [SigninService],
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]

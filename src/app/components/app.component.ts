@@ -1,27 +1,43 @@
 import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
+import {ROUTER_DIRECTIVES, RouteConfig, AsyncRoute} from 'angular2/router';
+
+// shared components
 import {NavbarComponent} from './navbar.component';
 import {ToolbarComponent} from './toolbar.component';
 import {HomeComponent} from '../../home/components/home.component';
-import {SigninComponent} from '../../modules/authentication/signin/components/signin.component';
-import {SignupComponent} from '../../modules/authentication/signup/components/signup.component';
 import {AboutComponent} from '../../about/components/about.component';
+
+// shared service
 import {AuthTokenService} from '../../shared/services/auth-token.service';
 import {NameListService} from '../../shared/services/name-list.service';
-import {SigninService} from '../../modules/authentication/signin/services/signin.service';
-import {SignupService} from '../../modules/authentication/signup/services/signup.service';
 
+// lazy-loaded routes
+var signupLazyLoadRoute : AsyncRoute = new AsyncRoute({
+    path: '/signup',
+    name: 'Signup',
+    loader: () => System.import('../../modules/authentication/signup/components/signup.component').then((m : any) => m.SignupComponent)
+  });
+
+var signinLazyLoadRoute : AsyncRoute = new AsyncRoute({
+    path: '/signin',
+    name: 'Signin',
+    loader: () => System.import('../../modules/authentication/signin/components/signin.component').then((m : any) => m.SigninComponent)
+  });
+
+
+// AppComponent
 @Component({
   selector: 'sd-app',
-  viewProviders: [AuthTokenService, NameListService, SigninService, SignupService],
+  viewProviders: [AuthTokenService, NameListService],
   moduleId: module.id,
   templateUrl: './app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
+
 @RouteConfig([
   { path: '/',      name: 'Home',  component: HomeComponent  },
-  { path: '/login', name: 'Login', component: SigninComponent  },
-  { path: '/signup', name: 'Signup', component: SignupComponent  },
+  signinLazyLoadRoute,
+  signupLazyLoadRoute,
   { path: '/about', name: 'About', component: AboutComponent }
 ])
 export class AppComponent {}
