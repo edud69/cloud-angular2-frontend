@@ -5,7 +5,7 @@ export function main() {
     let signupService: SignupService;
 
     beforeEach(() => {
-      signupService = new SignupService;
+      signupService = new SignupService(null);
     });
 
     it('should test something', () => {
