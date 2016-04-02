@@ -1,4 +1,3 @@
-import {readFileSync} from 'fs';
 import {argv} from 'yargs';
 import {normalize, join} from 'path';
 import {InjectableDependency, Environments} from './seed.config.interfaces';
@@ -51,10 +50,10 @@ export class SeedConfig {
   CODELYZER_RULES      = customRules();
 
   NPM_DEPENDENCIES: InjectableDependency[] = [
-    { src: 'systemjs/dist/system-polyfills.src.js', inject: 'shims' },
-    { src: 'reflect-metadata/Reflect.js', inject: 'shims' },
-    { src: 'es6-shim/es6-shim.js', inject: 'shims' },
-    { src: 'systemjs/dist/system.src.js', inject: 'shims' },
+    { src: 'systemjs/dist/system-polyfills.src.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
+    { src: 'reflect-metadata/Reflect.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
+    { src: 'es6-shim/es6-shim.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
+    { src: 'systemjs/dist/system.src.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
     { src: 'angular2/bundles/angular2-polyfills.js', inject: 'shims' },
     { src: 'rxjs/bundles/Rx.js', inject: 'libs', env: ENVIRONMENTS.DEVELOPMENT },
     { src: 'angular2/bundles/angular2.js', inject: 'libs', env: ENVIRONMENTS.DEVELOPMENT },
@@ -133,6 +132,7 @@ export class SeedConfig {
 
   SYSTEM_BUILDER_CONFIG = {
     defaultJSExtensions: true,
+    packageConfigPaths: ['*/package.json'],
     paths: {
       [`${this.TMP_DIR}/*`]: `${this.TMP_DIR}/*`,
       '*': 'node_modules/*'
@@ -186,12 +186,12 @@ export function normalizeDependencies(deps: InjectableDependency[]) {
 }
 
 function appVersion(): number|string {
-  var pkg = JSON.parse(readFileSync('package.json').toString());
+  var pkg = require('../../package.json');
   return pkg.version;
 }
 
 function customRules(): string[] {
-  var lintConf = JSON.parse(readFileSync('tslint.json').toString());
+  var lintConf = require('../../tslint.json');
   return lintConf.rulesDirectory;
 }
 
