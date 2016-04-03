@@ -1,11 +1,12 @@
 import {Inject} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
+import {LoggerService} from '../../../../shared/services/logger.service';
 
 export class SignupConfirmationService {
 
-  constructor(@Inject(Http) public http:Http) {}
+  constructor(@Inject(Http) private _http : Http, private _loggerService : LoggerService) {}
 
-  confirmSignup(email : string, newPassword : string, confirmationToken : string) {
+  confirmSignup(email : string, confirmationToken : string) {
     var headers : Headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
@@ -16,11 +17,11 @@ export class SignupConfirmationService {
         confirmationToken: confirmationToken
       });
 
-    this.http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers })
+    this._http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers })
     .subscribe(
-      json => alert('Account is now active!'),
-      error => alert(error),
-      () => console.log('Request completed')
+      json => this._loggerService.debug('Account is activated.'),
+      error => this._loggerService.error('Error occurred while activating the account. Details : ' + error),
+      () => this._loggerService.log('Account activation request completed.')
     );
   }
 }

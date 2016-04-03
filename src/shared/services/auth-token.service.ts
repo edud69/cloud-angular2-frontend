@@ -1,18 +1,20 @@
 import 'rxjs/add/operator/map';
-import {Inject} from 'angular2/core';
+import {Inject, Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {JwtHelper} from 'angular2-jwt/angular2-jwt';
+import {LoggerService} from './logger.service';
 
+@Injectable()
 export class AuthTokenService {
 
   jwtHelper: JwtHelper = new JwtHelper();
 
-  constructor(@Inject(Http) public http:Http) {}
+  constructor(@Inject(Http) private _http : Http, private _loggerService : LoggerService) {}
 
   refreshAccessToken() {
     let refreshToken : string = this.getRefreshToken();
     if(!refreshToken) {
-      alert('no refresh token');
+      this._loggerService.debug('No refresh token found.');
       return;
     }
 
@@ -22,12 +24,12 @@ export class AuthTokenService {
     headers.append('X-Tenant-id', 'master'); //TODO
 
 
-    this.http.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '', { headers: headers })
+    this._http.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '', { headers: headers })
       .map(response => response.json())
       .subscribe(
         data  => this.updateToken(data),
-        err => console.log(err),
-        () => console.log('Refresh completed')
+        err => this._loggerService.error(err),
+        () => this._loggerService.log('Refresh completed')
       );
   }
 
@@ -48,7 +50,7 @@ export class AuthTokenService {
   }
 
   updateToken(json : any) {
-    alert(JSON.stringify(json));
+    this._loggerService.info('Refresh token and access token are refreshed.');
     sessionStorage.setItem('jwt_access_token', json.access_token);
     localStorage.setItem('jwt_refresh_token', json.refresh_token);
   }

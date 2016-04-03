@@ -1,9 +1,15 @@
 import {provide, enableProdMode} from 'angular2/core';
 import {bootstrap} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, APP_BASE_HREF} from 'angular2/router';
-import { HTTP_PROVIDERS, Http } from 'angular2/http';
+import {HTTP_PROVIDERS, Http} from 'angular2/http';
 import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
+import {Logger} from 'angular2-logger/core';
 import {AppComponent} from './app/components/app.component';
+
+// Shared Services
+import {AuthTokenService} from './shared/services/auth-token.service';
+import {LoggerService} from './shared/services/logger.service';
+
 
 if ('<%= ENV %>' === 'prod') { enableProdMode(); }
 
@@ -11,6 +17,7 @@ bootstrap(AppComponent, [
   ROUTER_PROVIDERS,
   provide(APP_BASE_HREF, { useValue: '<%= APP_BASE %>' }),
   HTTP_PROVIDERS,
+  Logger,
   provide(AuthHttp, {
     useFactory: (http : any) => {
       return new AuthHttp(new AuthConfig({
@@ -22,7 +29,9 @@ bootstrap(AppComponent, [
       }), http);
     },
     deps: [Http]
-  })
+  }),
+  AuthTokenService,
+  LoggerService
 ]);
 
 // In order to start the Service Worker located at "./sw.js"

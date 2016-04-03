@@ -18,13 +18,14 @@ export class SigninComponent {
     facebook : '<%= AUTHSERVICE_API_facebookLogin %>'
   };
 
-  constructor(public signinService: SigninService, public authTokenService : AuthTokenService) {}
+  constructor(private _signinService: SigninService, private _authTokenService : AuthTokenService) {}
 
   login(event : Event, username : string, password : string) {
-    this.signinService.login(event, username, password);
+    event.preventDefault();
+    this._signinService.login(username, password);
   }
 
   refreshAccessToken() {
-    this.authTokenService.refreshAccessToken();
+    this._authTokenService.refreshAccessToken();
   }
 }

@@ -3,7 +3,7 @@ import {Http, Headers} from 'angular2/http';
 
 export class SignupService {
 
-  constructor(@Inject(Http) public http:Http) {}
+  constructor(@Inject(Http) private _http:Http) {}
 
   signup(username : string, password : string) {
     var headers : Headers = new Headers();
@@ -17,7 +17,7 @@ export class SignupService {
         tenantId: 'master' //TODO
       });
 
-    this.http.post('<%= AUTHSERVICE_API_userSubscribe %>', body, { headers: headers })
+    this._http.post('<%= AUTHSERVICE_API_userSubscribe %>', body, { headers: headers })
     .subscribe(
       json => alert('Check your mailbox!'),
       error => alert(error),

@@ -8,7 +8,6 @@ import {HomeComponent} from '../../home/components/home.component';
 import {AboutComponent} from '../../about/components/about.component';
 
 // shared service
-import {AuthTokenService} from '../../shared/services/auth-token.service';
 import {NameListService} from '../../shared/services/name-list.service';
 
 // lazy-loaded routes
@@ -23,7 +22,7 @@ var signupLazyLoadRoute : AsyncRoute = new AsyncRoute({
     loader: () => System.import('../../modules/authentication/signup/components/signup.component').then((m : any) => m.SignupComponent)
   });
 var signupConfirmationLazyLoadRoute : AsyncRoute = new AsyncRoute({
-    path: '/signup/confirm',
+    path: '/signup/confirm/:args',
     name: 'SignupConfirmation',
     loader: () => System.import('../../modules/authentication/signup/components/signup-confirmation.component')
                     .then((m : any) => m.SignupConfirmationComponent)
@@ -33,7 +32,7 @@ var signupConfirmationLazyLoadRoute : AsyncRoute = new AsyncRoute({
 // AppComponent
 @Component({
   selector: 'sd-app',
-  viewProviders: [AuthTokenService, NameListService],
+  viewProviders: [NameListService],
   moduleId: module.id,
   templateUrl: './app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]

@@ -1,5 +1,4 @@
 import {Inject} from 'angular2/core';
-//import {AuthHttp} from 'angular2-jwt/angular2-jwt';
 
 import {AuthTokenService} from '../../../../shared/services/auth-token.service';
 
@@ -7,14 +6,9 @@ declare var fetch : any;
 
 export class SigninService {
 
-  //constructor(@Inject(AuthHttp) public authHttp: AuthHttp) {}
+  constructor(@Inject(AuthTokenService) private _authTokenService: AuthTokenService) {}
 
-  constructor(@Inject(AuthTokenService) public authTokenService: AuthTokenService) {}
-
-  login(event : Event, username : string, password : string) {
-    // This will be called when the user clicks on the Login button
-    event.preventDefault();
-
+  login(username : string, password : string) {
     // We call our API to log the user in. The username and password are entered by the user
     fetch('<%= AUTHSERVICE_API_login %>', {
       method: 'POST',
@@ -26,9 +20,7 @@ export class SigninService {
       }
     })
     .then((response : any) => response.json())
-    .then((json : any) => {
-      this.authTokenService.updateToken(json);
-    })
+    .then((json : any) => this._authTokenService.updateToken(json))
     .catch((error : any) => {
       alert(error.message);
       console.log(error.message);

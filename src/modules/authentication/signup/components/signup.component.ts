@@ -13,10 +13,10 @@ import {SignupService} from '../services/signup.service';
 })
 export class SignupComponent {
 
-  constructor(public signupService: SignupService) {}
+  constructor(private _signupService: SignupService) {}
 
   signup(event : Event, username : string, password : string) {
     event.preventDefault();
-    this.signupService.signup(username, password);
+    this._signupService.signup(username, password);
   }
 }
