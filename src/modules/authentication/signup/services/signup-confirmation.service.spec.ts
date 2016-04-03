@@ -5,7 +5,7 @@ export function main() {
     let signupConfirmationService: SignupConfirmationService;
 
     beforeEach(() => {
-      signupConfirmationService = new SignupConfirmationService(null);
+      signupConfirmationService = new SignupConfirmationService(null, null);
     });
 
     it('should test something', () => {
