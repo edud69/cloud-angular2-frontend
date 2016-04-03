@@ -8,11 +8,6 @@ Simply commit with the following git commit message : `RELEASE CANDIDATE`. The b
 
 **Note** that this seed project requires node v4.x.x or higher and npm 2.14.7.
 
-You need to install typings globally first:
-```bash
-npm install -g typings
-```
-
 In order to start the seed use:
 
 ```bash
