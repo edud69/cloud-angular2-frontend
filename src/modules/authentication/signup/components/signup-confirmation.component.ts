@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {Router} from 'angular2/router';
 
@@ -12,11 +12,11 @@ import {SignupConfirmationService} from '../services/signup-confirmation.service
   styleUrls: ['./signup-confirmation.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
-export class SignupConfirmationComponent {
+export class SignupConfirmationComponent implements OnInit {
 
   constructor(private _signupConfirmationService: SignupConfirmationService, private _router : Router) {}
 
-  confirmSignup() {
+  ngOnInit() {
     if(window.location.hash) {
       let params : string[] = window.location.hash.split('#');
       if(params.length === 2) {
@@ -34,6 +34,5 @@ export class SignupConfirmationComponent {
 
   private doConfirmSignup(username : string, confirmationToken : string) {
     this._signupConfirmationService.confirmSignup(username, confirmationToken);
-    this._router.navigate(['SignupConfirmation']);
   }
 }

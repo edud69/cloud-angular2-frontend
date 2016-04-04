@@ -1,10 +1,11 @@
-import {Inject} from 'angular2/core';
+import {Inject, Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {LoggerService} from '../../../../shared/services/logger.service';
 
+@Injectable()
 export class SignupConfirmationService {
 
-  constructor(@Inject(Http) private _http : Http, private _loggerService : LoggerService) {}
+  constructor(@Inject(Http) private _http : Http, @Inject(LoggerService) private _loggerService : LoggerService) {}
 
   confirmSignup(email : string, confirmationToken : string) {
     var headers : Headers = new Headers();
@@ -13,7 +14,8 @@ export class SignupConfirmationService {
     headers.append('X-Tenant-id', 'master'); //TODO
 
     var body : string = JSON.stringify({
-        tenantId : 'master', //TODO
+        tenantId : 'master', //TODO,
+        email: email,
         confirmationToken: confirmationToken
       });
 

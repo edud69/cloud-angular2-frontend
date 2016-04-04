@@ -33,6 +33,11 @@ export class AuthTokenService {
       );
   }
 
+  clearTokens() {
+    sessionStorage.removeItem('jwt_access_token');
+    localStorage.removeItem('jwt_refresh_token');
+  }
+
   getAccessToken() : string {
     return sessionStorage.getItem('jwt_access_token');
   }

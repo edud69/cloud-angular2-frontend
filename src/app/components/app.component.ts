@@ -22,7 +22,7 @@ var signupLazyLoadRoute : AsyncRoute = new AsyncRoute({
     loader: () => System.import('../../modules/authentication/signup/components/signup.component').then((m : any) => m.SignupComponent)
   });
 var signupConfirmationLazyLoadRoute : AsyncRoute = new AsyncRoute({
-    path: '/signup/confirm/:args',
+    path: '/signup/confirm',
     name: 'SignupConfirmation',
     loader: () => System.import('../../modules/authentication/signup/components/signup-confirmation.component')
                     .then((m : any) => m.SignupConfirmationComponent)
