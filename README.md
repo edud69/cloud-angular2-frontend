@@ -28,6 +28,12 @@ npm run build.prod
 
 _Does not rely on any global dependencies._
 
+For a faster Windows Build use:
+```bash
+tsc --project tsconfig.json
+npm start
+```
+
 # Configuration
 
 Default application server configuration
