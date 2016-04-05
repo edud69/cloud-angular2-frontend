@@ -2,7 +2,7 @@
 
 # Releasing an artifact
 
-Commit with the following git commit message : `RELEASE CANDIDATE`. The build server will automatically take the changes and create an official release version (nexus, git tagging, etc).
+Simply commit with the following git commit message : `RELEASE CANDIDATE`. The build server will automatically take the changes and create an official release version (nexus, git tagging, etc).
 
 # How to start
 
