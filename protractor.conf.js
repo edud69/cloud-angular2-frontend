@@ -27,7 +27,13 @@ exports.config = {
     var SpecReporter = require('jasmine-spec-reporter');
     // add jasmine spec reporter
     jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: true}));
-
+    
+    var jasmineReporters = require('jasmine-reporters');
+    jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
+      savePath: 'protractor-test-results',
+      consolidateAll: false
+    }));
+    
     browser.ignoreSynchronization = false;
   },
 
