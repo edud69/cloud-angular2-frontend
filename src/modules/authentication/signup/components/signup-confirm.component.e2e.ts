@@ -5,6 +5,6 @@ describe('Signup Confirmation', () => {
   });
 
   it('should have an input', () => {
-    expect(true).isPresent()).toEqual(true);
+    expect(true).toEqual(true);
   });
 });
