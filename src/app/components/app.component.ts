@@ -33,8 +33,7 @@ var signupConfirmationLazyLoadRoute : AsyncRoute = new AsyncRoute({
 @Component({
   selector: 'sd-app',
   viewProviders: [NameListService],
-  moduleId: module.id,
-  templateUrl: './app.component.html',
+  templateUrl: './app/components/app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
 
