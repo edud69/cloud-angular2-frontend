@@ -23,9 +23,11 @@ export class ProjectConfig extends SeedConfig {
 
     this.APP_TITLE = 'The Shire';
 
+    console.info('Using configuration of project: ' + this.APP_TITLE + '.');
+
     let additional_deps: InjectableDependency[] = [
-      {src: 'angular2-jwt/angular2-jwt.js', inject: 'libs'},
-      {src: 'angular2-logger/bundles/angular2-logger.js', inject: 'libs'}
+      // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
+      // {src: 'lodash/lodash.min.js', inject: 'libs'},
     ];
 
     const seedDependencies = this.NPM_DEPENDENCIES;
@@ -35,5 +37,11 @@ export class ProjectConfig extends SeedConfig {
     this.APP_ASSETS = [
       { src: `${this.ASSETS_SRC}/main.css`, inject: true },
     ];
+
+
+  (<any>this.SYSTEM_CONFIG_DEV.paths)['angular2-jwt'] =
+          `${this.APP_BASE}node_modules/angular2-jwt/angular2-jwt`;
+  (<any>this.SYSTEM_CONFIG_DEV.paths)['angular2-logger'] =
+          `${this.APP_BASE}node_modules/angular2-logger/bundles/angular2-logger`;
   }
 }
