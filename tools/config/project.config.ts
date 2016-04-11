@@ -38,6 +38,7 @@ export class ProjectConfig extends SeedConfig {
       { src: `${this.ASSETS_SRC}/main.css`, inject: true },
     ];
 
+  // Custom injections (only use this if build is not compatible with some libraries
   (<any>this.SYSTEM_CONFIG_DEV.paths)['angular2-logger'] =
           `${this.APP_BASE}node_modules/angular2-logger/bundles/angular2-logger.js`;
 
