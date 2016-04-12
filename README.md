@@ -199,3 +199,5 @@ this._http.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '', { hea
       .map(response => response.json())
       ....
 ```
+
+3. Rebuild
