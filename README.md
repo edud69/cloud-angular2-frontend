@@ -172,3 +172,32 @@ System.config({
   }
 });
 ```
+
+# Making a reference to a backend endpoint
+1. Edit *tools/config/project.config.ts*
+```
+A.1- Add your service url if it does not exists:
+  // AUTH-SERVICE PATHS
+  AUTHSERVICE_PROD_BASE_URL : string = 'https://region1.theshire.io/api/v1/auth/';
+  AUTHSERVICE_DEV_BASE_URL : string = 'http://localhost:17501/';
+  
+A.2- Add your service url concat function if it does not exists:
+  private authService(path : string) : string {
+    return (this.ENV === 'prod' ? this.AUTHSERVICE_PROD_BASE_URL : this.AUTHSERVICE_DEV_BASE_URL) + path;
+  }
+
+B- Add your endpoint uri:
+  // service paths
+  ...
+  AUTHSERVICE_API_refreshJwtToken = this.authService('token/refresh');
+  ...
+```
+
+2. Refer in the source to the backend url variable.
+```
+this._http.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '', { headers: headers })
+      .map(response => response.json())
+      ....
+```
+
+3. Rebuild
