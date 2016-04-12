@@ -138,3 +138,37 @@ You can learn more about [Protractor Interactive Mode here](https://github.com/a
 ├── typings.json
 └── appveyor.yml
 ```
+
+# Adding an external library
+1. Add your dependency to *package.json*
+```
+  "dependencies": {
+    ...
+    "angular2-jwt": "^0.1.9",
+    ...
+  }
+```
+
+2. Add the dependency to *karma.conf.js*
+```
+    files: [
+      ...
+      { pattern: 'node_modules/angular2-jwt/**/*.js', included: false, watched: false },
+      ...
+
+      'test-main.js'
+    ]
+```
+
+3. Add the dependency to *test-main.js*
+```
+System.config({
+  baseURL: '/base/',
+  defaultJSExtensions: true,
+  paths: {
+    ...
+    'angular2-jwt/*': 'node_modules/angular2-jwt/*.js',
+    ...
+  }
+});
+```
