@@ -5,18 +5,18 @@ import {InjectableDependency} from './seed.config.interfaces';
 export class ProjectConfig extends SeedConfig {
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
 
-  // Api urls
-  AUTHSERVICE_API_facebookLogin =
-    this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/signin/facebook' : 'http://localhost:17501/signin/facebook';
-  AUTHSERVICE_API_login =
-    this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/login' : 'http://localhost:17501/login';
-  AUTHSERVICE_API_refreshJwtToken =
-    this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/token/refresh' : 'http://localhost:17501/token/refresh';
-  AUTHSERVICE_API_userSubscribe =
-    this.ENV === 'prod' ? 'https://region1.theshire.io/api/auth/user/subscription' : 'http://localhost:17501/user/subscription';
-  AUTHSERVICE_API_userSubscribeConfirmation =
-    this.ENV === 'prod' ?
-      'https://region1.theshire.io/api/auth/user/subscription/activation' : 'http://localhost:17501/user/subscription/activation';
+
+  // API PATHS
+
+  // AUTH-SERVICE PATHS
+  AUTHSERVICE_PROD_BASE_URL : string = 'https://region1.theshire.io/api/v1/auth/';
+  AUTHSERVICE_DEV_BASE_URL : string = 'http://localhost:17501/';
+  // service paths
+  AUTHSERVICE_API_facebookLogin = this.authService('signin/facebook');
+  AUTHSERVICE_API_login = this.authService('login');
+  AUTHSERVICE_API_refreshJwtToken = this.authService('token/refresh');
+  AUTHSERVICE_API_userSubscribe = this.authService('user/subscription');
+  AUTHSERVICE_API_userSubscribeConfirmation = this.authService('user/subscription/activation');
 
   constructor() {
     super();
@@ -37,5 +37,9 @@ export class ProjectConfig extends SeedConfig {
     this.APP_ASSETS = [
       { src: `${this.ASSETS_SRC}/main.css`, inject: true },
     ];
+  }
+
+  private authService(path : string) : string {
+    return (this.ENV === 'prod' ? this.AUTHSERVICE_PROD_BASE_URL : this.AUTHSERVICE_DEV_BASE_URL) + path;
   }
 }
