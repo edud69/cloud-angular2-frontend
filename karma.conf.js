@@ -30,6 +30,8 @@ module.exports = function(config) {
       'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
 
       { pattern: 'node_modules/angular2/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/angular2-jwt/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/angular2-logger/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'dist/dev/**/*.js', included: false, watched: true },
       { pattern: 'node_modules/systemjs/dist/system-polyfills.js', included: false, watched: false }, // PhantomJS2 (and possibly others) might require it
