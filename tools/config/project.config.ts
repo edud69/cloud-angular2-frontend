@@ -11,7 +11,7 @@ export class ProjectConfig extends SeedConfig {
   // AUTH-SERVICE PATHS
   AUTHSERVICE_PROD_BASE_URL : string = 'https://region1.theshire.io/api/v1/auth/';
   AUTHSERVICE_DEV_BASE_URL : string = 'http://localhost:17501/';
-  // paths
+  // service paths
   AUTHSERVICE_API_facebookLogin = this.authService('signin/facebook');
   AUTHSERVICE_API_login = this.authService('login');
   AUTHSERVICE_API_refreshJwtToken = this.authService('token/refresh');
