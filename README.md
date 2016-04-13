@@ -140,7 +140,7 @@ You can learn more about [Protractor Interactive Mode here](https://github.com/a
 ```
 
 # Adding an external library
-1. Add your dependency to *package.json*
+A. Add your dependency to *package.json*
 ```
   "dependencies": {
     ...
@@ -149,7 +149,7 @@ You can learn more about [Protractor Interactive Mode here](https://github.com/a
   }
 ```
 
-2. Add the dependency to *karma.conf.js*
+B. Add the dependency to *karma.conf.js*
 ```
     files: [
       ...
@@ -160,7 +160,7 @@ You can learn more about [Protractor Interactive Mode here](https://github.com/a
     ]
 ```
 
-3. Add the dependency to *test-main.js*
+C. Add the dependency to *test-main.js*
 ```
 System.config({
   baseURL: '/base/',
