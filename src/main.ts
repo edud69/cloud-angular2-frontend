@@ -6,10 +6,6 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
 import {Logger} from 'angular2-logger/core';
 import {AppComponent} from './app/components/app.component';
 
-// Shared Services
-import {AuthTokenService} from './shared/services/auth-token.service';
-import {LoggerService} from './shared/services/logger.service';
-
 
 if ('<%= ENV %>' === 'prod') { enableProdMode(); }
 
@@ -29,9 +25,7 @@ bootstrap(AppComponent, [
       }), http);
     },
     deps: [Http]
-  }),
-  AuthTokenService,
-  LoggerService
+  })
 ]);
 
 // In order to start the Service Worker located at "./sw.js"

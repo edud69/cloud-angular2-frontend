@@ -1,11 +1,11 @@
-import {Inject, Injectable} from 'angular2/core';
+import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {LoggerService} from '../../../../shared/services/logger.service';
 
 @Injectable()
 export class SignupConfirmationService {
 
-  constructor(@Inject(Http) private _http : Http, @Inject(LoggerService) private _loggerService : LoggerService) {}
+  constructor(private _http : Http, private _loggerService : LoggerService) {}
 
   confirmSignup(email : string, confirmationToken : string) {
     var headers : Headers = new Headers();

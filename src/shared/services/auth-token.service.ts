@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/map';
-import {Inject, Injectable} from 'angular2/core';
+import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {JwtHelper} from 'angular2-jwt/angular2-jwt';
 import {LoggerService} from './logger.service';
@@ -9,7 +9,7 @@ export class AuthTokenService {
 
   jwtHelper: JwtHelper = new JwtHelper();
 
-  constructor(@Inject(Http) private _http : Http, private _loggerService : LoggerService) {}
+  constructor(private _http : Http, private _loggerService : LoggerService) {}
 
   refreshAccessToken() {
     let refreshToken : string = this.getRefreshToken();

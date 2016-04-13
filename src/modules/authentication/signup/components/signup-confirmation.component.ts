@@ -1,4 +1,4 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, Injectable} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
 import {SignupConfirmationService} from '../services/signup-confirmation.service';
@@ -10,6 +10,8 @@ import {SignupConfirmationService} from '../services/signup-confirmation.service
   styleUrls: ['./modules/authentication/signup/components/signup-confirmation.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
+
+@Injectable()
 export class SignupConfirmationComponent implements OnInit {
 
   constructor(private _signupConfirmationService: SignupConfirmationService) {}

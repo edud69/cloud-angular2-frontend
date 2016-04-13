@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, Injectable} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
 import {SignupService} from '../services/signup.service';
@@ -10,6 +10,8 @@ import {SignupService} from '../services/signup.service';
   styleUrls: ['./modules/authentication/signup/components//signup.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
+
+@Injectable()
 export class SignupComponent {
 
   constructor(private _signupService: SignupService) {}

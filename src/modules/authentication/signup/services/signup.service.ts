@@ -1,9 +1,10 @@
-import {Inject} from 'angular2/core';
+import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 
+@Injectable()
 export class SignupService {
 
-  constructor(@Inject(Http) private _http:Http) {}
+  constructor(private _http : Http) {}
 
   signup(username : string, password : string) {
     var headers : Headers = new Headers();

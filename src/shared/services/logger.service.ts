@@ -1,4 +1,4 @@
-import {Inject, Injectable} from 'angular2/core';
+import {Injectable} from 'angular2/core';
 import {Logger, Level} from 'angular2-logger/core';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class LoggerService {
   //
   // 5.- Level.LOG
 
-  constructor(@Inject(Logger) private _logger:Logger) {
+  constructor(private _logger:Logger) {
     if('<%= ENV %>' === 'dev') {
       _logger.level = Level.DEBUG;
     } else {
