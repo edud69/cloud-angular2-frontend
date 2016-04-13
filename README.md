@@ -174,7 +174,7 @@ System.config({
 ```
 
 # Making a reference to a backend endpoint
-1. Edit *tools/config/project.config.ts*
+A. Edit *tools/config/project.config.ts*
 ```
 A.1- Add your service url if it does not exists:
   // AUTH-SERVICE PATHS
@@ -193,11 +193,11 @@ B- Add your endpoint uri:
   ...
 ```
 
-2. Refer in the source to the backend url variable.
+B. Refer in the source to the backend url variable.
 ```
 this._http.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '', { headers: headers })
       .map(response => response.json())
       ....
 ```
 
-3. Rebuild
+C. Rebuild
