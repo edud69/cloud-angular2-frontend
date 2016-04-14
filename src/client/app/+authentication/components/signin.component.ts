@@ -1,14 +1,14 @@
 import {Component, Injectable} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
-import {AuthTokenService} from '../../../../shared/services/auth-token.service';
-import {SigninService} from '../services/signin.service';
+import {AuthTokenService} from '../../shared/index';
+import {SigninService} from '../index';
 
 @Component({
   selector: 'sd-signin',
   providers: [AuthTokenService, SigninService],
-  templateUrl: './modules/authentication/signin/components/signin.component.html',
-  styleUrls: ['./modules/authentication/signin/components/signin.component.css'],
+  templateUrl: './app/+authentication/components/signin.component.html',
+  styleUrls: ['./app/+authentication/components/signin.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
 

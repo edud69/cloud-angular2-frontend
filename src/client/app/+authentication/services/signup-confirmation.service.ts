@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
-import {LoggerService} from '../../../../shared/services/logger.service';
+import {LoggerService} from '../../shared/index';
 
 @Injectable()
 export class SignupConfirmationService {

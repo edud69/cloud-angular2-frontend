@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core';
 
-import {AuthTokenService} from '../../../../shared/services/auth-token.service';
+import {AuthTokenService} from '../../shared/index';
 
 declare var fetch : any;
 
