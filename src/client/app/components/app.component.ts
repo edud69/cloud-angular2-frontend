@@ -4,11 +4,10 @@ import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 // shared components
 import {NavbarComponent} from './navbar.component';
 import {ToolbarComponent} from './toolbar.component';
-import {HomeComponent} from '../../home/components/home.component';
-import {AboutComponent} from '../../about/components/about.component';
-
+import {NameListService} from '../shared/index';
+import {HomeComponent} from '../+home/index';
+import {AboutComponent} from '../+about/index';
 // shared service
-import {NameListService} from '../../shared/services/name-list.service';
 import {AuthTokenService} from '../../shared/services/auth-token.service';
 import {LoggerService} from '../../shared/services/logger.service';
 
@@ -27,10 +26,15 @@ import {SignupConfirmationComponent} from '../../modules/authentication/signup/c
 })
 
 @RouteConfig([
-  { path: '/',      name: 'Home',  component: HomeComponent  },
+  {
   { path: '/signin', name: 'Signin', component: SigninComponent },
   { path: '/signup', name: 'Signup', component: SignupComponent },
   { path: '/signup/confirmation', name: 'SignupConfirmation', component: SignupConfirmationComponent },
-  { path: '/about', name: 'About', component: AboutComponent }
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: AboutComponent
+  }
 ])
 export class AppComponent {}
