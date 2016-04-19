@@ -6,8 +6,8 @@ import {SignupConfirmationService} from '../index';
 @Component({
   selector: 'sd-signup-confirm',
   providers: [SignupConfirmationService],
-  templateUrl: './app/+authentication/components/signup-confirmation.component.html',
-  styleUrls: ['./app/+authentication/components/signup-confirmation.component.css'],
+  templateUrl: 'app/+authentication/components/signup-confirmation.component.html',
+  styleUrls: ['app/+authentication/components/signup-confirmation.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
 

@@ -20,7 +20,7 @@ import {LoggerService} from '../shared/index';
 @Component({
   selector: 'sd-app',
   providers: [AuthTokenService, LoggerService, NameListService],
-  templateUrl: './app/components/app.component.html',
+  templateUrl: 'app/components/app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
 

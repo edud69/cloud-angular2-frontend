@@ -6,8 +6,8 @@ import {SignupService} from '../index';
 @Component({
   selector: 'sd-signup',
   providers: [SignupService],
-  templateUrl: './app/+authentication/components/signup.component.html',
-  styleUrls: ['./app/+authentication/components/signup.component.css'],
+  templateUrl: 'app/+authentication/components/signup.component.html',
+  styleUrls: ['app/+authentication/components/signup.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
 
