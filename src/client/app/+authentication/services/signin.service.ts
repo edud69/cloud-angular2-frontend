@@ -2,14 +2,20 @@ import {Injectable} from 'angular2/core';
 
 import {AuthTokenService} from '../../shared/index';
 
-declare var fetch : any;
+declare var fetch: any;
 
+/**
+ * Signin Service.
+ */
 @Injectable()
 export class SigninService {
 
-  constructor(private _authTokenService: AuthTokenService) {}
+  constructor(private _authTokenService: AuthTokenService) { }
 
-  login(username : string, password : string) {
+  /**
+   * Login.
+   */
+  login(username: string, password: string) {
     // We call our API to log the user in. The username and password are entered by the user
     fetch('<%= AUTHSERVICE_API_login %>', {
       method: 'POST',
@@ -20,12 +26,12 @@ export class SigninService {
         'Authorization': 'Basic YWRtaW46YXNkZmFzZGY=' //TODO create a Basic Auth value from username/password
       }
     })
-    .then((response : any) => response.json())
-    .then((json : any) => this._authTokenService.updateToken(json))
-    .catch((error : any) => {
-      alert(error.message);
-      console.log(error.message);
-    });
+      .then((response: any) => response.json())
+      .then((json: any) => this._authTokenService.updateToken(json))
+      .catch((error: any) => {
+        alert(error.message);
+        console.log(error.message);
+      });
   }
 
 }

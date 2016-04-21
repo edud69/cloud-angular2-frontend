@@ -1,11 +1,17 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 
+/**
+ * Signup Service.
+ */
 @Injectable()
 export class SignupService {
 
   constructor(private _http : Http) {}
 
+/**
+ * Signup.
+ */
   signup(username : string, password : string) {
     var headers : Headers = new Headers();
     headers.append('Accept', 'application/json');

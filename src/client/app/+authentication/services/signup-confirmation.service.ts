@@ -2,11 +2,17 @@ import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {LoggerService} from '../../shared/index';
 
+/**
+ * Signup Confirmation Service.
+ */
 @Injectable()
 export class SignupConfirmationService {
 
   constructor(private _http : Http, private _loggerService : LoggerService) {}
 
+  /**
+   * Confirm a signup.
+   */
   confirmSignup(email : string, confirmationToken : string) {
     var headers : Headers = new Headers();
     headers.append('Accept', 'application/json');
