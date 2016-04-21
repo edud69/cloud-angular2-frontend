@@ -10,7 +10,8 @@ import {WebsocketHandlerType, WebsocketService} from './websocket.service';
 export class ChatService {
 
   constructor(private _loggerService:LoggerService, private _websocketService : WebsocketService) {}
-  
+
+
   /**
    * Opens a chat session.
    */
