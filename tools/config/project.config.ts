@@ -18,6 +18,12 @@ export class ProjectConfig extends SeedConfig {
   AUTHSERVICE_API_userSubscribe = this.authService('user/subscription');
   AUTHSERVICE_API_userSubscribeConfirmation = this.authService('user/subscription/activation');
 
+  // CHAT-SERVICE PATHS
+  CHATRSERVICE_PROD_BASE_URL : string = 'https://region1.theshire.io/api/v1/chat/';
+  CHATSERVICE_DEV_BASE_URL : string = 'http://localhost:17504/';
+  // service paths
+  CHATSERVICE_API_connect = this.authService('ws/connect');
+
   constructor() {
     super();
 
@@ -37,5 +43,9 @@ export class ProjectConfig extends SeedConfig {
 
   private authService(path : string) : string {
     return (this.ENV === 'prod' ? this.AUTHSERVICE_PROD_BASE_URL : this.AUTHSERVICE_DEV_BASE_URL) + path;
+  }
+
+  private chatService(path : string) : string {
+    return (this.ENV === 'prod' ? this.CHATSERVICE_PROD_BASE_URL : this.CHATSERVICE_DEV_BASE_URL) + path;
   }
 }
