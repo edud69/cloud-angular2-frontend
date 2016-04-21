@@ -2,6 +2,7 @@ import {Component} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
 import {NameListService} from '../../shared/index';
+import {ChatService} from '../../shared/index';
 
 @Component({
   selector: 'sd-home',
@@ -11,13 +12,14 @@ import {NameListService} from '../../shared/index';
 })
 export class HomeComponent {
   newName: string;
-  constructor(public nameListService: NameListService) {}
+  constructor(public nameListService: NameListService, public chatService: ChatService) {}
 
   /*
    * @param newname  any text as input.
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   addName(): boolean {
+    this.chatService.openSession(); //TODO remove this, testing prototype... anyways home component will disappear...
     this.nameListService.add(this.newName);
     this.newName = '';
     return false;

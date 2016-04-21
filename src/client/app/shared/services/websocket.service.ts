@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import * as Stomp from 'stompjs';
+import {Stomp} from 'stompjs/lib/stomp';
 
 import {AuthTokenService} from './auth-token.service';
 import {LoggerService} from './logger.service';
@@ -14,63 +14,65 @@ export class WebsocketService {
   private _websocketHandlers : any = {};
 
   constructor(private _loggerService : LoggerService, private _authTokenService : AuthTokenService) {}
-  
-  connect(WebsocketHandlerType : websocketHandlerType, string : url) {
-    let client = this.getWebsocketHandler(websocketHandlerType);
-    //TODO check if client == null
+
+  connect(websocketHandlerType : WebsocketHandlerType, url : string) {
+    let wsHandler = this.getWebsocketHandler(websocketHandlerType);
+    //TODO check if wsHandler == null
     //TODO check if client is already connected...
-    
-    let accessToken : string = this._authTokenService.getAccessToken(); 
-    let client : any = Stomp.overWS(url + '?token=' + accessToken);
-    //TODO check how to connect + maybe pass token in header instead of url param: http://jmesnil.net/stomp-websocket/doc/
-    this.register(websocketHandlerType, client);
+
+    if(wsHandler === null || wsHandler === undefined) {
+      let accessToken : string = this._authTokenService.getAccessToken();
+      wsHandler = Stomp.over(url + '?token=' + accessToken);
+      //TODO check how to connect + maybe pass token in header instead of url param: http://jmesnil.net/stomp-websocket/doc/
+      this.register(websocketHandlerType, wsHandler);
+    }
   }
 
-  disconnect(WebsocketHandlerType : websocketHandlerType) {
+  disconnect(wsHandlerType : WebsocketHandlerType) {
     let client : any = this.getWebsocketHandler(wsHandlerType);
-    if(client == null) {
+    if(client === null || client === undefined) {
       //TODO
       return;
     }
-    
+
     client.disconnect(function() {
       //TODO callback
     });
-    
-    this.unregister(websocketHandlerType);
+
+    this.unregister(wsHandlerType); //TODO move this in the callback
   }
 
-  send(WebsocketHandlerType : wsHandlerType, string : route, any : payload) {
+  send(wsHandlerType : WebsocketHandlerType, route : string, payload : any) {
     let client : any = this.getWebsocketHandler(wsHandlerType);
-    if(client == null) {
+    if(client === null || client === undefined) {
       //TODO
       return;
     }
-    
+
     client.send(route, payload);
   }
 
-  private subscribe(WebsocketHandlerType : wsHandlerType, string : route) {
+  subscribe(wsHandlerType : WebsocketHandlerType, route : string) {
     let client : any = this.getWebsocketHandler(wsHandlerType);
-    if(client == null) {
+    if(client === null || client === undefined) {
       //TODO log...
       return;
     }
-    
-    client.subscribe(route, function(callback) {
+
+    client.subscribe(route, function(message : any) {
       //CALLBACK TODO
     });
   }
 
-  private getWebsocketHandler(WebsocketHandlerType : wsHandlerType) : any {
+  private getWebsocketHandler(wsHandlerType : WebsocketHandlerType) : any {
     return this._websocketHandlers[wsHandlerType];
   }
 
-  private register(WebsocketHandlerType : wsHandlerType, any : wsHandler) {
+  private register(wsHandlerType : WebsocketHandlerType, wsHandler : any) {
     this._websocketHandlers[wsHandlerType] = wsHandler;
   }
 
-  private unregister(WebsocketHandlerType : wsHandlerType) {
+  private unregister(wsHandlerType : WebsocketHandlerType) {
     this._websocketHandlers[wsHandlerType] = null;
   }
 }
