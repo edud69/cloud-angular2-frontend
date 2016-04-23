@@ -1,8 +1,8 @@
 import {Injectable} from 'angular2/core';
 import {Stomp, Client} from 'stompjs/lib/stomp';
 
-import {AuthTokenService} from './auth-token.service';
-import {LoggerService} from './logger.service';
+import {AuthTokenService} from '../authentication/auth-token.service';
+import {LoggerService} from '../logger/logger.service';
 
 
 export enum WebsocketHandlerType {
