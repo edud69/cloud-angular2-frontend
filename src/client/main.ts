@@ -6,6 +6,9 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
 import {Logger} from 'angular2-logger/core';
 import {AppComponent} from './app/components/app.component';
 
+import {HttpConstants} from './app/shared/constants/http.constants';
+import {JwtConstants} from './app/shared/constants/jwt.constants';
+
 
 if ('<%= ENV %>' === 'prod') { enableProdMode(); }
 
@@ -17,10 +20,10 @@ bootstrap(AppComponent, [
   provide(AuthHttp, {
     useFactory: (http : any) => {
       return new AuthHttp(new AuthConfig({
-        headerName: 'Authorization',
-        headerPrefix: 'Bearer',
-        tokenName: 'jwt_access_token',
-        tokenGetter: () => sessionStorage.getItem('jwt_access_token'),
+        headerName: HttpConstants.HTTP_HEADER_AUTHORIZATION,
+        headerPrefix: HttpConstants.HTTP_HEADER_VALUE_BEARER_PREFIX,
+        tokenName: JwtConstants.JWT_STORE_ACCESSTOKEN_KEY,
+        tokenGetter: () => sessionStorage.getItem(JwtConstants.JWT_STORE_ACCESSTOKEN_KEY),
         noJwtError: true
       }), http);
     },

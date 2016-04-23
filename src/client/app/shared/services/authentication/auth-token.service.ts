@@ -2,6 +2,10 @@ import 'rxjs/add/operator/map';
 import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {JwtHelper} from 'angular2-jwt/angular2-jwt';
+
+import {JwtConstants} from '../../constants/jwt.constants';
+import {HttpConstants} from '../../constants/http.constants';
+
 import {LoggerService} from '../logger/logger.service';
 
 /**
@@ -24,10 +28,10 @@ export class AuthTokenService {
       return;
     }
 
-    let parameters : string = '?refresh_token=' + refreshToken;
+    let parameters : string = '?' + JwtConstants.JWT_REFRESH_URL_PARAM  + '=' + refreshToken;
 
     let headers : Headers = new Headers();
-    headers.append('X-Tenant-id', 'master'); //TODO use a constant class and get the current tenant
+    headers.append(HttpConstants.HTTP_HEADER_TENANTID, 'master'); //TODO use a constant class and get the current tenant
 
 
     this._http.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '', { headers: headers })
@@ -43,22 +47,22 @@ export class AuthTokenService {
    * Clear the tokens.
    */
   clearTokens() {
-    sessionStorage.removeItem('jwt_access_token');
-    localStorage.removeItem('jwt_refresh_token');
+    sessionStorage.removeItem(JwtConstants.JWT_STORE_ACCESSTOKEN_KEY);
+    localStorage.removeItem(JwtConstants.JWT_STORE_REFRESHTOKEN_KEY);
   }
 
   /**
    * Gets access token.
    */
   getAccessToken() : string {
-    return sessionStorage.getItem('jwt_access_token');
+    return sessionStorage.getItem(JwtConstants.JWT_STORE_ACCESSTOKEN_KEY);
   }
 
   /**
    * Gets refresh token.
    */
   getRefreshToken() : string {
-    return localStorage.getItem('jwt_refresh_token');
+    return localStorage.getItem(JwtConstants.JWT_STORE_REFRESHTOKEN_KEY);
   }
 
   /**
@@ -80,8 +84,8 @@ export class AuthTokenService {
    */
   updateToken(json : any) {
     this._loggerService.info('Refresh token and access token are refreshed.');
-    sessionStorage.setItem('jwt_access_token', json.access_token);
-    localStorage.setItem('jwt_refresh_token', json.refresh_token);
+    sessionStorage.setItem(JwtConstants.JWT_STORE_ACCESSTOKEN_KEY, json.access_token);
+    localStorage.setItem(JwtConstants.JWT_STORE_REFRESHTOKEN_KEY, json.refresh_token);
   }
 
   /**

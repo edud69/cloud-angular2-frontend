@@ -1,5 +1,8 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
+
+import {HttpConstants} from '../../shared/index';
+
 import {LoggerService} from '../../shared/index';
 
 /**
@@ -15,9 +18,9 @@ export class SignupConfirmationService {
    */
   confirmSignup(email : string, confirmationToken : string) {
     var headers : Headers = new Headers();
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-    headers.append('X-Tenant-id', 'master'); //TODO
+    headers.append(HttpConstants.HTTP_HEADER_ACCEPT, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
+    headers.append(HttpConstants.HTTP_HEADER_CONTENT_TYPE, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
+    headers.append(HttpConstants.HTTP_HEADER_TENANTID, 'master'); //TODO
 
     var body : string = JSON.stringify({
         tenantId : 'master', //TODO,
