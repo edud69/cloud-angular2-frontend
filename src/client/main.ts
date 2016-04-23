@@ -6,6 +6,9 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
 import {Logger} from 'angular2-logger/core';
 import {AppComponent} from './app/components/app.component';
 
+import {HttpConstants} from './app/shared/constants/http.constants';
+import {JwtConstants} from './app/shared/constants/jwt.constants';
+
 
 if ('<%= ENV %>' === 'prod') { enableProdMode(); }
 
@@ -17,10 +20,10 @@ bootstrap(AppComponent, [
   provide(AuthHttp, {
     useFactory: (http : any) => {
       return new AuthHttp(new AuthConfig({
-        headerName: 'Authorization',
-        headerPrefix: 'Bearer',
-        tokenName: 'jwt_access_token',
-        tokenGetter: () => sessionStorage.getItem('jwt_access_token'),
+        headerName: HttpConstants.HTTP_HEADER_AUTHORIZATION,
+        headerPrefix: HttpConstants.HTTP_HEADER_VALUE_BEARER_PREFIX,
+        tokenName: JwtConstants.JWT_STORE_ACCESSTOKEN_KEY,
+        tokenGetter: () => sessionStorage.getItem(JwtConstants.JWT_STORE_ACCESSTOKEN_KEY),
         noJwtError: true
       }), http);
     },
@@ -28,13 +31,13 @@ bootstrap(AppComponent, [
   })
 ]);
 
-// In order to start the Service Worker located at "./sw.js"
+// In order to start the Service Worker located at "./worker.js"
 // uncomment this line. More about Service Workers here
 // https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
+//
 // if ('serviceWorker' in navigator) {
-//   (<any>navigator).serviceWorker.register('./sw.js').then(function(registration) {
-//     console.log('ServiceWorker registration successful with scope: ',    registration.scope);
-//   }).catch(function(err) {
-//     console.log('ServiceWorker registration failed: ', err);
-//   });
+//   (<any>navigator).serviceWorker.register('./worker.js').then((registration: any) =>
+//       console.log('ServiceWorker registration successful with scope: ', registration.scope))
+//     .catch((err: any) =>
+//       console.log('ServiceWorker registration failed: ', err));
 // }

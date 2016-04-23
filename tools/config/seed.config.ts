@@ -51,8 +51,8 @@ export class SeedConfig {
 
   NPM_DEPENDENCIES: InjectableDependency[] = [
     { src: 'systemjs/dist/system-polyfills.src.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
-    { src: 'reflect-metadata/Reflect.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
-    { src: 'es6-shim/es6-shim.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
+    { src: 'reflect-metadata/Reflect.js', inject: 'shims' },
+    { src: 'es6-shim/es6-shim.js', inject: 'shims' },
     { src: 'systemjs/dist/system.src.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
     { src: 'angular2/bundles/angular2-polyfills.js', inject: 'shims' },
     { src: 'rxjs/bundles/Rx.js', inject: 'libs', env: ENVIRONMENTS.DEVELOPMENT },
@@ -65,46 +65,6 @@ export class SeedConfig {
   APP_ASSETS: InjectableDependency[] = [
     { src: `${this.CSS_SRC}/main.css`, inject: true, vendor: false }
   ];
-
-
-  get PROD_DEPENDENCIES(): InjectableDependency[] {
-    console.warn('The property "PROD_DEPENDENCIES" is deprecated. Consider using "DEPENDENCIES" instead.');
-    return normalizeDependencies(this.NPM_DEPENDENCIES.filter(filterDependency.bind(null, ENVIRONMENTS.PRODUCTION)))
-      .concat(this.APP_ASSETS.filter(filterDependency.bind(null, ENVIRONMENTS.PRODUCTION)));
-  }
-
-  get DEV_DEPENDENCIES(): InjectableDependency[] {
-    console.warn('The property "DEV_DEPENDENCIES" is deprecated. Consider using "DEPENDENCIES" instead.');
-    return normalizeDependencies(this.NPM_DEPENDENCIES.filter(filterDependency.bind(null, ENVIRONMENTS.DEVELOPMENT)))
-      .concat(this.APP_ASSETS.filter(filterDependency.bind(null, ENVIRONMENTS.DEVELOPMENT)));
-  }
-
-  set DEV_DEPENDENCIES(val: InjectableDependency[]) {
-    console.warn('The property "DEV_DEPENDENCIES" is deprecated. Consider using "DEPENDENCIES" instead.');
-  }
-
-  set PROD_DEPENDENCIES(val: InjectableDependency[]) {
-    console.warn('The property "PROD_DEPENDENCIES" is deprecated. Consider using "DEPENDENCIES" instead.');
-  }
-
-  get DEV_NPM_DEPENDENCIES(): InjectableDependency[] {
-    console.warn('The property "DEV_NPM_DEPENDENCIES" is deprecated. Consider using "DEPENDENCIES" instead.');
-    return normalizeDependencies(this.NPM_DEPENDENCIES.filter(filterDependency.bind(null, ENVIRONMENTS.DEVELOPMENT)));
-  }
-  get PROD_NPM_DEPENDENCIES(): InjectableDependency[] {
-    console.warn('The property "PROD_NPM_DEPENDENCIES" is deprecated. Consider using "DEPENDENCIES" instead.');
-    return normalizeDependencies(this.NPM_DEPENDENCIES.filter(filterDependency.bind(null, ENVIRONMENTS.PRODUCTION)));
-  }
-  set DEV_NPM_DEPENDENCIES(value: InjectableDependency[]) {
-    console.warn('The property "DEV_NPM_DEPENDENCIES" is deprecated. Consider using "DEPENDENCIES" instead.');
-    const notDev = this.NPM_DEPENDENCIES.filter(d => !filterDependency(ENVIRONMENTS.DEVELOPMENT, d));
-    this.NPM_DEPENDENCIES = notDev.concat(value);
-  }
-  set PROD_NPM_DEPENDENCIES(value: InjectableDependency[]) {
-    console.warn('The property "PROD_NPM_DEPENDENCIES" is deprecated. Consider using "DEPENDENCIES" instead.');
-    const notProd = this.NPM_DEPENDENCIES.filter(d => !filterDependency(ENVIRONMENTS.PRODUCTION, d));
-    this.NPM_DEPENDENCIES = notProd.concat(value);
-  }
 
   get DEPENDENCIES(): InjectableDependency[] {
     return normalizeDependencies(this.NPM_DEPENDENCIES.filter(filterDependency.bind(null, this.ENV)))
@@ -170,15 +130,6 @@ export class SeedConfig {
       }
     }
   };
-
-  getEnvDependencies() {
-    console.warn('The "getEnvDependencies" method is deprecated. Consider using "DEPENDENCIES" instead.');
-    if (this.ENV === 'prod') {
-      return this.PROD_DEPENDENCIES;
-    } else {
-      return this.DEV_DEPENDENCIES;
-    }
-  }
 }
 
 
@@ -217,7 +168,8 @@ function customRules(): string[] {
 function getEnvironment() {
   let base:string[] = argv['_'];
   let prodKeyword = !!base.filter(o => o.indexOf(ENVIRONMENTS.PRODUCTION) >= 0).pop();
-  if (base && prodKeyword || argv['env'] === ENVIRONMENTS.PRODUCTION) {
+  let env = (argv['env'] || '').toLowerCase();
+  if ((base && prodKeyword) || env === ENVIRONMENTS.PRODUCTION) {
     return ENVIRONMENTS.PRODUCTION;
   } else {
     return ENVIRONMENTS.DEVELOPMENT;

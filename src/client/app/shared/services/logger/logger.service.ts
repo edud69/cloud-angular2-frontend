@@ -1,6 +1,9 @@
 import {Injectable} from 'angular2/core';
 import {Logger, Level} from 'angular2-logger/core';
 
+/**
+ * Logger Service.
+ */
 @Injectable()
 export class LoggerService {
 
@@ -15,7 +18,6 @@ export class LoggerService {
   // 4.- Level.DEBUG
   //
   // 5.- Level.LOG
-
   constructor(private _logger:Logger) {
     if('<%= ENV %>' === 'dev') {
       _logger.level = Level.DEBUG;
@@ -24,22 +26,37 @@ export class LoggerService {
     }
   }
 
+  /**
+   * Log.
+   */
   log(message : string) {
     this._logger.log(message);
   }
 
+  /**
+   * Debug.
+   */
   debug(message : string) {
     this._logger.debug(message);
   }
 
+  /**
+   * Message.
+   */
   info(message : string) {
     this._logger.info(message);
   }
 
+  /**
+   * Warn.
+   */
   warn(message : string) {
     this._logger.warn(message);
   }
 
+  /**
+   * Error.
+   */
   error(message : string) {
     this._logger.error(message);
   }
