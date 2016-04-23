@@ -13,6 +13,7 @@ export class ProjectConfig extends SeedConfig {
   AUTHSERVICE_DEV_BASE_URL : string = 'http://localhost:17501/';
   // service paths
   AUTHSERVICE_API_facebookLogin = this.authService('signin/facebook');
+  AUTHSERVICE_API_googleLogin = this.authService('signin/google');
   AUTHSERVICE_API_login = this.authService('login');
   AUTHSERVICE_API_refreshJwtToken = this.authService('token/refresh');
   AUTHSERVICE_API_userSubscribe = this.authService('user/subscription');
