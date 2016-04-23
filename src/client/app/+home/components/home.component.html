@@ -16,7 +16,7 @@
 </div>
 
 <form (submit)="sendChat()">
-  <input [(ngModel)]="chatMessage" placeholder="Enter your message!">
+  <input [(ngModel)]="chatMessage" placeholder="Enter your message!" (keypress)="enableTypingAction()">
   <button type="submit">Send</button>
 </form>
 

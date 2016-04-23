@@ -1,4 +1,5 @@
 import {Component} from 'angular2/core';
+import {Observable} from 'rxjs/Rx';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
 import {NameListService} from '../../shared/index';
@@ -17,6 +18,8 @@ export class HomeComponent {
 
   private _messages : string[] = [];
 
+  private _typingActionSub : any;
+
   constructor(public nameListService: NameListService, public chatService: ChatService) {}
 
   displayChatMessages() : string[] {
@@ -27,7 +30,7 @@ export class HomeComponent {
     this.chatService.openSession({
       onConnectionEstablished: () => {
         this.status = 'ONLINE';
-        this.chatService.join({
+        this.chatService.join('aChannelName', {
           onReceive: (message : any) => {
             this._messages.push(message.body);
           }
@@ -43,7 +46,11 @@ export class HomeComponent {
 
   sendChat() {
     if(this.chatMessage !== null && this.chatMessage !== undefined && this.chatMessage.length > 0) {
-      this.chatService.sendChat(this.chatMessage);
+      if(this._typingActionSub) {
+        this._typingActionSub.unsubscribe();
+      }
+
+      this.chatService.sendChat('aChannelName', this.chatMessage);
     }
   }
 
@@ -51,5 +58,18 @@ export class HomeComponent {
     this.nameListService.add(this.newName);
     this.newName = '';
     return false;
+  }
+
+  enableTypingAction() {
+    if(!this._typingActionSub) { //TODO create a map, one subscription per channel
+      this._typingActionSub = Observable.interval(800).subscribe((x : any) => {
+        if(x > 3) {
+          this._typingActionSub.unsubscribe();
+          this._typingActionSub = null;
+        }
+
+        this.chatService.notifyTypingActionToChannel('aChannelName');
+      });
+    }
   }
 }
