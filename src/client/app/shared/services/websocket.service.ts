@@ -13,6 +13,10 @@ export interface IWebsocketSubscriptionCallback {
   onMessage(message : any) : void;
 }
 
+export interface IWebsocketConnectionCallback {
+  onConnectionEstablished() : void;
+}
+
 interface IWebsocketHandler {
   type: WebsocketHandlerType;
   client : Client;
@@ -39,10 +43,10 @@ export class WebsocketService {
   /**
    * Connects a websocket handler to the given url endpoint.
    */
-  connect(websocketHandlerType : WebsocketHandlerType, url : string) {
+  connect(websocketHandlerType : WebsocketHandlerType, url : string, connectionEstablishedCallback? : IWebsocketConnectionCallback) {
     this._loggerService.debug(`Connecting websocket handler of type (${WebsocketHandlerType[websocketHandlerType]}) to endpoint (${url}).`);
 
-    let wsHandler : IWebsocketHandler = this.getWebsocketHandler(websocketHandlerType);
+    let wsHandler : IWebsocketHandler = this._getWebsocketHandler(websocketHandlerType);
     if(wsHandler === null || wsHandler === undefined || !wsHandler.client.connected) {
       let accessToken : string = this._authTokenService.getAccessToken();
       let ws = new WebSocket(url + '?token=' + accessToken);
@@ -51,8 +55,12 @@ export class WebsocketService {
 
       client.connect(headers,
       (successMessageCallback : any) => {
-        this.register(websocketHandlerType, client);
+        this._register(websocketHandlerType, client);
         this._loggerService.debug(`Websocket handler of type ${WebsocketHandlerType[websocketHandlerType]} is now connected.`);
+
+        if(connectionEstablishedCallback !== null) {
+          connectionEstablishedCallback.onConnectionEstablished();
+        }
       },
       (errorMessageCallback : any) => this._loggerService.error(`Failed to connect websocket 
                                         handler of type ${wsHandler}. Trace: ` + errorMessageCallback));
@@ -66,7 +74,7 @@ export class WebsocketService {
    * Disconnects a given websocket handler.
    */
   disconnect(wsHandlerType : WebsocketHandlerType) {
-    let wsHandler = this.getWebsocketHandler(wsHandlerType);
+    let wsHandler = this._getWebsocketHandler(wsHandlerType);
     if(wsHandler === null || wsHandler === undefined) {
       this._loggerService.warn(`Websocket handler of type (${WebsocketHandlerType[wsHandlerType]}) 
                   was already disconnected.`);
@@ -85,7 +93,7 @@ export class WebsocketService {
    * Sends a payload to a given route on a given websocket handler.
    */
   send(wsHandlerType : WebsocketHandlerType, route : string, payload : any) {
-    let wsHandler = this.getWebsocketHandler(wsHandlerType);
+    let wsHandler = this._getWebsocketHandler(wsHandlerType);
     if(wsHandler === null || wsHandler === undefined) {
       this._loggerService.error(`Cannot send payload for websocket handler (${WebsocketHandlerType[wsHandlerType]}) 
             to route (${route}). The websocket handler is not registered.`);
@@ -99,7 +107,7 @@ export class WebsocketService {
    * Subscribes a websocket handler to a given route.
    */
   subscribe(wsHandlerType : WebsocketHandlerType, route : string, callbacks : IWebsocketSubscriptionCallback) {
-    let wsHandler : any = this.getWebsocketHandler(wsHandlerType);
+    let wsHandler : any = this._getWebsocketHandler(wsHandlerType);
     if(wsHandler === null || wsHandler === undefined) {
       this._loggerService.error(`Cannot subscribe websocket handler (${WebsocketHandlerType[wsHandlerType]}) 
           to route (${route}). The websocket handler is not registered.`);
@@ -121,7 +129,7 @@ export class WebsocketService {
    * Unsubscribes a websocket handler from a route.
    */
   unsubscribe(wsHandlerType : WebsocketHandlerType, route : string) {
-    let wsHandler : any = this.getWebsocketHandler(wsHandlerType);
+    let wsHandler : any = this._getWebsocketHandler(wsHandlerType);
     if(wsHandler === null || wsHandler === undefined) {
       this._loggerService.error(`Cannot subscribe websocket handler (${WebsocketHandlerType[wsHandlerType]}) 
           to route (${route}). The websocket handler is not registered.`);
@@ -141,14 +149,14 @@ export class WebsocketService {
   /**
    * Retrieves a websocket handler.
    */
-  private getWebsocketHandler(wsHandlerType : WebsocketHandlerType) : IWebsocketHandler {
+  private _getWebsocketHandler(wsHandlerType : WebsocketHandlerType) : IWebsocketHandler {
     return this._websocketHandlers[wsHandlerType];
   }
 
   /**
    * Registers a websocket handler.
    */
-  private register(wsHandlerType : WebsocketHandlerType, client : Client) {
+  private _register(wsHandlerType : WebsocketHandlerType, client : Client) {
     this._websocketHandlers[wsHandlerType] = {
       type: wsHandlerType,
       client: client,

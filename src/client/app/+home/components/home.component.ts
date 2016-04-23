@@ -19,7 +19,13 @@ export class HomeComponent {
    * @returns return false to prevent default form submit behavior to refresh the page.
    */
   addName(): boolean {
-    this.chatService.openSession(); //TODO remove this, testing prototype... anyways home component will disappear...
+    //TODO remove this block... only for testing
+    if(this.newName !== null && this.newName !== undefined && this.newName.length > 0) {
+      this.chatService.sendChat(this.newName);
+    } else {
+      this.chatService.openSession(); //TODO remove this, testing prototype... anyways home component will disappear...
+    }
+
     this.nameListService.add(this.newName);
     this.newName = '';
     return false;
