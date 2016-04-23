@@ -1,5 +1,6 @@
 import {LoggerService} from '../logger/logger.service';
-import {WebsocketHandlerType, WebsocketService, IWebsocketSubscriptionCallback} from './websocket.service';
+import {WebsocketHandlerType, WebsocketService,
+  IWebsocketConnectionCallback, IWebsocketSubscriptionCallback} from './websocket.service';
 
 
 /**
@@ -30,12 +31,18 @@ export abstract class WebsocketHandlerService {
   /**
    * Connects the current handler.
    */
-  protected _connect() {
+  protected _connect(connectionCallback? : IWebsocketConnectionCallback) {
         this._websocketService.connect(
       this._getHandlerType(),
       this._getWsConnectEndpointUrl(),
       {
-        onConnectionEstablished: () => this._onConnectionEstablished()
+        onConnectionEstablished: () => {
+          if(connectionCallback !== null) {
+            connectionCallback.onConnectionEstablished();
+          }
+
+          this._onConnectionEstablished();
+        }
       });
   }
 

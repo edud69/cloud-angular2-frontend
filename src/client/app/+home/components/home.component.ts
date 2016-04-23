@@ -12,20 +12,33 @@ import {ChatService} from '../../shared/index';
 })
 export class HomeComponent {
   newName: string;
+  chatMessage: string;
+
+  private _messages : string[] = [];
+
   constructor(public nameListService: NameListService, public chatService: ChatService) {}
 
-  /*
-   * @param newname  any text as input.
-   * @returns return false to prevent default form submit behavior to refresh the page.
-   */
-  addName(): boolean {
-    //TODO remove this block... only for testing
-    if(this.newName !== null && this.newName !== undefined && this.newName.length > 0) {
-      this.chatService.sendChat(this.newName);
-    } else {
-      this.chatService.openSession(); //TODO remove this, testing prototype... anyways home component will disappear...
-    }
+  displayChatMessages() : string[] {
+    return this._messages;
+  }
 
+  connectChat() {
+    this.chatService.openSession({
+      onConnectionEstablished: () => this.chatService.join({
+        onReceive: (message : any) => {
+          this._messages.push(message.body);
+        }
+      })
+    });
+  }
+
+  sendChat() {
+    if(this.chatMessage !== null && this.chatMessage !== undefined && this.chatMessage.length > 0) {
+      this.chatService.sendChat(this.chatMessage);
+    }
+  }
+
+  addName(): boolean {
     this.nameListService.add(this.newName);
     this.newName = '';
     return false;

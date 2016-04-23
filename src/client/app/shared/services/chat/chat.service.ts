@@ -1,8 +1,13 @@
 import {Injectable} from 'angular2/core';
 
 import {LoggerService} from '../logger/logger.service';
-import {WebsocketHandlerType, WebsocketService} from '../websocket/websocket.service';
+import {WebsocketHandlerType, WebsocketService,
+     IWebsocketConnectionCallback} from '../websocket/websocket.service';
 import {WebsocketHandlerService} from '../websocket/websocketHandler.service';
+
+export interface IChatMessageCallback {
+  onReceive(message : any) : void;
+}
 
 /**
  * Chat service.
@@ -35,14 +40,14 @@ export class ChatService extends WebsocketHandlerService {
    * Websocket connection callback.
    */
   protected _onConnectionEstablished() {
-    this.join(); //TODO remove this, only for testing, the user should make the manual action to join
+    this._loggerService.log('Connection established');
   }
 
   /**
    * Opens a chat session.
    */
-  openSession() {
-    super._connect();
+  openSession(connectionSuccessCallback? : IWebsocketConnectionCallback) {
+    super._connect(connectionSuccessCallback);
   }
 
   /**
@@ -61,11 +66,11 @@ export class ChatService extends WebsocketHandlerService {
   /**
    * Joins a chat channel.
    */
-  join() {
+  join(callback : IChatMessageCallback) {
     let chatTopicPrefix : string = '/topic/chat';
     let route : string = chatTopicPrefix + '/channelname'; //TODO provide channel name
     super._subscribe(route, {
-      onMessage: (message : any) => alert(message) //TODO make something cleaner...
+      onMessage: (message : any) => callback.onReceive(message)
     });
   }
 
