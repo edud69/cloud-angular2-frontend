@@ -36,8 +36,7 @@ export class ChatService {
     let msgToSend : any = {
       channelName: 'channelname', //TODO
       message: message,
-      senderUsername: 'I_AM_SENDER_USER', //TODO
-      sentTime: new Date()
+      senderUsername: 'I_AM_SENDER_USER'
     };
 
     this._send(msgToSend);
@@ -47,7 +46,7 @@ export class ChatService {
    * Joins a chat channel.
    */
   join() {
-    let chatTopicPrefix : string = '/app/topic/chat';
+    let chatTopicPrefix : string = '/topic/chat';
     let route : string = chatTopicPrefix + '/channelname'; //TODO provide channel name
     this._websocketService.subscribe(this._handlerType, route, {
       onMessage: (message : any) => alert(message) //TODO make something cleaner...
@@ -58,7 +57,7 @@ export class ChatService {
    * Sends a message.
    */
   private _send(message : any) {
-    let route : string = '/chat.group.message'; //TODO change
+    let route : string = '/app/chat.group.message'; //TODO change
     this._websocketService.send(this._handlerType, route, message);
   }
 }

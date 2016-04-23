@@ -100,7 +100,8 @@ export class WebsocketService {
       return;
     }
 
-    wsHandler.client.send(route, payload);
+    let headers : any = {};
+    wsHandler.client.send(route, headers, JSON.stringify(payload));
   }
 
   /**
