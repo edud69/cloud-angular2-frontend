@@ -13,6 +13,7 @@ import {ChatService} from '../../shared/index';
 export class HomeComponent {
   newName: string;
   chatMessage: string;
+  status : string = 'OFFLINE';
 
   private _messages : string[] = [];
 
@@ -24,12 +25,20 @@ export class HomeComponent {
 
   connectChat() {
     this.chatService.openSession({
-      onConnectionEstablished: () => this.chatService.join({
-        onReceive: (message : any) => {
-          this._messages.push(message.body);
-        }
-      })
+      onConnectionEstablished: () => {
+        this.status = 'ONLINE';
+        this.chatService.join({
+          onReceive: (message : any) => {
+            this._messages.push(message.body);
+          }
+        });
+      },
+      onConnectionClose: () => this.status = 'OFFLINE'
     });
+  }
+
+  disconnectChat() {
+    this.chatService.closeSession();
   }
 
   sendChat() {

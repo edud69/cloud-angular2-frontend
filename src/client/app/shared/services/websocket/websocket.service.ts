@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {Stomp, Client} from 'stompjs/lib/stomp';
+import {Stomp, Client, Subscription} from 'stompjs/lib/stomp';
 
 import {AuthTokenService} from '../authentication/auth-token.service';
 import {LoggerService} from '../logger/logger.service';
@@ -15,12 +15,14 @@ export interface IWebsocketSubscriptionCallback {
 
 export interface IWebsocketConnectionCallback {
   onConnectionEstablished() : void;
+  onConnectionClose() : void;
 }
 
 interface IWebsocketHandler {
   type: WebsocketHandlerType;
   client : Client;
-  subscriptionRoutes: { [route: string] : any; };
+  subscriptionRoutes: { [route: string] : Subscription; };
+  callbacks: IWebsocketConnectionCallback[];
 }
 
 interface IWebsocketHandlerMapper {
@@ -43,7 +45,7 @@ export class WebsocketService {
   /**
    * Connects a websocket handler to the given url endpoint.
    */
-  connect(websocketHandlerType : WebsocketHandlerType, url : string, connectionEstablishedCallback? : IWebsocketConnectionCallback) {
+  connect(websocketHandlerType : WebsocketHandlerType, url : string, connectionCallback? : IWebsocketConnectionCallback) {
     this._loggerService.debug(`Connecting websocket handler of type (${WebsocketHandlerType[websocketHandlerType]}) to endpoint (${url}).`);
 
     let wsHandler : IWebsocketHandler = this._getWebsocketHandler(websocketHandlerType);
@@ -55,15 +57,17 @@ export class WebsocketService {
 
       client.connect(headers,
       (successMessageCallback : any) => {
-        this._register(websocketHandlerType, client);
+        this._register(websocketHandlerType, client, connectionCallback);
+        this._websocketHandlers[websocketHandlerType].callbacks
+          .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionEstablished());
         this._loggerService.debug(`Websocket handler of type ${WebsocketHandlerType[websocketHandlerType]} is now connected.`);
-
-        if(connectionEstablishedCallback !== null) {
-          connectionEstablishedCallback.onConnectionEstablished();
-        }
       },
-      (errorMessageCallback : any) => this._loggerService.error(`Failed to connect websocket 
-                                        handler of type ${wsHandler}. Trace: ` + errorMessageCallback));
+      (errorMessageCallback : any) => { 
+        this._websocketHandlers[websocketHandlerType].callbacks
+          .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionClose());
+        this._loggerService.error(`Failed to connect websocket 
+                                        handler of type ${wsHandler}. Trace: ` + errorMessageCallback);
+      });
     } else {
       this._loggerService.warn(`Websocket handler of type (${WebsocketHandlerType[websocketHandlerType]}) 
             was already connected to a endpoint (${url}).`);
@@ -82,6 +86,8 @@ export class WebsocketService {
     }
 
     wsHandler.client.disconnect(() => {
+      this._websocketHandlers[wsHandlerType].callbacks
+        .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionClose());
       this._websocketHandlers[wsHandlerType] = null;
       this._loggerService.info(`Websocket handler of type (${WebsocketHandlerType[wsHandlerType]}) is now disconnected.`);
     },
@@ -157,11 +163,17 @@ export class WebsocketService {
   /**
    * Registers a websocket handler.
    */
-  private _register(wsHandlerType : WebsocketHandlerType, client : Client) {
+  private _register(wsHandlerType : WebsocketHandlerType, client : Client,
+      callback? : IWebsocketConnectionCallback) {
     this._websocketHandlers[wsHandlerType] = {
       type: wsHandlerType,
       client: client,
-      subscriptionRoutes: {}
+      subscriptionRoutes: {},
+      callbacks: []
     };
+    
+    if(callback !== null) {
+      this._websocketHandlers[wsHandlerType].callbacks.push(callback);
+    }
   }
 }

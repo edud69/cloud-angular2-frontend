@@ -3,9 +3,17 @@
   Do you know any others? Add to the list yourself.
 </p>
 
-<form (submit)="connectChat()">
-  <button type="submit">Connect</button>
-</form>
+ CHAT-WEBSOCKET status: {{status}}
+
+<div [ngSwitch]="status">
+  <form (submit)="connectChat()" *ngSwitchWhen="'OFFLINE'">
+    <button type="submit">Connect</button>
+  </form>
+
+  <form (submit)="disconnectChat()" *ngSwitchWhen="'ONLINE'">
+    <button type="submit">Disconnect</button>
+  </form>
+</div>
 
 <form (submit)="sendChat()">
   <input [(ngModel)]="chatMessage" placeholder="Enter your message!">

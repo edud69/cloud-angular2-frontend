@@ -37,17 +37,31 @@ export class ChatService extends WebsocketHandlerService {
   }
 
   /**
-   * Websocket connection callback.
+   * Websocket connection opened callback.
    */
   protected _onConnectionEstablished() {
     this._loggerService.log('Connection established');
   }
 
   /**
+   * Websocket connection closed callback.
+   */
+  protected _onConnectionClosed() {
+    this._loggerService.log('Connection closed');
+  }
+
+  /**
    * Opens a chat session.
    */
-  openSession(connectionSuccessCallback? : IWebsocketConnectionCallback) {
-    super._connect(connectionSuccessCallback);
+  openSession(connectionCallback? : IWebsocketConnectionCallback) {
+    super._connect(connectionCallback);
+  }
+
+  /**
+   * Closes the session.
+   */
+  closeSession() {
+    super._disconnect();
   }
 
   /**

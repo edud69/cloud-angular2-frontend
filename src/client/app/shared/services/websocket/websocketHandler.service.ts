@@ -24,9 +24,14 @@ export abstract class WebsocketHandlerService {
   protected abstract _getWsConnectEndpointUrl() : string;
 
   /**
-   * Websocket connection callback.
+   * Websocket connection opened callback.
    */
   protected abstract _onConnectionEstablished() : void;
+
+  /**
+   * Websocket connection closed callback.
+   */
+  protected abstract _onConnectionClosed() : void;
 
   /**
    * Connects the current handler.
@@ -42,8 +47,20 @@ export abstract class WebsocketHandlerService {
           }
 
           this._onConnectionEstablished();
+        },
+        onConnectionClose: () => {
+          if(connectionCallback !== null) {
+            connectionCallback.onConnectionClose();
+          }
         }
       });
+  }
+
+  /**
+   * Disconnects the current websocketHandler.
+   */
+  protected _disconnect() {
+    this._websocketService.disconnect(this._getHandlerType());
   }
 
   /**
