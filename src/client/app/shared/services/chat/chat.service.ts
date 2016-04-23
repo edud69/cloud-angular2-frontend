@@ -89,6 +89,13 @@ export class ChatService extends WebsocketHandlerService {
   }
 
   /**
+   * Leaves a chat channel.
+   */
+  leave() {
+    super._unsubscribe('/topic/chat/channelname'); //TODO provide a channel name as argument...
+  }
+
+  /**
    * Sends a message.
    */
   protected _send(message : any) {

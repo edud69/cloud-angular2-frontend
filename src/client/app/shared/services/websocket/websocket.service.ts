@@ -49,7 +49,7 @@ export class WebsocketService {
     this._loggerService.debug(`Connecting websocket handler of type (${WebsocketHandlerType[websocketHandlerType]}) to endpoint (${url}).`);
 
     let wsHandler : IWebsocketHandler = this._getWebsocketHandler(websocketHandlerType);
-    if(wsHandler === null || wsHandler === undefined || !wsHandler.client.connected) {
+    if(!wsHandler) {
       let accessToken : string = this._authTokenService.getAccessToken();
       let ws = new WebSocket(url + '?token=' + accessToken);
       let client : Client = Stomp.over(ws);
@@ -62,7 +62,7 @@ export class WebsocketService {
           .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionEstablished());
         this._loggerService.debug(`Websocket handler of type ${WebsocketHandlerType[websocketHandlerType]} is now connected.`);
       },
-      (errorMessageCallback : any) => { 
+      (errorMessageCallback : any) => {
         this._websocketHandlers[websocketHandlerType].callbacks
           .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionClose());
         this._loggerService.error(`Failed to connect websocket 
@@ -79,7 +79,7 @@ export class WebsocketService {
    */
   disconnect(wsHandlerType : WebsocketHandlerType) {
     let wsHandler = this._getWebsocketHandler(wsHandlerType);
-    if(wsHandler === null || wsHandler === undefined) {
+    if(!wsHandler) {
       this._loggerService.warn(`Websocket handler of type (${WebsocketHandlerType[wsHandlerType]}) 
                   was already disconnected.`);
       return;
@@ -88,7 +88,7 @@ export class WebsocketService {
     wsHandler.client.disconnect(() => {
       this._websocketHandlers[wsHandlerType].callbacks
         .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionClose());
-      this._websocketHandlers[wsHandlerType] = null;
+      delete this._websocketHandlers[wsHandlerType];
       this._loggerService.info(`Websocket handler of type (${WebsocketHandlerType[wsHandlerType]}) is now disconnected.`);
     },
     (errorMessage : any) => this._loggerService.warn(`Websocket handler of type (${WebsocketHandlerType[wsHandlerType]}) 
@@ -100,7 +100,7 @@ export class WebsocketService {
    */
   send(wsHandlerType : WebsocketHandlerType, route : string, payload : any) {
     let wsHandler = this._getWebsocketHandler(wsHandlerType);
-    if(wsHandler === null || wsHandler === undefined) {
+    if(!wsHandler) {
       this._loggerService.error(`Cannot send payload for websocket handler (${WebsocketHandlerType[wsHandlerType]}) 
             to route (${route}). The websocket handler is not registered.`);
       return;
@@ -115,14 +115,14 @@ export class WebsocketService {
    */
   subscribe(wsHandlerType : WebsocketHandlerType, route : string, callbacks : IWebsocketSubscriptionCallback) {
     let wsHandler : any = this._getWebsocketHandler(wsHandlerType);
-    if(wsHandler === null || wsHandler === undefined) {
+    if(!wsHandler) {
       this._loggerService.error(`Cannot subscribe websocket handler (${WebsocketHandlerType[wsHandlerType]}) 
           to route (${route}). The websocket handler is not registered.`);
       return;
     }
 
     let subscription = wsHandler.client.subscribe(route, (message : any) => callbacks.onMessage(message));
-    if(wsHandler.subscriptionRoutes[route] !== null && wsHandler.subscriptionRoutes[route] !== undefined) {
+    if(wsHandler.subscriptionRoutes[route]) {
       wsHandler.subscriptionRoutes[route].unsubscribe();
       this._loggerService.warn(`A subscription exists on the same route (${route}) 
                 for wsHandlerType (${WebsocketHandlerType[wsHandlerType]}).
@@ -137,20 +137,20 @@ export class WebsocketService {
    */
   unsubscribe(wsHandlerType : WebsocketHandlerType, route : string) {
     let wsHandler : any = this._getWebsocketHandler(wsHandlerType);
-    if(wsHandler === null || wsHandler === undefined) {
+    if(!wsHandler) {
       this._loggerService.error(`Cannot subscribe websocket handler (${WebsocketHandlerType[wsHandlerType]}) 
           to route (${route}). The websocket handler is not registered.`);
       return;
     }
 
     let subscription = wsHandler.subscriptionRoutes[route];
-    if(subscription !== null || subscription !== undefined) {
+    if(subscription) {
       subscription.unsubscribe();
     } else {
       this._loggerService.warn(`No subscribtion was found on route=${route} for wsHandlerType=${WebsocketHandlerType[wsHandlerType]}.`);
     }
 
-    wsHandler.subscriptionRoutes[route] = null;
+    delete wsHandler.subscriptionRoutes[route];
   }
 
   /**
@@ -171,7 +171,7 @@ export class WebsocketService {
       subscriptionRoutes: {},
       callbacks: []
     };
-    
+
     if(callback !== null) {
       this._websocketHandlers[wsHandlerType].callbacks.push(callback);
     }

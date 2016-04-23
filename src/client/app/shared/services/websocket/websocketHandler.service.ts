@@ -64,6 +64,13 @@ export abstract class WebsocketHandlerService {
   }
 
   /**
+   * Unsubscribe from a route.
+   */
+  protected _unsubscribe(route : string) {
+    this._websocketService.unsubscribe(this._getHandlerType(), route);
+  }
+
+  /**
    * Subscribes to a route.
    */
   protected _subscribe(route : string, callback : IWebsocketSubscriptionCallback) {
