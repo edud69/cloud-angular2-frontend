@@ -48,9 +48,11 @@ export class HomeComponent {
     if(this.chatMessage !== null && this.chatMessage !== undefined && this.chatMessage.length > 0) {
       if(this._typingActionSub) {
         this._typingActionSub.unsubscribe();
+        this._typingActionSub = null;
       }
 
       this.chatService.sendChat('aChannelName', this.chatMessage);
+      this.chatMessage = '';
     }
   }
 
@@ -62,7 +64,7 @@ export class HomeComponent {
 
   enableTypingAction() {
     if(!this._typingActionSub) { //TODO create a map, one subscription per channel
-      this._typingActionSub = Observable.interval(800).subscribe((x : any) => {
+      this._typingActionSub = Observable.interval(500).subscribe((x : any) => {
         if(x > 3) {
           this._typingActionSub.unsubscribe();
           this._typingActionSub = null;
