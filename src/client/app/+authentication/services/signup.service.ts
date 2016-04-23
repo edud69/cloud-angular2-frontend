@@ -1,13 +1,15 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 
+import {LoggerService} from '../../shared/index';
+
 /**
  * Signup Service.
  */
 @Injectable()
 export class SignupService {
 
-  constructor(private _http : Http) {}
+  constructor(private _http : Http, private _loggerService : LoggerService) {}
 
 /**
  * Signup.
@@ -26,9 +28,9 @@ export class SignupService {
 
     this._http.post('<%= AUTHSERVICE_API_userSubscribe %>', body, { headers: headers })
     .subscribe(
-      json => alert('Check your mailbox!'),
-      error => alert(error),
-      () => console.log('Request completed')
+      json => this._loggerService.debug('Subscription confirmed.'),
+      error => this._loggerService.error('An error occurred. Trace: ' + error),
+      () => this._loggerService.log('Request completed')
     );
   }
 }

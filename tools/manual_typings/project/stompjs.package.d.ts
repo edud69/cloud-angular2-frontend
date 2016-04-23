@@ -10,6 +10,7 @@ declare module 'stompjs/lib/stomp' {
 
 	export interface Client {
 		heartbeat: any;
+    connected: any;
 		
 		debug(...args: string[]) : void;
 

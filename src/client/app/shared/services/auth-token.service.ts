@@ -27,7 +27,7 @@ export class AuthTokenService {
     let parameters : string = '?refresh_token=' + refreshToken;
 
     let headers : Headers = new Headers();
-    headers.append('X-Tenant-id', 'master'); //TODO
+    headers.append('X-Tenant-id', 'master'); //TODO use a constant class and get the current tenant
 
 
     this._http.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '', { headers: headers })

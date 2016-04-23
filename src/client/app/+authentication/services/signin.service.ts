@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 
 import {AuthTokenService} from '../../shared/index';
+import {LoggerService} from '../../shared/index';
 
 declare var fetch: any;
 
@@ -10,13 +11,13 @@ declare var fetch: any;
 @Injectable()
 export class SigninService {
 
-  constructor(private _authTokenService: AuthTokenService) { }
+  constructor(private _authTokenService: AuthTokenService, private _loggerService : LoggerService) { }
 
   /**
    * Login.
    */
   login(username: string, password: string) {
-    // We call our API to log the user in. The username and password are entered by the user
+    // TODO pass something in the body, zuul does not like the fact that the body is empty...
     fetch('<%= AUTHSERVICE_API_login %>', {
       method: 'POST',
       headers: {
@@ -28,10 +29,7 @@ export class SigninService {
     })
       .then((response: any) => response.json())
       .then((json: any) => this._authTokenService.updateToken(json))
-      .catch((error: any) => {
-        alert(error.message);
-        console.log(error.message);
-      });
+      .catch((error: any) => this._loggerService.error('An error occurred. Trace: ' + error));
   }
 
 }
