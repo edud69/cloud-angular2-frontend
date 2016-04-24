@@ -18,8 +18,7 @@ declare module 'stompjs/lib/stomp' {
 		disconnect(disconnectCallback: () => any, headers?: any) : void;
 
 		send(destination: string, headers?:any, body?: string) : void;
-		subscribe(destination: string, callback?: (message: Message) => any, body?: string) : void;
-		unsubscribe() : void;
+		subscribe(destination: string, callback?: (message: Message) => any, body?: string) : Subscription;
 
 		begin(transaction: string) : void;
 		commit(transaction: string) : void;
@@ -28,6 +27,10 @@ declare module 'stompjs/lib/stomp' {
 		ack(messageID: string, subscription: string, headers?: any) : void;
 		nack(messageID: string, subscription: string, headers?: any) : void;
 	}
+  
+  export interface Subscription {
+    unsubscribe() : void;
+  }
 
 	export interface Message {
 		command: string;

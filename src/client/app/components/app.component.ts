@@ -12,7 +12,6 @@ import {SignupConfirmationComponent} from '../+authentication/components/signup-
 
 
 // shared service
-import {NameListService} from '../shared/index';
 import {AuthTokenService} from '../shared/index';
 import {ChatService} from '../shared/index';
 import {LoggerService} from '../shared/index';
@@ -21,7 +20,7 @@ import {WebsocketService} from '../shared/index';
 // AppComponent
 @Component({
   selector: 'sd-app',
-  providers: [AuthTokenService, ChatService, LoggerService, NameListService, WebsocketService],
+  providers: [AuthTokenService, ChatService, LoggerService, WebsocketService],
   templateUrl: 'app/components/app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
