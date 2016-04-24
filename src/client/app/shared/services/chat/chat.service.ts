@@ -4,6 +4,8 @@ import {JsonModelConverter} from '../../models/json-model-converter';
 
 import {ChatMessage} from '../../models/chat/chat-message.model';
 import {GroupChatMessage} from '../../models/chat/group-chat-message.model';
+import {ParticipantJoinEvent} from '../../models/chat/participant-join-event.model';
+import {ParticipantLeaveEvent} from '../../models/chat/participant-leave-event.model';
 import {PrivateChatMessage} from '../../models/chat/private-chat-message.model';
 import {TypingAction} from '../../models/chat/typing-action.model';
 
@@ -16,6 +18,8 @@ import {WebsocketHandlerService} from '../websocket/websocketHandler.service';
 export interface IChatMessageCallback {
   onMessageReceive(message : ChatMessage) : void;
   onTypingActionReceive(typingAction : TypingAction) : void;
+  onParticipantJoin(participantJoinEvent : ParticipantJoinEvent) : void;
+  onParticipantLeave(participantLeaveEvent : ParticipantLeaveEvent) : void;
 }
 
 const CHAT_PUBLIC_SEND_ROUTE_PREFIX : string = '/app/chat.group.message';
@@ -23,6 +27,7 @@ const CHAT_USER_SEND_ROUTE_PREFIX : string = '/app/chat.private.message';
 const CHAT_TYPINGACTION_SEND_ROUTE_PREFIX : string = '/app/chat.action.typing';
 
 const CHAT_TOPIC_SUBCRIPTION_PREFIX : string = '/topic/chat';
+const CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX : string = '/topic/chat.participants';
 const CHAT_QUEUE_SUBSCRIPTION_PREFIX : string = '/user/queue/chat';
 const CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX : string = '/user/queue/chat.action.typing';
 const CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX : string = '/topic/chat.action.typing';
@@ -130,12 +135,17 @@ export class ChatService extends WebsocketHandlerService {
         let model : any = JsonModelConverter.fromJson(json);
         if (model instanceof TypingAction) {
           callback.onTypingActionReceive(<TypingAction>model);
-        } else {
+        } else if(model instanceof ChatMessage) {
           callback.onMessageReceive(<ChatMessage>model);
+        } else if(model instanceof ParticipantJoinEvent) {
+          callback.onParticipantJoin(<ParticipantJoinEvent>model);
+        } else if(model instanceof ParticipantLeaveEvent) {
+          callback.onParticipantLeave(<ParticipantLeaveEvent>model);
         }
       }
     };
 
+    super._subscribe(CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX + '/' + channelName, forwardCallback);
     super._subscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX + '/' + channelName, forwardCallback);
     super._subscribe(CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX + '/' + channelName, forwardCallback);
   }
@@ -150,12 +160,12 @@ export class ChatService extends WebsocketHandlerService {
         let model : any = JsonModelConverter.fromJson(json);
         if (model instanceof TypingAction) {
           callback.onTypingActionReceive(<TypingAction>model);
-        } else {
+        } else if (model instanceof ChatMessage) {
           callback.onMessageReceive(<ChatMessage>model);
         }
       }
     };
-
+    //TODO participant join events...
     super._subscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX, forwardCallback);
     super._subscribe(CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX, forwardCallback);
   }
@@ -164,6 +174,7 @@ export class ChatService extends WebsocketHandlerService {
    * Leave the personal chat queue.
    */
   leavePersonalChat() {
+    //TODO participant join events...
     super._unsubscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX);
     super._unsubscribe(CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX);
   }
@@ -173,6 +184,7 @@ export class ChatService extends WebsocketHandlerService {
    */
   leave(channelName : string) {
     super._unsubscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX + '/' + channelName);
+    super._unsubscribe(CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX + '/' + channelName);
     super._unsubscribe(CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX + '/' + channelName);
   }
 
