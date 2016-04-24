@@ -11,7 +11,8 @@ import {WebsocketHandlerType, WebsocketService,
 import {WebsocketHandlerService} from '../websocket/websocketHandler.service';
 
 export interface IChatMessageCallback {
-  onReceive(message : any) : void;
+  onMessageReceive(message : ChatMessage) : void;
+  onTypingActionReceive(typingAction : TypingAction) : void;
 }
 
 const CHAT_PUBLIC_SEND_ROUTE_PREFIX : string = '/app/chat.group.message';
@@ -120,7 +121,15 @@ export class ChatService extends WebsocketHandlerService {
    */
   join(channelName : string, callback : IChatMessageCallback) {
     let forwardCallback : any = {
-      onMessage: (message : any) => callback.onReceive(message)
+      onMessage: (message : string) => {
+        let json : any = JSON.parse(message);
+        let typingAction : string = TypingAction.BindingClassName;
+        if (json.bindingClassName && json.bindingClassName === typingAction) {
+          callback.onTypingActionReceive(new TypingAction(json.author, json.channelName, json.targetUsername));
+        } else {
+          callback.onMessageReceive(new GroupChatMessage(json.chat, json.emitterUsername, json.channelName));
+        }
+      }
     };
 
     super._subscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX + '/' + channelName, forwardCallback);
@@ -132,7 +141,15 @@ export class ChatService extends WebsocketHandlerService {
    */
   joinPersonalChat(callback : IChatMessageCallback) {
     let forwardCallback : any = {
-      onMessage: (message : any) => callback.onReceive(message)
+      onMessage: (message : string) => {
+        let json : any = JSON.parse(message);
+        let typingAction : string = TypingAction.BindingClassName;
+        if (json.bindingClassName && json.bindingClassName === typingAction) {
+          callback.onTypingActionReceive(new TypingAction(json.author, json.channelName, json.targetUsername));
+        } else {
+          callback.onMessageReceive(new PrivateChatMessage(json.chat, json.emitterUsername, json.targetUsername));
+        }
+      }
     };
 
     super._subscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX, forwardCallback);

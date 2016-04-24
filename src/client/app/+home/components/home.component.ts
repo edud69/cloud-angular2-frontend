@@ -29,8 +29,11 @@ export class HomeComponent {
       onConnectionEstablished: () => {
         this.status = 'ONLINE';
         this.chatService.join('aChannelName', {
-          onReceive: (message : any) => {
-            this._messages.push(message.body);
+          onMessageReceive: (message) => {
+            this._messages.push(message.toJsonString());
+          },
+          onTypingActionReceive: (typingAction) => {
+            this._messages.push(typingAction.toJsonString());
           }
         });
       },

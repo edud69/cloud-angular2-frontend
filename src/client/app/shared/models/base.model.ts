@@ -3,7 +3,7 @@ export abstract class BaseModel {
     /**
      * Creates a json string compatible for rest from this model.
      */
-    toRest() : string {
+    toJsonString() : string {
         return JSON.stringify(this._toJsonObject());
     }
 

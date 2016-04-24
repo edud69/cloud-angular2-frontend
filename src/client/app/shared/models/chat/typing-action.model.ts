@@ -2,6 +2,8 @@ import {BaseModel} from '../base.model';
 
 export class TypingAction extends BaseModel {
 
+    static BindingClassName : string = 'TypingActionMsg';
+
     private _actionTime : Date;
 
     constructor(private _author : string, private _channelName : string,

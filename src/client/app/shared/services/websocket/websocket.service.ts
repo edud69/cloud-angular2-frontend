@@ -12,7 +12,7 @@ export enum WebsocketHandlerType {
 };
 
 export interface IWebsocketSubscriptionCallback {
-  onMessage(message : any) : void;
+  onMessage(message : string) : void;
 }
 
 export interface IWebsocketConnectionCallback {
@@ -113,7 +113,7 @@ export class WebsocketService {
     }
 
     let headers : any = {};
-    wsHandler.client.send(route, headers, payload.toRest());
+    wsHandler.client.send(route, headers, payload.toJsonString());
   }
 
   /**
@@ -127,7 +127,14 @@ export class WebsocketService {
       return;
     }
 
-    let subscription = wsHandler.client.subscribe(route, (message : any) => callbacks.onMessage(message));
+    let subscription = wsHandler.client.subscribe(route, (message : any) => {
+      if(message && message.body) {
+        callbacks.onMessage(message.body);
+      } else {
+        this._loggerService.error('Invalid message payload received : ' + message + '.');
+      }
+    });
+
     if(wsHandler.subscriptionRoutes[route]) {
       wsHandler.subscriptionRoutes[route].unsubscribe();
       this._loggerService.warn(`A subscription exists on the same route (${route}) 
