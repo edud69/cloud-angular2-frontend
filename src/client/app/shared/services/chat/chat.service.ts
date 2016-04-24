@@ -177,13 +177,6 @@ export class ChatService extends WebsocketHandlerService {
   }
 
   /**
-   * Returns the current username.
-   */
-  private _resolveCurrentUser() : string {
-    return this._authTokenService.currentUsername();
-  }
-
-  /**
    * Sends a message.
    */
   protected _sendMessage(message : ChatMessage, isPrivateChat : boolean) {
@@ -192,5 +185,12 @@ export class ChatService extends WebsocketHandlerService {
     } else {
       super._send(CHAT_PUBLIC_SEND_ROUTE_PREFIX, message);
     }
+  }
+
+  /**
+   * Returns the current username.
+   */
+  private _resolveCurrentUser() : string {
+    return this._authTokenService.currentUsername();
   }
 }
