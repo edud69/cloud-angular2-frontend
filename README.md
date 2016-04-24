@@ -173,6 +173,46 @@ System.config({
 });
 ```
 
+# Adding an auto converter to json message to a strongly-typed model
+1. In your model class add this line to the very end of the file:
+```
+import {BaseModel} from '../base.model';
+import {ChatMessage} from './chat-message.model';
+
+export class GroupChatMessage extends ChatMessage {
+
+    constructor(_message : string, _senderUsername : string, private _channelName : string) {
+        super(_message, _senderUsername);
+    }
+
+     get channelName() : string {
+         return this._channelName;
+     }
+}
+
+BaseModel.registerType({bindingClassName: 'ChatGroupMsg', targetClass: GroupChatMessage}); //ADD THIS
+```
+
+This means that when the backend is sending 'ChatGroupMsg' on the *bindingClassName* json field, it will be resolved as the *targetClass* type.
+
+2 a. To send a model to the backend:
+```
+yourModel.toJsonString(); // If it extends BaseModel, it will be available
+```
+
+2 b. To convert back a json message that is registered with 1. See this example:
+```
+import {JsonModelConverter} from 'pathToShared/index';
+
+let json : any = JSON.parse(incomingJsonString);
+let model : any = JsonModelConverter.fromJson(json); //this returns a BaseModel or null if json was null
+if (model instanceof TypingAction) { //now you can test which specific type it is
+  callback.onTypingActionReceive(<TypingAction>model); //cast it to your type
+}
+```
+
+
+
 # Making a reference to a backend endpoint
 A. Edit *tools/config/project.config.ts*
 ```
