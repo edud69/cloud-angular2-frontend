@@ -1,3 +1,4 @@
+import {BaseModel} from '../base.model';
 import {ChatMessage} from './chat-message.model';
 
 export class PrivateChatMessage extends ChatMessage {
@@ -10,3 +11,5 @@ export class PrivateChatMessage extends ChatMessage {
          return this._targetUsername;
      }
 }
+
+BaseModel.registerType({bindingClassName: 'ChatPrivateMsg', targetClass: PrivateChatMessage});

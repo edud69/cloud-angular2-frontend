@@ -2,8 +2,6 @@ import {BaseModel} from '../base.model';
 
 export class TypingAction extends BaseModel {
 
-    static BindingClassName : string = 'TypingActionMsg';
-
     private _actionTime : Date;
 
     constructor(private _author : string, private _channelName : string,
@@ -25,3 +23,5 @@ export class TypingAction extends BaseModel {
          return this._actionTime;
      }
 }
+
+BaseModel.registerType({bindingClassName: 'TypingActionMsg', targetClass: TypingAction});

@@ -1,38 +1,26 @@
+import {JsonModelConverter} from './json-model-converter';
+
+export interface IBaseModel {
+    targetClass : any;
+    bindingClassName : string;
+}
+
 export abstract class BaseModel {
+
+    private $_createdFromJson : boolean = false;
+
+    static registerType(model : IBaseModel) {
+        JsonModelConverter.registerType(model);
+    }
+
+    get createdFromJson() {
+        return this.$_createdFromJson;
+    }
 
     /**
      * Creates a json string compatible for rest from this model.
      */
     toJsonString() : string {
-        return JSON.stringify(this._toJsonObject());
-    }
-
-    /**
-     * Creates a json object compatible for rest from this model.
-     */
-    private _toJsonObject() : any {
-        let cpy : any = {};
-        let obj : any = this;
-
-        for(let key in this) {
-            if(obj.hasOwnProperty(key)) {
-                let cpyKeyToUse : string = key;
-                if(cpyKeyToUse.indexOf('_') === 0) {
-                    cpyKeyToUse = cpyKeyToUse.substr(1);
-                }
-
-                if(obj[key] instanceof Date && obj[key] !== null) {
-                    cpy[cpyKeyToUse] = (<Date>obj[key]).toISOString();
-                    let asStr : string = (<string>cpy[cpyKeyToUse]);
-                    if(asStr.lastIndexOf('Z') === asStr.length - 1) {
-                        cpy[cpyKeyToUse] = asStr.substr(0, asStr.length - 1);
-                    }
-                } else {
-                    cpy[cpyKeyToUse] = obj[key];
-                }
-            }
-        }
-
-        return cpy;
+        return JSON.stringify(JsonModelConverter.toJson(this));
     }
 }

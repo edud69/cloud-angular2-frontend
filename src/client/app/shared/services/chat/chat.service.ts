@@ -1,5 +1,7 @@
 import {Injectable} from 'angular2/core';
 
+import {JsonModelConverter} from '../../models/json-model-converter';
+
 import {ChatMessage} from '../../models/chat/chat-message.model';
 import {GroupChatMessage} from '../../models/chat/group-chat-message.model';
 import {PrivateChatMessage} from '../../models/chat/private-chat-message.model';
@@ -123,11 +125,11 @@ export class ChatService extends WebsocketHandlerService {
     let forwardCallback : any = {
       onMessage: (message : string) => {
         let json : any = JSON.parse(message);
-        let typingAction : string = TypingAction.BindingClassName;
-        if (json.bindingClassName && json.bindingClassName === typingAction) {
-          callback.onTypingActionReceive(new TypingAction(json.author, json.channelName, json.targetUsername));
+        let model : any = JsonModelConverter.fromJson(json);
+        if (model instanceof TypingAction) {
+          callback.onTypingActionReceive(<TypingAction>model);
         } else {
-          callback.onMessageReceive(new GroupChatMessage(json.chat, json.emitterUsername, json.channelName));
+          callback.onMessageReceive(<ChatMessage>model);
         }
       }
     };
@@ -143,11 +145,11 @@ export class ChatService extends WebsocketHandlerService {
     let forwardCallback : any = {
       onMessage: (message : string) => {
         let json : any = JSON.parse(message);
-        let typingAction : string = TypingAction.BindingClassName;
-        if (json.bindingClassName && json.bindingClassName === typingAction) {
-          callback.onTypingActionReceive(new TypingAction(json.author, json.channelName, json.targetUsername));
+        let model : any = JsonModelConverter.fromJson(json);
+        if (model instanceof TypingAction) {
+          callback.onTypingActionReceive(<TypingAction>model);
         } else {
-          callback.onMessageReceive(new PrivateChatMessage(json.chat, json.emitterUsername, json.targetUsername));
+          callback.onMessageReceive(<ChatMessage>model);
         }
       }
     };

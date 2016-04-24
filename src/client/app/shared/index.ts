@@ -5,6 +5,8 @@ export * from './models/base.model';
 export * from './models/chat/chat-message.model';
 export * from './models/chat/typing-action.model';
 
+export * from './models/json-model-converter';
+
 export * from './services/authentication/auth-token.service';
 export * from './services/chat/chat.service';
 export * from './services/logger/logger.service';
