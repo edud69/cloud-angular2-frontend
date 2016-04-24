@@ -1,3 +1,4 @@
+import {BaseModel} from '../../models/base.model';
 import {LoggerService} from '../logger/logger.service';
 import {WebsocketHandlerType, WebsocketService,
   IWebsocketConnectionCallback, IWebsocketSubscriptionCallback} from './websocket.service';
@@ -80,7 +81,7 @@ export abstract class WebsocketHandlerService {
   /**
    * Sends a message.
    */
-  protected _send(route : string, message : any) {
+  protected _send(route : string, message : BaseModel) {
     this._websocketService.send(this._getHandlerType(), route, message);
   }
 }

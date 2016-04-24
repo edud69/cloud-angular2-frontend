@@ -1,7 +1,8 @@
 export * from './constants/http.constants';
 export * from './constants/jwt.constants';
 
-export * from './services/name-list.service';
+export * from './models/base.model';
+
 export * from './services/authentication/auth-token.service';
 export * from './services/chat/chat.service';
 export * from './services/logger/logger.service';

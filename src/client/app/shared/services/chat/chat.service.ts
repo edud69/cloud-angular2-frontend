@@ -1,5 +1,10 @@
 import {Injectable} from 'angular2/core';
 
+import {ChatMessage} from '../../models/chat/chat-message.model';
+import {GroupChatMessage} from '../../models/chat/group-chat-message.model';
+import {PrivateChatMessage} from '../../models/chat/private-chat-message.model';
+import {TypingAction} from '../../models/chat/typing-action.model';
+
 import {LoggerService} from '../logger/logger.service';
 import {WebsocketHandlerType, WebsocketService,
      IWebsocketConnectionCallback} from '../websocket/websocket.service';
@@ -78,36 +83,26 @@ export class ChatService extends WebsocketHandlerService {
    * Sends a chat message.
    */
   sendChat(channelName : string, message : string) {
-    let msgToSend : any = {
-      channelName: channelName,
-      message: message,
-      senderUsername: 'I_AM_SENDER_USER' //TODO get current username from jwt token
-    };
-
-    this._send(msgToSend, false);
+    let msgToSend : GroupChatMessage =
+      new GroupChatMessage(message, 'I_AM_SENDER_USER', channelName); //TODO get user from jwt
+    this._sendMessage(msgToSend, false);
   }
 
   /**
    * Sends a chat to a specific user.
    */
   sendPrivateChat(targetUsername : string, message : string) {
-    let msgToSend : any = {
-      targetUsername: targetUsername,
-      message: message,
-      senderUsername: 'I_AM_SENDER_USER' //TODO get current username from jwt token
-    };
-
-    this._send(msgToSend, true);
+    let msgToSend : any =
+      new PrivateChatMessage(message, 'I_AM_THE_SENDER', targetUsername); //TODO get user from jwt
+    this._sendMessage(msgToSend, true);
   }
 
   /**
    * Notify a user that current user is typing.
    */
   notifyTypingToUser(usernameToNotify : string) {
-    let typingActionMsg : any = {
-      author: 'I_AM_THE_SENDER', //TODO get current username from jwt token store
-      targetUsername: usernameToNotify
-    };
+    let typingActionMsg : TypingAction =//TODO get current username from jwt token store
+      new TypingAction('I_AM_SENDER_USER', null, usernameToNotify);
     super._send(CHAT_TYPINGACTION_SEND_ROUTE_PREFIX, typingActionMsg);
   }
 
@@ -115,10 +110,8 @@ export class ChatService extends WebsocketHandlerService {
    * Notify a channel that current user is typing.
    */
   notifyTypingActionToChannel(channelName : string) {
-    let typingActionMsg : any = {
-      author: 'I_AM_THE_SENDER', //TODO get current username from jwt token store
-      channelName: channelName
-    };
+    let typingActionMsg : TypingAction =
+      new TypingAction('I_AM_THE_SENDER', channelName, null);//TODO get current username from jwt token store
     super._send(CHAT_TYPINGACTION_SEND_ROUTE_PREFIX, typingActionMsg);
   }
 
@@ -165,7 +158,7 @@ export class ChatService extends WebsocketHandlerService {
   /**
    * Sends a message.
    */
-  protected _send(message : any, isPrivateChat : boolean) {
+  protected _sendMessage(message : ChatMessage, isPrivateChat : boolean) {
     if(isPrivateChat) {
       super._send(CHAT_USER_SEND_ROUTE_PREFIX, message);
     } else {

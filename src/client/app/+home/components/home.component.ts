@@ -2,7 +2,6 @@ import {Component} from 'angular2/core';
 import {Observable} from 'rxjs/Rx';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
-import {NameListService} from '../../shared/index';
 import {ChatService} from '../../shared/index';
 
 @Component({
@@ -12,7 +11,6 @@ import {ChatService} from '../../shared/index';
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
 export class HomeComponent {
-  newName: string;
   chatMessage: string;
   status : string = 'OFFLINE';
 
@@ -20,7 +18,7 @@ export class HomeComponent {
 
   private _typingActionSub : any;
 
-  constructor(public nameListService: NameListService, public chatService: ChatService) {}
+  constructor(public chatService: ChatService) {}
 
   displayChatMessages() : string[] {
     return this._messages;
@@ -54,12 +52,6 @@ export class HomeComponent {
       this.chatService.sendChat('aChannelName', this.chatMessage);
       this.chatMessage = '';
     }
-  }
-
-  addName(): boolean {
-    this.nameListService.add(this.newName);
-    this.newName = '';
-    return false;
   }
 
   enableTypingAction() {

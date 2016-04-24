@@ -1,6 +1,8 @@
 import {Injectable} from 'angular2/core';
 import {Stomp, Client, Subscription} from 'stompjs/lib/stomp';
 
+import {BaseModel} from '../../models/base.model';
+
 import {AuthTokenService} from '../authentication/auth-token.service';
 import {LoggerService} from '../logger/logger.service';
 
@@ -63,10 +65,14 @@ export class WebsocketService {
         this._loggerService.debug(`Websocket handler of type ${WebsocketHandlerType[websocketHandlerType]} is now connected.`);
       },
       (errorMessageCallback : any) => {
-        this._websocketHandlers[websocketHandlerType].callbacks
-          .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionClose());
+        wsHandler = this._websocketHandlers[websocketHandlerType];
+        if(wsHandler) {
+          wsHandler.callbacks
+            .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionClose());
+        }
+
         this._loggerService.error(`Failed to connect websocket 
-                                        handler of type ${wsHandler}. Trace: ` + errorMessageCallback);
+                                        handler of type ${WebsocketHandlerType[websocketHandlerType]}}. Trace: ` + errorMessageCallback);
       });
     } else {
       this._loggerService.warn(`Websocket handler of type (${WebsocketHandlerType[websocketHandlerType]}) 
@@ -98,7 +104,7 @@ export class WebsocketService {
   /**
    * Sends a payload to a given route on a given websocket handler.
    */
-  send(wsHandlerType : WebsocketHandlerType, route : string, payload : any) {
+  send(wsHandlerType : WebsocketHandlerType, route : string, payload : BaseModel) {
     let wsHandler = this._getWebsocketHandler(wsHandlerType);
     if(!wsHandler) {
       this._loggerService.error(`Cannot send payload for websocket handler (${WebsocketHandlerType[wsHandlerType]}) 
@@ -107,7 +113,7 @@ export class WebsocketService {
     }
 
     let headers : any = {};
-    wsHandler.client.send(route, headers, JSON.stringify(payload));
+    wsHandler.client.send(route, headers, payload.toRest());
   }
 
   /**
