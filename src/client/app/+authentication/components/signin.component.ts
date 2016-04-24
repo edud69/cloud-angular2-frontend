@@ -16,7 +16,8 @@ import {SigninService} from '../index';
 export class SigninComponent {
 
   socialProviderLinks : any = {
-    facebook : '<%= AUTHSERVICE_API_facebookLogin %>'
+    facebook : '<%= AUTHSERVICE_API_facebookLogin %>',
+    google : '<%= AUTHSERVICE_API_googleLogin %>'
   };
 
   constructor(
