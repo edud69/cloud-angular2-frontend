@@ -96,6 +96,13 @@ export class AuthTokenService {
   }
 
   /**
+   * Gets authorities.
+   */
+  getAuthorities() : string[] {
+    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_AUT);
+  }
+
+  /**
    * Token expired.
    */
   private _isTokenExpired(token : string) : boolean {
@@ -110,10 +117,12 @@ export class AuthTokenService {
    * Gets a property value from accessToken.
    */
   private _getTokenProperty(property : string) : any {
-    let decoded : any = this._jwtHelper.decodeToken(this.getAccessToken());
-    if(!decoded) {
+    let token = this.getAccessToken();
+    if(!token) {
       return null;
     }
+
+    let decoded : any = this._jwtHelper.decodeToken(token);
     return decoded[property];
   }
 }

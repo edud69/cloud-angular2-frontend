@@ -1,4 +1,4 @@
-import {provide, enableProdMode} from 'angular2/core';
+import {provide, enableProdMode, PLATFORM_DIRECTIVES} from 'angular2/core';
 import {bootstrap} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, APP_BASE_HREF} from 'angular2/router';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
@@ -6,15 +6,24 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
 import {Logger} from 'angular2-logger/core';
 import {AppComponent} from './app/components/app.component';
 
-import {HttpConstants} from './app/shared/constants/http.constants';
-import {JwtConstants} from './app/shared/constants/jwt.constants';
+import {JwtConstants, HttpConstants} from './app/shared/index';
 
+
+// shared directives
+import {HasPermissionDirective, HasAllPermissionDirective, HasAnyPermissionDirective} from './app/shared/index';
+
+var sharedDirectives = [
+  provide(PLATFORM_DIRECTIVES, {useValue: HasAllPermissionDirective, multi: true }),
+  provide(PLATFORM_DIRECTIVES, {useValue: HasAnyPermissionDirective, multi: true }),
+  provide(PLATFORM_DIRECTIVES, {useValue: HasPermissionDirective, multi: true })
+];
 
 if ('<%= ENV %>' === 'prod') { enableProdMode(); }
 
 bootstrap(AppComponent, [
   ROUTER_PROVIDERS,
   provide(APP_BASE_HREF, { useValue: '<%= APP_BASE %>' }),
+  sharedDirectives,
   HTTP_PROVIDERS,
   Logger,
   provide(AuthHttp, {
