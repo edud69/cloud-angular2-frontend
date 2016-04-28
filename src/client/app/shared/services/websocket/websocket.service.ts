@@ -69,6 +69,7 @@ export class WebsocketService {
         if(wsHandler) {
           wsHandler.callbacks
             .forEach((callback : IWebsocketConnectionCallback) => callback.onConnectionClose());
+            delete this._websocketHandlers[websocketHandlerType];
         }
 
         this._loggerService.error(`Failed to connect websocket 
