@@ -66,13 +66,15 @@ export class AuthoritiesService {
    */
   private _getPermissions() : IPermission[] {
       let permissions : IPermission[] = [];
-      let authorities : string[] = this._authTokenService.getAuthorities();
-      if(authorities) {
-          authorities.forEach(aut => {
-             if(!this._isRole(aut)) {
-                 permissions.push({name : aut});
-             }
-          });
+      if(!this._authTokenService.isAccessTokenExpired()) {
+        let authorities : string[] = this._authTokenService.getAuthorities();
+        if(authorities) {
+            authorities.forEach(aut => {
+                if(!this._isRole(aut)) {
+                    permissions.push({name : aut});
+                }
+            });
+        }
       }
 
       return permissions;
