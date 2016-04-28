@@ -20,10 +20,10 @@ export class ProjectConfig extends SeedConfig {
   AUTHSERVICE_API_userSubscribeConfirmation = this.authService('user/subscription/activation');
 
   // CHAT-SERVICE PATHS
-  CHATSERVICE_WS_PROD_BASE_URL : string = 'wss://region1.theshire.io/api/v1/chat/';
-  CHATSERVICE_WS_DEV_BASE_URL : string = 'ws://localhost:17504/';
+  CHATSERVICE_WS_PROD_BASE_URL : string = 'wss://region1.theshire.io/ws/chat/connect';
+  CHATSERVICE_WS_DEV_BASE_URL : string = 'ws://localhost:17504/connect';
   // service paths
-  CHATSERVICE_API_connect = this.chatServiceWS('ws/connect');
+  CHATSERVICE_API_connect = this.chatServiceWS('');
 
   constructor() {
     super();
