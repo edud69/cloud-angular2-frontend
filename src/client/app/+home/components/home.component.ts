@@ -34,6 +34,12 @@ export class HomeComponent {
           },
           onTypingActionReceive: (typingAction) => {
             this._messages.push(typingAction.toJsonString());
+          },
+          onParticipantJoin: (partipantJoinEvent) => {
+            alert(partipantJoinEvent.toJsonString());
+          },
+          onParticipantLeave: (participantLeaveEvent) => {
+            alert(participantLeaveEvent.toJsonString());
           }
         });
       },

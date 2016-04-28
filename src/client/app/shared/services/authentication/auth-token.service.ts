@@ -14,7 +14,7 @@ import {LoggerService} from '../logger/logger.service';
 @Injectable()
 export class AuthTokenService {
 
-  jwtHelper: JwtHelper = new JwtHelper();
+  private _jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(private _http : Http, private _loggerService : LoggerService) {}
 
@@ -89,6 +89,20 @@ export class AuthTokenService {
   }
 
   /**
+   * Gets the current username.
+   */
+  currentUsername() : string {
+    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_USERNAME);
+  }
+
+  /**
+   * Gets authorities.
+   */
+  getAuthorities() : string[] {
+    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_AUT);
+  }
+
+  /**
    * Token expired.
    */
   private _isTokenExpired(token : string) : boolean {
@@ -96,6 +110,19 @@ export class AuthTokenService {
       return true;
     }
 
-    return this.jwtHelper.isTokenExpired(token);
+    return this._jwtHelper.isTokenExpired(token);
+  }
+
+  /**
+   * Gets a property value from accessToken.
+   */
+  private _getTokenProperty(property : string) : any {
+    let token = this.getAccessToken();
+    if(!token) {
+      return null;
+    }
+
+    let decoded : any = this._jwtHelper.decodeToken(token);
+    return decoded[property];
   }
 }

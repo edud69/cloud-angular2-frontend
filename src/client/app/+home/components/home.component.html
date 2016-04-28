@@ -24,3 +24,10 @@
 <ul>
   <li *ngFor="#chatmsgs of displayChatMessages()">{{chatmsgs}}</li>
 </ul>
+<br/>
+<div>
+  <h2>Permissions testing (it should appear if you have the rights):</h2><br/>
+  <div *sdHasPermission="'INDEX_ALL'">you have the INDEX_ALL permission!</div><br/>
+   <div *sdHasAnyPermission="'INDEX_ALL, CHAT_SEND'">you have the one of the permission INDEX_ALL !!OR!! UNEXISTING_ACTION_PERM permission!</div><br/>
+   <div *sdHasAllPermissions="'INDEX_ALL, CHAT_SEND'">you have the one of the permission INDEX_ALL !!AND!! CHAT_SEND permission!</div>
+</div>

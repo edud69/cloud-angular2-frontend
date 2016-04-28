@@ -1,10 +1,15 @@
 import {Injectable} from 'angular2/core';
 
+import {JsonModelConverter} from '../../models/json-model-converter';
+
 import {ChatMessage} from '../../models/chat/chat-message.model';
 import {GroupChatMessage} from '../../models/chat/group-chat-message.model';
+import {ParticipantJoinEvent} from '../../models/chat/participant-join-event.model';
+import {ParticipantLeaveEvent} from '../../models/chat/participant-leave-event.model';
 import {PrivateChatMessage} from '../../models/chat/private-chat-message.model';
 import {TypingAction} from '../../models/chat/typing-action.model';
 
+import {AuthTokenService} from '../authentication/auth-token.service';
 import {LoggerService} from '../logger/logger.service';
 import {WebsocketHandlerType, WebsocketService,
      IWebsocketConnectionCallback} from '../websocket/websocket.service';
@@ -13,6 +18,8 @@ import {WebsocketHandlerService} from '../websocket/websocketHandler.service';
 export interface IChatMessageCallback {
   onMessageReceive(message : ChatMessage) : void;
   onTypingActionReceive(typingAction : TypingAction) : void;
+  onParticipantJoin(participantJoinEvent : ParticipantJoinEvent) : void;
+  onParticipantLeave(participantLeaveEvent : ParticipantLeaveEvent) : void;
 }
 
 const CHAT_PUBLIC_SEND_ROUTE_PREFIX : string = '/app/chat.group.message';
@@ -20,6 +27,7 @@ const CHAT_USER_SEND_ROUTE_PREFIX : string = '/app/chat.private.message';
 const CHAT_TYPINGACTION_SEND_ROUTE_PREFIX : string = '/app/chat.action.typing';
 
 const CHAT_TOPIC_SUBCRIPTION_PREFIX : string = '/topic/chat';
+const CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX : string = '/topic/chat.participants';
 const CHAT_QUEUE_SUBSCRIPTION_PREFIX : string = '/user/queue/chat';
 const CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX : string = '/user/queue/chat.action.typing';
 const CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX : string = '/topic/chat.action.typing';
@@ -34,7 +42,8 @@ export class ChatService extends WebsocketHandlerService {
   /**
    * Ctor.
    */
-  constructor(_loggerService : LoggerService, _websocketService : WebsocketService) {
+  constructor(_loggerService : LoggerService, _websocketService : WebsocketService,
+    private _authTokenService : AuthTokenService) {
     super(_loggerService, _websocketService);
   }
 
@@ -85,7 +94,7 @@ export class ChatService extends WebsocketHandlerService {
    */
   sendChat(channelName : string, message : string) {
     let msgToSend : GroupChatMessage =
-      new GroupChatMessage(message, 'I_AM_SENDER_USER', channelName); //TODO get user from jwt
+      new GroupChatMessage(message, this._resolveCurrentUser(), channelName);
     this._sendMessage(msgToSend, false);
   }
 
@@ -94,7 +103,7 @@ export class ChatService extends WebsocketHandlerService {
    */
   sendPrivateChat(targetUsername : string, message : string) {
     let msgToSend : any =
-      new PrivateChatMessage(message, 'I_AM_THE_SENDER', targetUsername); //TODO get user from jwt
+      new PrivateChatMessage(message, this._resolveCurrentUser(), targetUsername);
     this._sendMessage(msgToSend, true);
   }
 
@@ -102,8 +111,8 @@ export class ChatService extends WebsocketHandlerService {
    * Notify a user that current user is typing.
    */
   notifyTypingToUser(usernameToNotify : string) {
-    let typingActionMsg : TypingAction =//TODO get current username from jwt token store
-      new TypingAction('I_AM_SENDER_USER', null, usernameToNotify);
+    let typingActionMsg : TypingAction =
+      new TypingAction(this._resolveCurrentUser(), null, usernameToNotify);
     super._send(CHAT_TYPINGACTION_SEND_ROUTE_PREFIX, typingActionMsg);
   }
 
@@ -112,7 +121,7 @@ export class ChatService extends WebsocketHandlerService {
    */
   notifyTypingActionToChannel(channelName : string) {
     let typingActionMsg : TypingAction =
-      new TypingAction('I_AM_THE_SENDER', channelName, null);//TODO get current username from jwt token store
+      new TypingAction(this._resolveCurrentUser(), channelName, null);
     super._send(CHAT_TYPINGACTION_SEND_ROUTE_PREFIX, typingActionMsg);
   }
 
@@ -123,15 +132,20 @@ export class ChatService extends WebsocketHandlerService {
     let forwardCallback : any = {
       onMessage: (message : string) => {
         let json : any = JSON.parse(message);
-        let typingAction : string = TypingAction.BindingClassName;
-        if (json.bindingClassName && json.bindingClassName === typingAction) {
-          callback.onTypingActionReceive(new TypingAction(json.author, json.channelName, json.targetUsername));
-        } else {
-          callback.onMessageReceive(new GroupChatMessage(json.chat, json.emitterUsername, json.channelName));
+        let model : any = JsonModelConverter.fromJson(json);
+        if (model instanceof TypingAction) {
+          callback.onTypingActionReceive(<TypingAction>model);
+        } else if(model instanceof ChatMessage) {
+          callback.onMessageReceive(<ChatMessage>model);
+        } else if(model instanceof ParticipantJoinEvent) {
+          callback.onParticipantJoin(<ParticipantJoinEvent>model);
+        } else if(model instanceof ParticipantLeaveEvent) {
+          callback.onParticipantLeave(<ParticipantLeaveEvent>model);
         }
       }
     };
 
+    super._subscribe(CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX + '/' + channelName, forwardCallback);
     super._subscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX + '/' + channelName, forwardCallback);
     super._subscribe(CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX + '/' + channelName, forwardCallback);
   }
@@ -143,15 +157,15 @@ export class ChatService extends WebsocketHandlerService {
     let forwardCallback : any = {
       onMessage: (message : string) => {
         let json : any = JSON.parse(message);
-        let typingAction : string = TypingAction.BindingClassName;
-        if (json.bindingClassName && json.bindingClassName === typingAction) {
-          callback.onTypingActionReceive(new TypingAction(json.author, json.channelName, json.targetUsername));
-        } else {
-          callback.onMessageReceive(new PrivateChatMessage(json.chat, json.emitterUsername, json.targetUsername));
+        let model : any = JsonModelConverter.fromJson(json);
+        if (model instanceof TypingAction) {
+          callback.onTypingActionReceive(<TypingAction>model);
+        } else if (model instanceof ChatMessage) {
+          callback.onMessageReceive(<ChatMessage>model);
         }
       }
     };
-
+    //TODO participant join events...
     super._subscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX, forwardCallback);
     super._subscribe(CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX, forwardCallback);
   }
@@ -160,6 +174,7 @@ export class ChatService extends WebsocketHandlerService {
    * Leave the personal chat queue.
    */
   leavePersonalChat() {
+    //TODO participant join events...
     super._unsubscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX);
     super._unsubscribe(CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX);
   }
@@ -169,6 +184,7 @@ export class ChatService extends WebsocketHandlerService {
    */
   leave(channelName : string) {
     super._unsubscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX + '/' + channelName);
+    super._unsubscribe(CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX + '/' + channelName);
     super._unsubscribe(CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX + '/' + channelName);
   }
 
@@ -181,5 +197,12 @@ export class ChatService extends WebsocketHandlerService {
     } else {
       super._send(CHAT_PUBLIC_SEND_ROUTE_PREFIX, message);
     }
+  }
+
+  /**
+   * Returns the current username.
+   */
+  private _resolveCurrentUser() : string {
+    return this._authTokenService.currentUsername();
   }
 }

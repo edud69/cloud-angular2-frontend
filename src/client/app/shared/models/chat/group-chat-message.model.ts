@@ -1,3 +1,4 @@
+import {BaseModel} from '../base.model';
 import {ChatMessage} from './chat-message.model';
 
 export class GroupChatMessage extends ChatMessage {
@@ -10,3 +11,5 @@ export class GroupChatMessage extends ChatMessage {
          return this._channelName;
      }
 }
+
+BaseModel.registerType({bindingClassName: 'ChatGroupMsg', targetClass: GroupChatMessage});
