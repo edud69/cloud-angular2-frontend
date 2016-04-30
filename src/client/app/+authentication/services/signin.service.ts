@@ -27,7 +27,7 @@ export class SigninService {
     headers[HttpConstants.HTTP_HEADER_AUTHORIZATION] =
           HttpConstants.HTTP_HEADER_VALUE_BASIC_PREFIX + ' ' + btoa(username + ':' + password);
 
-    let obs = this._http.post('<%= AUTHSERVICE_API_login %>', '', { headers: headers })
+    let obs = this._http.post('<%= AUTHSERVICE_API_login %>', '', { headers: headers }).map(response => response.json());
 
     obs.subscribe(
       json => this._authTokenService.updateToken(json),
