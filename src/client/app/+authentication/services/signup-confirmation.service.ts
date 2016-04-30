@@ -29,7 +29,8 @@ export class SignupConfirmationService {
         confirmationToken: confirmationToken
       });
 
-    let obs = this._http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers });
+    let obs = this._http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers })
+      .map(response => response.json());
 
     obs.subscribe(
       json => this._loggerService.debug('Account is activated.'),

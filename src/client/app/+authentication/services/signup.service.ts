@@ -29,7 +29,7 @@ export class SignupService {
         tenantId: 'master' //TODO
       });
 
-    let obs = this._http.post('<%= AUTHSERVICE_API_userSubscribe %>', body, { headers: headers });
+    let obs = this._http.post('<%= AUTHSERVICE_API_userSubscribe %>', body, { headers: headers }).map(response => response.json());
 
     obs.subscribe(
       json => this._loggerService.debug('Subscription confirmed.'),
