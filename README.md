@@ -190,7 +190,7 @@ export class GroupChatMessage extends ChatMessage {
      }
 }
 
-BaseModel.registerType({bindingClassName: 'ChatGroupMsg', targetClass: GroupChatMessage}); //ADD THIS
+BaseModel.registerType({bindingClassName: 'ChatGroupMsg', targetClass: GroupChatMessage}); //ADD THIS TO THE END OF THE FILE
 ```
 
 This means that when the backend is sending 'ChatGroupMsg' on the *bindingClassName* json field, it will be resolved as the *targetClass* type.
