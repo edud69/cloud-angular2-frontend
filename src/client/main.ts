@@ -1,7 +1,8 @@
 import {provide, enableProdMode, PLATFORM_DIRECTIVES} from 'angular2/core';
 import {bootstrap} from 'angular2/platform/browser';
-import {ROUTER_PROVIDERS, } from 'angular2/router';
 import {HTTP_PROVIDERS, Http} from 'angular2/http';
+import {ROUTER_PROVIDERS} from 'angular2/router';
+import {APP_BASE_HREF} from 'angular2/platform/common';
 import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
 import {Logger} from 'angular2-logger/core';
 import {AppComponent} from './app/components/app.component';
@@ -25,6 +26,7 @@ authHeaders[HttpConstants.HTTP_HEADER_CONTENT_TYPE] = HttpConstants.HTTP_HEADER_
 
 bootstrap(AppComponent, [
   ROUTER_PROVIDERS,
+  provide(APP_BASE_HREF, { useValue: '<%= APP_BASE %>' }),
   sharedDirectives,
   HTTP_PROVIDERS,
   Logger,
