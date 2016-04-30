@@ -27,7 +27,10 @@ export class SigninComponent {
 
   login(event : Event, username : string, password : string) {
     event.preventDefault();
-    this._signinService.login(username, password);
+    this._signinService.login(username, password).subscribe(
+      data => alert(data),
+      error => alert(error)
+    );
   }
 
   refreshAccessToken() {

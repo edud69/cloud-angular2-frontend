@@ -1,5 +1,6 @@
 import {Injectable} from 'angular2/core';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers, Response} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
 
 import {HttpConstants} from '../../shared/index';
 
@@ -16,7 +17,7 @@ export class SignupService {
 /**
  * Signup.
  */
-  signup(username : string, password : string) {
+  signup(username : string, password : string) : Observable<Response> {
     var headers : Headers = new Headers();
     headers.append(HttpConstants.HTTP_HEADER_ACCEPT, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
     headers.append(HttpConstants.HTTP_HEADER_CONTENT_TYPE, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
@@ -28,11 +29,14 @@ export class SignupService {
         tenantId: 'master' //TODO
       });
 
-    this._http.post('<%= AUTHSERVICE_API_userSubscribe %>', body, { headers: headers })
-    .subscribe(
+    let obs = this._http.post('<%= AUTHSERVICE_API_userSubscribe %>', body, { headers: headers });
+
+    obs.subscribe(
       json => this._loggerService.debug('Subscription confirmed.'),
       error => this._loggerService.error('An error occurred. Trace: ' + error),
       () => this._loggerService.log('Request completed')
     );
+
+    return obs;
   }
 }

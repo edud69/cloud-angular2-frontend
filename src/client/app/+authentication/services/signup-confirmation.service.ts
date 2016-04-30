@@ -1,5 +1,6 @@
 import {Injectable} from 'angular2/core';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers, Response} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
 
 import {HttpConstants} from '../../shared/index';
 
@@ -16,7 +17,7 @@ export class SignupConfirmationService {
   /**
    * Confirm a signup.
    */
-  confirmSignup(email : string, confirmationToken : string) {
+  confirmSignup(email : string, confirmationToken : string) : Observable<Response> {
     var headers : Headers = new Headers();
     headers.append(HttpConstants.HTTP_HEADER_ACCEPT, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
     headers.append(HttpConstants.HTTP_HEADER_CONTENT_TYPE, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
@@ -28,11 +29,14 @@ export class SignupConfirmationService {
         confirmationToken: confirmationToken
       });
 
-    this._http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers })
-    .subscribe(
+    let obs = this._http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers });
+
+    obs.subscribe(
       json => this._loggerService.debug('Account is activated.'),
       error => this._loggerService.error('Error occurred while activating the account. Details : ' + error),
       () => this._loggerService.log('Account activation request completed.')
     );
+
+    return obs;
   }
 }
