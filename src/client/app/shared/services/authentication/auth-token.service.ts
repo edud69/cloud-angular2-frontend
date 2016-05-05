@@ -96,6 +96,13 @@ export class AuthTokenService {
   }
 
   /**
+   * Gets the current tenant.
+   */
+  currentTenant() : string {
+    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_TID);
+  }
+
+  /**
    * Gets authorities.
    */
   getAuthorities() : string[] {
