@@ -120,7 +120,7 @@ export class AuthTokenService {
    */
   currentTenant() : string {
     return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_TID);
-  }  
+  }
 
   /**
    * Gets authorities.
