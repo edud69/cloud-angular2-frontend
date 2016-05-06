@@ -6,7 +6,7 @@ import {SigninService} from '../index';
 
 @Component({
   selector: 'sd-signin',
-  providers: [AuthTokenService, SigninService],
+  providers: [SigninService],
   templateUrl: 'app/+authentication/components/signin.component.html',
   styleUrls: ['app/+authentication/components/signin.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]

@@ -7,7 +7,17 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
 import {Logger} from 'angular2-logger/core';
 import {AppComponent} from './app/components/app.component';
 
-import {AuthTokenService, JwtConstants, HttpConstants} from './app/shared/index';
+import {JwtConstants, HttpConstants} from './app/shared/index';
+
+
+// shared service
+import {AuthoritiesService} from './app/shared/index';
+import {AuthTokenService} from './app/shared/index';
+import {ChatService} from './app/shared/index';
+import {LoggerService} from './app/shared/index';
+import {WebsocketService} from './app/shared/index';
+
+var sharedServices = [AuthoritiesService, AuthTokenService, ChatService, LoggerService, WebsocketService];
 
 
 // shared directives
@@ -27,6 +37,7 @@ authHeaders[HttpConstants.HTTP_HEADER_CONTENT_TYPE] = HttpConstants.HTTP_HEADER_
 bootstrap(AppComponent, [
   ROUTER_PROVIDERS,
   provide(APP_BASE_HREF, { useValue: '<%= APP_BASE %>' }),
+  sharedServices,
   sharedDirectives,
   HTTP_PROVIDERS,
   Logger,

@@ -26,11 +26,11 @@ const CHAT_PUBLIC_SEND_ROUTE_PREFIX : string = '/app/chat.group.message';
 const CHAT_USER_SEND_ROUTE_PREFIX : string = '/app/chat.private.message';
 const CHAT_TYPINGACTION_SEND_ROUTE_PREFIX : string = '/app/chat.action.typing';
 
-const CHAT_TOPIC_SUBCRIPTION_PREFIX : string = '/topic/tenant.{}/chat';
-const CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX : string = '/topic/tenant.{}/chat.participants';
-const CHAT_QUEUE_SUBSCRIPTION_PREFIX : string = '/user/queue/tenant.{}/chat';
-const CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX : string = '/user/queue/tenant.{}/chat.action.typing';
-const CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX : string = '/topic/tenant.{}/chat.action.typing';
+const CHAT_TOPIC_SUBCRIPTION_PREFIX : string = '/topic/tenant.?/chat';
+const CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX : string = '/topic/tenant.?/chat.participants';
+const CHAT_QUEUE_SUBSCRIPTION_PREFIX : string = '/user/queue/tenant.?/chat';
+const CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX : string = '/user/queue/tenant.?/chat.action.typing';
+const CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX : string = '/topic/tenant.?/chat.action.typing';
 
 
 /**
@@ -145,11 +145,11 @@ export class ChatService extends WebsocketHandlerService {
       }
     };
 
-    super._subscribe(CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX.replace('{}', this._authTokenService.currentTenant())
+    super._subscribe(CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX.replace('?', this._authTokenService.currentTenant())
         + '/' + channelName, forwardCallback);
-    super._subscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX.replace('{}', this._authTokenService.currentTenant())
+    super._subscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX.replace('?', this._authTokenService.currentTenant())
         + '/' + channelName, forwardCallback);
-    super._subscribe(CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX.replace('{}', this._authTokenService.currentTenant())
+    super._subscribe(CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX.replace('?', this._authTokenService.currentTenant())
         + '/' + channelName, forwardCallback);
   }
 
@@ -168,10 +168,10 @@ export class ChatService extends WebsocketHandlerService {
         }
       }
     };
-    //TODO participant join events...
-    super._subscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX.replace('{}', this._authTokenService.currentTenant()),
+
+    super._subscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX.replace('?', this._authTokenService.currentTenant()),
       forwardCallback);
-    super._subscribe(CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX.replace('{}', this._authTokenService.currentTenant()),
+    super._subscribe(CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX.replace('?', this._authTokenService.currentTenant()),
       forwardCallback);
   }
 
@@ -179,20 +179,19 @@ export class ChatService extends WebsocketHandlerService {
    * Leave the personal chat queue.
    */
   leavePersonalChat() {
-    //TODO participant join events...
-    super._unsubscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX.replace('{}', this._authTokenService.currentTenant()));
-    super._unsubscribe(CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX.replace('{}', this._authTokenService.currentTenant()));
+    super._unsubscribe(CHAT_QUEUE_SUBSCRIPTION_PREFIX.replace('?', this._authTokenService.currentTenant()));
+    super._unsubscribe(CHAT_QUEUE_SUBSCRIPTION_TYPINGACTION_PREFIX.replace('?', this._authTokenService.currentTenant()));
   }
 
   /**
    * Leaves a chat channel.
    */
   leave(channelName : string) {
-    super._unsubscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX.replace('{}', this._authTokenService.currentTenant())
+    super._unsubscribe(CHAT_TOPIC_SUBCRIPTION_PREFIX.replace('?', this._authTokenService.currentTenant())
         + '/' + channelName);
-    super._unsubscribe(CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX.replace('{}', this._authTokenService.currentTenant())
+    super._unsubscribe(CHAT_TOPIC_SUBCRIPTION_PARTICIPANTS_PREFIX.replace('?', this._authTokenService.currentTenant())
         + '/' + channelName);
-    super._unsubscribe(CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX.replace('{}', this._authTokenService.currentTenant())
+    super._unsubscribe(CHAT_TOPIC_SUBSCRIPTION_TYPINGACTION_PREFIX.replace('?', this._authTokenService.currentTenant())
         + '/' + channelName);
   }
 

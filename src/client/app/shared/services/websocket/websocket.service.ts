@@ -1,25 +1,43 @@
 import {Injectable} from 'angular2/core';
 import {Stomp, Client, Subscription} from 'stompjs/lib/stomp';
 
+import {JsonModelConverter} from '../../models/json-model-converter';
+
 import {BaseModel} from '../../models/base.model';
 
 import {AuthTokenService} from '../authentication/auth-token.service';
 import {LoggerService} from '../logger/logger.service';
 
 
+const TOKEN_UPDATE_SEND_DESTINATION : string = '/app/token/update';
+const USER_QUEUE_TOKEN_UPDATE_SUBSCRIPTION_DESTINATION : string = '/user/queue/tenant.?/token/update';
+
+/**
+ * Websocket handler types.
+ */
 export enum WebsocketHandlerType {
   CHAT_WEBSOCKET_HANDLER
 };
 
+
+/**
+ * Websocket subscription callback.
+ */
 export interface IWebsocketSubscriptionCallback {
   onMessage(message : string) : void;
 }
 
+/**
+ * Websocket connection callback.
+ */
 export interface IWebsocketConnectionCallback {
   onConnectionEstablished() : void;
   onConnectionClose() : void;
 }
 
+/**
+ * Websocket handler.
+ */
 interface IWebsocketHandler {
   type: WebsocketHandlerType;
   client : Client;
@@ -27,9 +45,48 @@ interface IWebsocketHandler {
   callbacks: IWebsocketConnectionCallback[];
 }
 
+/**
+ * Websocket handler mapper.
+ */
 interface IWebsocketHandlerMapper {
   [wsHandlerType: string]  : IWebsocketHandler;
 }
+
+/**
+ * The websocket token update request message class.
+ */
+class WebsocketTokenUpdateRequestMsg extends BaseModel {
+
+    constructor(private _newTokenValue : string) {
+      super();
+    }
+
+     get newTokenValue() : string {
+         return this._newTokenValue;
+     }
+}
+
+BaseModel.registerType({bindingClassName: 'TokenUpdateRequestMsg', targetClass: WebsocketTokenUpdateRequestMsg});
+
+
+/**
+ * The websocket token update response message class.
+ */
+class WebsocketTokenUpdateResponseMsg extends BaseModel {
+
+    constructor(private _tokenUpdateTime : Date) {
+      super();
+    }
+
+     get tokenUpdateTime() : Date {
+         return this._tokenUpdateTime;
+     }
+}
+
+BaseModel.registerType({bindingClassName: 'TokenUpdateResponseMsg', targetClass: WebsocketTokenUpdateResponseMsg});
+
+
+
 
 /**
  * Websocket Service.
@@ -42,7 +99,10 @@ export class WebsocketService {
   /**
    * Ctor.
    */
-  constructor(private _loggerService : LoggerService, private _authTokenService : AuthTokenService) {}
+  constructor(private _loggerService : LoggerService, private _authTokenService : AuthTokenService) {
+    this._authTokenService.subscribeToTokenRefreshEvent({ 
+      onTokenRefreshed: newToken => this._updateToken(newToken) });
+  }
 
   /**
    * Connects a websocket handler to the given url endpoint.
@@ -189,5 +249,31 @@ export class WebsocketService {
     if(callback !== null) {
       this._websocketHandlers[wsHandlerType].callbacks.push(callback);
     }
+
+    this.subscribe(wsHandlerType, USER_QUEUE_TOKEN_UPDATE_SUBSCRIPTION_DESTINATION.replace('?', this._authTokenService.currentTenant()), {
+      onMessage: (message : any) => {
+        let tokenUpdateResponseMsg = <WebsocketTokenUpdateResponseMsg>(JsonModelConverter.fromJson(JSON.parse(message)));
+        this._loggerService.info(`Token update for websocket connection of type ${wsHandlerType}. 
+                      Server updatetime: ${tokenUpdateResponseMsg.tokenUpdateTime}.`);
+      }
+    });
   }
+
+  /**
+   * Updates the token to all active websocket connetions.
+   */
+  private _updateToken(newToken : string) {
+    if(!newToken) {
+      this._loggerService.warn('Token is null. Websocket connections won\'t refresh the token.');
+    }
+
+    for (var key in this._websocketHandlers) {
+      if (this._websocketHandlers.hasOwnProperty(key)) {
+        let wsHandler = this._websocketHandlers[key];
+        if(wsHandler) {
+          this.send(wsHandler.type, TOKEN_UPDATE_SEND_DESTINATION, new WebsocketTokenUpdateRequestMsg(newToken));
+        }
+      }
+    }
+  }  
 }

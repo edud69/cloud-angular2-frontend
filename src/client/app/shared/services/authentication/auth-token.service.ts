@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/map';
-import {Injectable} from 'angular2/core';
+import {Injectable, ReflectiveInjector, Injector} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {JwtHelper} from 'angular2-jwt/angular2-jwt';
 
@@ -7,6 +7,14 @@ import {JwtConstants} from '../../constants/jwt.constants';
 import {HttpConstants} from '../../constants/http.constants';
 
 import {LoggerService} from '../logger/logger.service';
+import {WebsocketService} from '../websocket/websocket.service';
+
+/**
+ * Token refresh subscriber.
+ */
+export interface ITokenRefreshSubscriber {
+  onTokenRefreshed(newToken : string) : void;
+}
 
 /**
  * Authentication Token Service.
@@ -15,6 +23,8 @@ import {LoggerService} from '../logger/logger.service';
 export class AuthTokenService {
 
   private _jwtHelper: JwtHelper = new JwtHelper();
+
+  private _tokenRefreshEventSubscribers : ITokenRefreshSubscriber[] = [];
 
   constructor(private _http : Http, private _loggerService : LoggerService) {}
 
@@ -41,6 +51,15 @@ export class AuthTokenService {
         err => this._loggerService.error(err),
         () => this._loggerService.log('Refresh completed')
       );
+  }
+
+  /**
+   * Subscribes to token refresh events.
+   */
+  subscribeToTokenRefreshEvent(subscriber : ITokenRefreshSubscriber) {
+    if(subscriber) {
+      this._tokenRefreshEventSubscribers.push(subscriber);
+    }
   }
 
   /**
@@ -86,6 +105,7 @@ export class AuthTokenService {
     this._loggerService.info('Refresh token and access token are refreshed.');
     sessionStorage.setItem(JwtConstants.JWT_STORE_ACCESSTOKEN_KEY, json.access_token);
     localStorage.setItem(JwtConstants.JWT_STORE_REFRESHTOKEN_KEY, json.refresh_token);
+    this._tokenRefreshEventSubscribers.forEach(sub => sub.onTokenRefreshed(json.access_token));
   }
 
   /**

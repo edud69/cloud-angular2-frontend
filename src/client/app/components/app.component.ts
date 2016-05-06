@@ -10,20 +10,9 @@ import {SigninComponent} from '../+authentication/components/signin.component';
 import {SignupComponent} from '../+authentication/components/signup.component';
 import {SignupConfirmationComponent} from '../+authentication/components/signup-confirmation.component';
 
-
-// shared service
-import {AuthoritiesService} from '../shared/index';
-import {AuthTokenService} from '../shared/index';
-import {ChatService} from '../shared/index';
-import {LoggerService} from '../shared/index';
-import {WebsocketService} from '../shared/index';
-
-var sharedServices = [AuthoritiesService, AuthTokenService, ChatService, LoggerService, WebsocketService];
-
 // AppComponent
 @Component({
   selector: 'sd-app',
-  providers: sharedServices,
   templateUrl: 'app/components/app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
