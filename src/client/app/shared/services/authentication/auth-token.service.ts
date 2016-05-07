@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/map';
-import {Injectable, ReflectiveInjector, Injector} from 'angular2/core';
+import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
 import {JwtHelper} from 'angular2-jwt/angular2-jwt';
 
@@ -7,7 +7,6 @@ import {JwtConstants} from '../../constants/jwt.constants';
 import {HttpConstants} from '../../constants/http.constants';
 
 import {LoggerService} from '../logger/logger.service';
-import {WebsocketService} from '../websocket/websocket.service';
 
 /**
  * Token refresh subscriber.

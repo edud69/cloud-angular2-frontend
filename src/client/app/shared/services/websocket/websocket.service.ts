@@ -100,7 +100,7 @@ export class WebsocketService {
    * Ctor.
    */
   constructor(private _loggerService : LoggerService, private _authTokenService : AuthTokenService) {
-    this._authTokenService.subscribeToTokenRefreshEvent({ 
+    this._authTokenService.subscribeToTokenRefreshEvent({
       onTokenRefreshed: newToken => this._updateToken(newToken) });
   }
 
@@ -275,5 +275,5 @@ export class WebsocketService {
         }
       }
     }
-  }  
+  }
 }
