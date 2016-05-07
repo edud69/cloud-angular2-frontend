@@ -55,7 +55,7 @@ export class AuthTokenRefreshMonitorService {
             this._stopMonitoring();
             return;
         }
-        
+
         let expiration = this._authTokenService.getAccessTokenExpirationTime();
         if(!expiration) {
             this._authTokenService.refreshAccessToken();

@@ -101,7 +101,7 @@ export class WebsocketService {
    */
   constructor(private _loggerService : LoggerService, private _authTokenService : AuthTokenService) {
     this._authTokenService.subscribeToTokenRefreshEvent({
-      onTokenRefreshed: newToken => this._updateToken(newToken) 
+      onTokenRefreshed: newToken => this._updateToken(newToken)
     });
 
     this._authTokenService.subscribeToTokenClearEvent({
