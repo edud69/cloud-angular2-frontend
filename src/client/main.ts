@@ -13,11 +13,12 @@ import {JwtConstants, HttpConstants} from './app/shared/index';
 // shared service
 import {AuthoritiesService} from './app/shared/index';
 import {AuthTokenService} from './app/shared/index';
+import {AuthTokenRefreshMonitorService} from './app/shared/index';
 import {ChatService} from './app/shared/index';
 import {LoggerService} from './app/shared/index';
 import {WebsocketService} from './app/shared/index';
 
-var sharedServices = [AuthoritiesService, AuthTokenService, ChatService, LoggerService, WebsocketService];
+var sharedServices = [AuthoritiesService, AuthTokenService, AuthTokenRefreshMonitorService, ChatService, LoggerService, WebsocketService];
 
 
 // shared directives

@@ -16,6 +16,13 @@ export interface ITokenRefreshSubscriber {
 }
 
 /**
+ * Token cleared subscribers.
+ */
+export interface ITokenClearedSubscriber {
+  onTokenCleared() : void;
+}
+
+/**
  * Authentication Token Service.
  */
 @Injectable()
@@ -24,6 +31,8 @@ export class AuthTokenService {
   private _jwtHelper: JwtHelper = new JwtHelper();
 
   private _tokenRefreshEventSubscribers : ITokenRefreshSubscriber[] = [];
+
+  private _tokenClearedSubscribers : ITokenClearedSubscriber[] = [];
 
   constructor(private _http : Http, private _loggerService : LoggerService) {}
 
@@ -62,11 +71,21 @@ export class AuthTokenService {
   }
 
   /**
+   * Subsribes to token clear events.
+   */
+  subscribeToTokenClearEvent(subscriber : ITokenClearedSubscriber) {
+    if(subscriber) {
+      this._tokenClearedSubscribers.push(subscriber);
+    }
+  }
+
+  /**
    * Clear the tokens.
    */
   clearTokens() {
     sessionStorage.removeItem(JwtConstants.JWT_STORE_ACCESSTOKEN_KEY);
     localStorage.removeItem(JwtConstants.JWT_STORE_REFRESHTOKEN_KEY);
+    this._tokenClearedSubscribers.forEach(sub => sub.onTokenCleared());
   }
 
   /**
@@ -98,6 +117,17 @@ export class AuthTokenService {
   }
 
   /**
+   * Returns the token expiration date or null if no refresh token exists.
+   */
+  getAccessTokenExpirationTime() : Date {
+    let exp = this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_EXP, this.getAccessToken());
+    if(exp) {
+      return new Date(exp * 1000);
+    }
+    return null;
+  }
+
+  /**
    * Updates the tokens.
    */
   updateToken(json : any) {
@@ -111,21 +141,21 @@ export class AuthTokenService {
    * Gets the current username.
    */
   currentUsername() : string {
-    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_USERNAME);
+    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_USERNAME, this.getAccessToken());
   }
 
   /**
    * Gets the current tenant.
    */
   currentTenant() : string {
-    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_TID);
+    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_TID, this.getAccessToken());
   }
 
   /**
    * Gets authorities.
    */
   getAuthorities() : string[] {
-    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_AUT);
+    return this._getTokenProperty(JwtConstants.JWT_TOKEN_PROPERTY_AUT, this.getAccessToken());
   }
 
   /**
@@ -142,8 +172,7 @@ export class AuthTokenService {
   /**
    * Gets a property value from accessToken.
    */
-  private _getTokenProperty(property : string) : any {
-    let token = this.getAccessToken();
+  private _getTokenProperty(property : string, token : string) : any {
     if(!token) {
       return null;
     }

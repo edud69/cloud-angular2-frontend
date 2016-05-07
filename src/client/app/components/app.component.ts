@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 
 // shared components
@@ -9,6 +9,8 @@ import {AboutComponent} from '../+about/index';
 import {SigninComponent} from '../+authentication/components/signin.component';
 import {SignupComponent} from '../+authentication/components/signup.component';
 import {SignupConfirmationComponent} from '../+authentication/components/signup-confirmation.component';
+
+import {AuthTokenRefreshMonitorService} from '../shared/index';
 
 // AppComponent
 @Component({
@@ -24,4 +26,19 @@ import {SignupConfirmationComponent} from '../+authentication/components/signup-
   { path: '/signup/confirmation', name: 'SignupConfirmation', component: SignupConfirmationComponent },
   { path: '/about', name: 'About', component: AboutComponent }
 ])
-export class AppComponent {}
+
+/**
+ * The main App class.
+ */
+export class AppComponent implements OnInit {
+
+  constructor(private _authTokenRefreshMonitorService : AuthTokenRefreshMonitorService) {}
+
+  /**
+   * Operations to be done at the application startup.
+   */
+  ngOnInit() {
+    this._authTokenRefreshMonitorService.startMonitoring();
+  }
+  
+}

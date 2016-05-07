@@ -12,6 +12,7 @@ export * from './models/json-model-converter';
 
 // services
 export * from './services/authentication/auth-token.service';
+export * from './services/authentication/auth-token-refresh-monitor.service';
 export * from './services/authentication/authorities.service';
 export * from './services/chat/chat.service';
 export * from './services/logger/logger.service';

@@ -101,7 +101,21 @@ export class WebsocketService {
    */
   constructor(private _loggerService : LoggerService, private _authTokenService : AuthTokenService) {
     this._authTokenService.subscribeToTokenRefreshEvent({
-      onTokenRefreshed: newToken => this._updateToken(newToken) });
+      onTokenRefreshed: newToken => this._updateToken(newToken) 
+    });
+
+    this._authTokenService.subscribeToTokenClearEvent({
+      onTokenCleared: () => {
+        for (var key in this._websocketHandlers) {
+          if (this._websocketHandlers.hasOwnProperty(key)) {
+            let wsHandler = this._websocketHandlers[key];
+            if(wsHandler) {
+              this.disconnect(wsHandler.type);
+            }
+          }
+        }
+      }
+    });
   }
 
   /**
