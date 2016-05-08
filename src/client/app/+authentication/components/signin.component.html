@@ -14,10 +14,11 @@
 <br/>
 <br/>
 <div>
-  <button [hidden]="!isLogged" type="submit" (click)="refreshAccessToken()">Refresh</button>
+  IsLogged : {{isLogged}}
+  <button [hidden]="!(isLogged)" type="submit" (click)="refreshAccessToken()">Refresh</button>
 </div>
 <div>
-  <button [hidden]="!isLogged" type="submit" (click)="logout()">Logout</button>
+  <button [hidden]="!(isLogged)" type="submit" (click)="logout()">Logout</button>
 </div>
 <br/>
 <br/>

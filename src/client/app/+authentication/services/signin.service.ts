@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core';
 import {Http, Response} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 
-import {HttpConstants} from '../../shared/index';
+import {JwtConstants, HttpConstants} from '../../shared/index';
 
 import {AuthTokenService} from '../../shared/index';
 import {LoggerService} from '../../shared/index';
@@ -10,15 +10,40 @@ import {TenantResolverService} from '../../shared/index';
 
 import {ObservableServiceAction} from '../../shared/index';
 
+import {HttpUrlUtils} from '../../shared/index';
+
+/**
+ * Social signing api links.
+ */
+export interface ISocialProviderSigninLinks {
+  facebook : string;
+  google : string;
+}
+
 /**
  * Signin Service.
  */
 @Injectable()
 export class SigninService {
 
+  private _socialProviderLinks : ISocialProviderSigninLinks = {
+    facebook : '<%= AUTHSERVICE_API_facebookLogin %>',
+    google : '<%= AUTHSERVICE_API_googleLogin %>'
+  };
+
+  /**
+   * Ctor.
+   */
   constructor(private _http : Http,
     private _authTokenService: AuthTokenService, private _loggerService : LoggerService,
     private _tenantResolverService : TenantResolverService) { }
+
+  /**
+   * Gets the social api signin links.
+   */
+  get socialProviderLinks() : ISocialProviderSigninLinks {
+    return this._socialProviderLinks;
+  }
 
   /**
    * Login.
@@ -46,4 +71,14 @@ export class SigninService {
     });
   }
 
+  /**
+   * Checks if a social refresh_token is given back from a social signin callback.
+   */
+  checkForSocialSignIn() {
+    let refreshToken = HttpUrlUtils.getUrlParameterByName(JwtConstants.JWT_REFRESH_URL_PARAM);
+    if(refreshToken) {
+      localStorage.setItem(JwtConstants.JWT_STORE_REFRESHTOKEN_KEY, refreshToken);
+      this._authTokenService.refreshAccessToken();
+    }
+  }
 }

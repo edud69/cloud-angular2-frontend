@@ -10,29 +10,23 @@ import {SignupConfirmationService} from '../index';
   styleUrls: ['app/+authentication/components/signup-confirmation.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
-
+/**
+ * The signup confirmation component.
+ */
 @Injectable()
 export class SignupConfirmationComponent implements OnInit {
 
+  accountConfirmed : boolean = false;
+
   constructor(private _signupConfirmationService: SignupConfirmationService) {}
 
+  /**
+   * Initializer.
+   */
   ngOnInit() {
-    if(window.location.hash) {
-      let params : string[] = window.location.hash.split('#');
-      if(params.length === 2) {
-        let queryParams : string[] = params[1].split('&');
-        if(queryParams.length === 2) {
-          let param1 : string[] = queryParams[0].split('=');
-          let param2 : string[] = queryParams[1].split('=');
-          let email : string = decodeURIComponent(param1[0] === 'email' ? param1[1] : param2[1]);
-          let confirmationToken : string = decodeURIComponent(param1[0] === 'token' ? param1[1] : param2[1]);
-          this.doConfirmSignup(email, confirmationToken);
-        }
-      }
-    }
-  }
-
-  private doConfirmSignup(username : string, confirmationToken : string) {
-    this._signupConfirmationService.confirmSignup(username, confirmationToken);
+    this._signupConfirmationService.confirmSignup().subscribe(
+      response => alert(response),
+      error => alert(error)
+    );
   }
 }

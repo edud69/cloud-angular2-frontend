@@ -10,12 +10,17 @@ import {SignupService} from '../index';
   styleUrls: ['app/+authentication/components/signup.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
-
+/**
+ * The signup component class.
+ */
 @Injectable()
 export class SignupComponent {
 
   constructor(private _signupService: SignupService) {}
 
+  /**
+   * Signup the user.
+   */
   signup(event : Event, username : string, password : string) {
     event.preventDefault();
     this._signupService.signup(username, password).subscribe(

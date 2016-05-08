@@ -9,6 +9,11 @@ import {TenantResolverService} from '../../shared/index';
 
 import {ObservableServiceAction} from '../../shared/index';
 
+import {HttpUrlUtils} from '../../shared/index';
+
+const EMAIL_URL_PARAM : string = 'email';
+const TOKEN_URL_PARAM : string = 'token';
+
 /**
  * Signup Confirmation Service.
  */
@@ -19,9 +24,29 @@ export class SignupConfirmationService {
               private _tenantResolverService : TenantResolverService) {}
 
   /**
+   * Confirms a signup.
+   */
+  confirmSignup() : Observable<Response> {
+    let email = HttpUrlUtils.getUrlParameterByName(EMAIL_URL_PARAM);
+    let token = HttpUrlUtils.getUrlParameterByName(TOKEN_URL_PARAM);
+
+    this._loggerService.info(`Confirming account with email:${email} and token:${token}.`);
+
+    if(email && token) {
+      return this._doConfirmSignup(email, token);
+    }
+
+    return Observable.create((observer : any) => {
+      //TODO create a managed error/exception
+      observer.error('Confirmation needs a valid token and email.');
+      observer.complete();
+    });
+  }
+
+  /**
    * Confirm a signup.
    */
-  confirmSignup(email : string, confirmationToken : string) : Observable<Response> {
+  private _doConfirmSignup(email : string, confirmationToken : string) : Observable<Response> {
     var headers : Headers = new Headers();
     headers.append(HttpConstants.HTTP_HEADER_ACCEPT, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
     headers.append(HttpConstants.HTTP_HEADER_CONTENT_TYPE, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);

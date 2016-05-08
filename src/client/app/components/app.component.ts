@@ -15,15 +15,15 @@ import {AuthTokenRefreshMonitorService} from '../shared/index';
 // AppComponent
 @Component({
   selector: 'sd-app',
-  templateUrl: 'app/components/app.component.html',
+  templateUrl: './app/components/app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
 
 @RouteConfig([
   { path: '/', name: 'Home', component: HomeComponent },
   { path: '/signin', name: 'Signin', component: SigninComponent },
+  { path: '/signup/confirm', name: 'SignupConfirmation', component: SignupConfirmationComponent },
   { path: '/signup', name: 'Signup', component: SignupComponent },
-  { path: '/signup/confirmation', name: 'SignupConfirmation', component: SignupConfirmationComponent },
   { path: '/about', name: 'About', component: AboutComponent }
 ])
 

@@ -1,8 +1,10 @@
 import {Component, Injectable, OnInit} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
+import {SigninService, ISocialProviderSigninLinks} from '../index';
+
+//TODO remove this service...
 import {AuthTokenService} from '../../shared/index';
-import {SigninService} from '../index';
 
 @Component({
   selector: 'sd-signin',
@@ -11,24 +13,30 @@ import {SigninService} from '../index';
   styleUrls: ['app/+authentication/components/signin.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
-
+/**
+ * The SigninComponent class.
+ */
 @Injectable()
 export class SigninComponent implements OnInit {
 
   isLogged : boolean = false;
 
-  socialProviderLinks : any = {
-    facebook : '<%= AUTHSERVICE_API_facebookLogin %>',
-    google : '<%= AUTHSERVICE_API_googleLogin %>'
-  };
+  socialProviderLinks : ISocialProviderSigninLinks = null;
 
+  /**
+   * Ctor.
+   */
   constructor(
       private _signinService: SigninService,
-      private _authTokenService : AuthTokenService
-    ) {}
+      private _authTokenService : AuthTokenService) {
+    }
 
+  /**
+   * Initializer.
+   */
   ngOnInit() {
-    this.isLogged = !this._authTokenService.isRefreshTokenExpired(); //TODO put this login in authservice
+    //TODO put this login in another service...
+    this.isLogged = !this._authTokenService.isRefreshTokenExpired();
     this._authTokenService.subscribeToTokenClearEvent({
       onTokenCleared: () => this.isLogged = false
     });
@@ -36,13 +44,13 @@ export class SigninComponent implements OnInit {
       onTokenRefreshed: newToken => this.isLogged = true
     });
 
-    let refreshToken = this._getParameterByName('refresh_token');
-    if(refreshToken) {
-      localStorage.setItem('jwt_refresh_token', refreshToken);
-      this._authTokenService.refreshAccessToken();
-    }
+    this.socialProviderLinks = this._signinService.socialProviderLinks;
+    this._signinService.checkForSocialSignIn();
   }
 
+  /**
+   * Login the users.
+   */
   login(event : Event, username : string, password : string) {
     event.preventDefault();
     this._signinService.login(username, password).subscribe(
@@ -52,20 +60,12 @@ export class SigninComponent implements OnInit {
   }
 
   logout() {
+    //TODO remove from here... only for tests...
     this._authTokenService.clearTokens();
   }
 
   refreshAccessToken() {
+    // TODO remove from here... (only for tests)
     this._authTokenService.refreshAccessToken();
   }
-
-  private _getParameterByName(name : string) {
-    let url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
 }

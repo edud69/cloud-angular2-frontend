@@ -25,3 +25,6 @@ export * from './services/websocket/websocket.service';
 export * from './directives/security/has-all-permissions.directive';
 export * from './directives/security/has-any-permission.directive';
 export * from './directives/security/has-permission.directive';
+
+//utils
+export * from './http-url.utils';
