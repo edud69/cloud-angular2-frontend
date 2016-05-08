@@ -45,6 +45,6 @@ export class SignupConfirmationService {
         return error;
       },
       onCompletion: () => this._loggerService.log('Account activation request completed.')
-    });;
+    });
   }
 }
