@@ -1,6 +1,9 @@
+import {Injectable} from 'angular2/core';
+
 /**
  * Tenant resolver service.
  */
+@Injectable()
 export class TenantResolverService {
 
     resolveCurrentTenant() : string {
