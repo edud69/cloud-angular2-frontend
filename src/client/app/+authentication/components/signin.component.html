@@ -1,7 +1,7 @@
 <!-- template -->
  <!-- On form submit, we call the Login event with the username and the password from the inputs -->
- <p>Login</p>
- <form (submit)="login($event, username.value, password.value)">
+ <p [hidden]="isLogged">Login</p>
+ <form [hidden]="isLogged" (submit)="login($event, username.value, password.value)">
    <label for="username">Username</label>
    <!-- Using #username, we can identify this input to get the value on the form's submit event -->
    <input type="text" #username class="form-control" id="username" placeholder="Username">
@@ -14,17 +14,19 @@
 <br/>
 <br/>
 <div>
-  Refresh token test (a refresh_token must be in the localStorage first).
-  <button type="submit" (click)="refreshAccessToken()">Refresh</button>
+  <button [hidden]="!isLogged" type="submit" (click)="refreshAccessToken()">Refresh</button>
+</div>
+<div>
+  <button [hidden]="!isLogged" type="submit" (click)="logout()">Logout</button>
 </div>
 <br/>
 <br/>
 <br/>
 <div>
-  <form ngNoForm action="{{socialProviderLinks.facebook}}?tenant=master" method="POST">
+  <form [hidden]="isLogged" ngNoForm action="{{socialProviderLinks.facebook}}?tenant=master" method="POST">
     <button type="submit">Signin With Facebook</button>
   </form>
-  <form ngNoForm action="{{socialProviderLinks.google}}?tenant=master" method="POST">
+  <form [hidden]="isLogged" ngNoForm action="{{socialProviderLinks.google}}?tenant=master" method="POST">
     <button type="submit">Signin With Google</button>
   </form>
 </div>
