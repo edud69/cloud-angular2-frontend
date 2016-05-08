@@ -16,9 +16,11 @@ import {AuthTokenService} from './app/shared/index';
 import {AuthTokenRefreshMonitorService} from './app/shared/index';
 import {ChatService} from './app/shared/index';
 import {LoggerService} from './app/shared/index';
+import {TenantResolverService} from './app/shared/index';
 import {WebsocketService} from './app/shared/index';
 
-var sharedServices = [AuthoritiesService, AuthTokenService, AuthTokenRefreshMonitorService, ChatService, LoggerService, WebsocketService];
+var sharedServices = [AuthoritiesService, AuthTokenService, AuthTokenRefreshMonitorService, ChatService, LoggerService,
+                      TenantResolverService, WebsocketService];
 
 
 // shared directives

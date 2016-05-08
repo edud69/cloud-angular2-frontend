@@ -49,7 +49,7 @@ export class AuthTokenService {
     let parameters : string = '?' + JwtConstants.JWT_REFRESH_URL_PARAM  + '=' + refreshToken;
 
     let headers : Headers = new Headers();
-    headers.append(HttpConstants.HTTP_HEADER_TENANTID, 'master'); //TODO use a constant class and get the current tenant
+    headers.append(HttpConstants.HTTP_HEADER_TENANTID, this.currentTenant());
 
 
     this._http.post('<%= AUTHSERVICE_API_refreshJwtToken %>' + parameters, '', { headers: headers })

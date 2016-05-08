@@ -5,6 +5,9 @@ import {Observable} from 'rxjs/Observable';
 import {HttpConstants} from '../../shared/index';
 
 import {LoggerService} from '../../shared/index';
+import {TenantResolverService} from '../../shared/index';
+
+import {ObservableServiceAction} from '../../shared/index';
 
 /**
  * Signup Confirmation Service.
@@ -12,7 +15,8 @@ import {LoggerService} from '../../shared/index';
 @Injectable()
 export class SignupConfirmationService {
 
-  constructor(private _http : Http, private _loggerService : LoggerService) {}
+  constructor(private _http : Http, private _loggerService : LoggerService,
+              private _tenantResolverService : TenantResolverService) {}
 
   /**
    * Confirm a signup.
@@ -21,23 +25,26 @@ export class SignupConfirmationService {
     var headers : Headers = new Headers();
     headers.append(HttpConstants.HTTP_HEADER_ACCEPT, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
     headers.append(HttpConstants.HTTP_HEADER_CONTENT_TYPE, HttpConstants.HTTP_HEADER_VALUE_APPLICATIONJSON);
-    headers.append(HttpConstants.HTTP_HEADER_TENANTID, 'master'); //TODO
+    headers.append(HttpConstants.HTTP_HEADER_TENANTID, this._tenantResolverService.resolveCurrentTenant());
 
     var body : string = JSON.stringify({
-        tenantId : 'master', //TODO,
+        tenantId : this._tenantResolverService.resolveCurrentTenant(),
         email: email,
         confirmationToken: confirmationToken
       });
 
-    let obs = this._http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers })
-      .map(response => response.json());
+    let httpCall = this._http.post('<%= AUTHSERVICE_API_userSubscribeConfirmation %>', body, { headers: headers });
 
-    obs.subscribe(
-      json => this._loggerService.debug('Account is activated.'),
-      error => this._loggerService.error('Error occurred while activating the account. Details : ' + error),
-      () => this._loggerService.log('Account activation request completed.')
-    );
-
-    return obs;
+    return ObservableServiceAction.fromHttpCallObservable(httpCall, {
+      onSuccess: response => {
+        this._loggerService.debug('Account is activated.');
+        return response;
+      },
+      onError: error => {
+        this._loggerService.error('Error occurred while activating the account. Details : ' + error);
+        return error;
+      },
+      onCompletion: () => this._loggerService.log('Account activation request completed.')
+    });;
   }
 }

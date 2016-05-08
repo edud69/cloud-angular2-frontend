@@ -18,6 +18,9 @@ export class SignupComponent {
 
   signup(event : Event, username : string, password : string) {
     event.preventDefault();
-    this._signupService.signup(username, password);
+    this._signupService.signup(username, password).subscribe(
+        response => alert(JSON.stringify(response)),
+        error => alert(JSON.stringify(error))
+    );
   }
 }

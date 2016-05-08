@@ -11,11 +11,14 @@ export * from './models/chat/typing-action.model';
 export * from './models/json-model-converter';
 
 // services
+export * from './services/observable-service-action';
+
 export * from './services/authentication/auth-token.service';
 export * from './services/authentication/auth-token-refresh-monitor.service';
 export * from './services/authentication/authorities.service';
 export * from './services/chat/chat.service';
 export * from './services/logger/logger.service';
+export * from './services/tenant/tenant-resolver.service';
 export * from './services/websocket/websocket.service';
 
 //directives
