@@ -35,7 +35,7 @@ export class SeedConfig {
   DEV_DEST             = `${this.DIST_DIR}/dev`;
   PROD_DEST            = `${this.DIST_DIR}/prod`;
   TMP_DIR              = `${this.DIST_DIR}/tmp`;
-  APP_DEST             = `${this.DIST_DIR}/${this.ENV}`;
+  APP_DEST             = this.ENV === ENVIRONMENTS.DEVELOPMENT ? this.DEV_DEST : this.PROD_DEST;
   CSS_DEST             = `${this.APP_DEST}/css`;
   JS_DEST              = `${this.APP_DEST}/js`;
   VERSION              = appVersion();
@@ -64,6 +64,12 @@ export class SeedConfig {
   // Declare local files that needs to be injected
   APP_ASSETS: InjectableDependency[] = [
     { src: `${this.CSS_SRC}/main.css`, inject: true, vendor: false }
+  ];
+
+  // Editor temporary files to ignore in watcher and asset builder.
+  TEMP_FILES: string[] = [
+    '**/*___jb_tmp___',
+    '**/*~',
   ];
 
   get DEPENDENCIES(): InjectableDependency[] {
