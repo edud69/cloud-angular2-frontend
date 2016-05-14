@@ -67,7 +67,7 @@ System.config({
     },
     'rxjs': {
       defaultExtension: 'js'
-    }
+    },
     'angular2-jwt': {
       main: 'angular2-jwt.js',
       defaultExtension: 'js'
