@@ -6,16 +6,16 @@ import {NavbarComponent} from './shared/navbar/index';
 import {ToolbarComponent} from './shared/toolbar/index';
 import {HomeComponent} from './+home/index';
 import {AboutComponent} from './+about/index';
-import {SigninComponent} from './+authentication/components/signin.component';
-import {SignupComponent} from './+authentication/components/signup.component';
-import {SignupConfirmationComponent} from './+authentication/components/signup-confirmation.component';
+import {SigninComponent} from './+authentication/index';
+import {SignupComponent} from './+authentication/index';
+import {SignupConfirmationComponent} from './+authentication/index';
 
 import {AuthTokenRefreshMonitorService} from './shared/index';
 
 // AppComponent
 @Component({
   selector: 'sd-app',
-  templateUrl: './app/components/app.component.html',
+  templateUrl: 'app/app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
 

@@ -29,9 +29,8 @@ System.config({
   map: {
     'rxjs': 'node_modules/rxjs',
     '@angular': 'node_modules/@angular',
-    'angular2-jwt/*': 'node_modules/angular2-jwt/*.js',
-    'angular2-logger/*': 'node_modules/angular2-logger/*.js',
-    'rxjs/*': 'node_modules/rxjs/*.js'
+    'angular2-jwt': 'node_modules/angular2-jwt',
+    'angular2-logger': 'node_modules/angular2-logger'
   },
   packages: {
     '@angular/core': {
@@ -69,6 +68,14 @@ System.config({
     'rxjs': {
       defaultExtension: 'js'
     }
+    'angular2-jwt': {
+      main: 'angular2-jwt.js',
+      defaultExtension: 'js'
+    },
+    'angular2-logger': {
+      main: 'core.js',
+      defaultExtension: 'js'
+    },
   }
 });
 
