@@ -90,48 +90,133 @@ You can learn more about [Protractor Interactive Mode here](https://github.com/a
 ├── package.json               <- dependencies of the project
 ├── protractor.conf.js         <- e2e tests configuration
 ├── src                        <- source code of the application
-│   ├── home
-│   │   └── components
-│   ├── index.html
-│   ├── main.ts
-│   ├── shared
-│   │   └── services
-│   │       ├── name-list...
-│   │       └── name-list...
-│   └── sw.js                  <- sample service worker
+│   └── client
+│       ├── app
+│       │   ├── +about
+│       │   │   ├── about.component.css
+│       │   │   ├── about.component.e2e-spec.ts
+│       │   │   ├── about.component.html
+│       │   │   ├── about.component.spec.ts
+│       │   │   ├── about.component.ts
+│       │   │   └── index.ts
+│       │   ├── +home
+│       │   │   ├── home.component.css
+│       │   │   ├── home.component.e2e-spec.ts
+│       │   │   ├── home.component.html
+│       │   │   ├── home.component.spec.ts
+│       │   │   ├── home.component.ts
+│       │   │   └── index.ts
+│       │   ├── app.component.e2e-spec.ts
+│       │   ├── app.component.html
+│       │   ├── app.component.spec.ts
+│       │   ├── app.component.ts
+│       │   ├── hot_loader_main.ts
+│       │   ├── main.ts
+│       │   └── shared
+│       │       ├── index.ts
+│       │       ├── name-list
+│       │       │   ├── index.ts
+│       │       │   ├── name-list.service.spec.ts
+│       │       │   └── name-list.service.ts
+│       │       ├── navbar
+│       │       │   ├── index.ts
+│       │       │   ├── navbar.component.css
+│       │       │   ├── navbar.component.html
+│       │       │   └── navbar.component.ts
+│       │       └── toolbar
+│       │           ├── index.ts
+│       │           ├── toolbar.component.css
+│       │           ├── toolbar.component.html
+│       │           └── toolbar.component.ts
+│       ├── assets
+│       │   └── svg
+│       │       └── more.svg
+│       ├── css
+│       │   └── main.css
+│       ├── index.html
+│       ├── tsconfig.json
+│       └── typings.d.ts
 ├── test-main.js               <- testing configuration
 ├── tools
-│   ├── README.md              <- build documentation
-│   ├── config
-│   │   ├── project.config.ts  <- configuration of the specific project
-│   │   ├── seed.config....
-│   │   └── seed.config.ts     <- generic configuration of the seed project
-│   ├── config.ts              <- exported configuration (merge both seed.config and project.config, project.config overrides seed.config)
-│   ├── debug.ts
-│   ├── manual_typings
-│   │   ├── project            <- manual ambient typings for the project
-│   │   │   └── sample.pac...
-│   │   └── seed               <- seed manual ambient typings
-│   │       ├── merge-stre..
-│   │       └── slash.d.ts
-│   ├── tasks                  <- gulp tasks
-│   │   ├── project            <- project specific gulp tasks
-│   │   │   └── sample.tas...
-│   │   └── seed               <- seed generic gulp tasks. They can be overriden by the project specific gulp tasks
-│   ├── utils                  <- build utils
-│   │   ├── project            <- project specific gulp utils
-│   │   │   └── sample_util...
-│   │   ├── project.utils.ts
-│   │   ├── seed               <- seed specific gulp utils
-│   │   │   ├── clean.ts
-│   │   │   ├── code_change...
-│   │   │   ├── server.ts
-│   │   │   ├── tasks_tools.ts
-│   │   │   ├── template_loc...
-│   │   │   ├── tsproject.ts
-│   │   │   └── watch.ts
-│   │   └── seed.utils.ts
-│   └── utils.ts
+│   ├── README.md              <- build documentation
+│   ├── config
+│   │   ├── project.config.ts  <- configuration of the specific project
+│   │   ├── seed.config.interfaces.ts
+│   │   └── seed.config.ts     <- generic configuration of the seed project
+│   ├── config.ts              <- exported configuration (merge both seed.config and project.config, project.config overrides seed.config)
+│   ├── debug.ts
+│   ├── manual_typings
+│   │   ├── project            <- manual ambient typings for the project
+│   │   │   └── sample.package.d.ts
+│   │   └── seed               <- seed manual ambient typings
+│   │       ├── angular2-hot-loader.d.ts
+│   │       ├── autoprefixer.d.ts
+│   │       ├── colorguard.d.ts
+│   │       ├── connect-livereload.d.ts
+│   │       ├── cssnano.d.ts
+│   │       ├── doiuse.d.ts
+│   │       ├── express-history-api-fallback.d.ts
+│   │       ├── istream.d.ts
+│   │       ├── karma.d.ts
+│   │       ├── merge-stream.d.ts
+│   │       ├── open.d.ts
+│   │       ├── postcss-reporter.d.ts
+│   │       ├── slash.d.ts
+│   │       ├── stylelint.d.ts
+│   │       ├── systemjs-builder.d.ts
+│   │       ├── tildify.d.ts
+│   │       ├── tiny-lr.d.ts
+│   │       └── walk.d.ts
+│   ├── tasks                  <- gulp tasks
+│   │   ├── project            <- project specific gulp tasks
+│   │   │   └── sample.task.ts
+│   │   └── seed               <- seed generic gulp tasks. They can be overriden by the project specific gulp tasks
+│   │       ├── build.assets.dev.ts
+│   │       ├── build.assets.prod.ts
+│   │       ├── build.bundles.app.ts
+│   │       ├── build.bundles.ts
+│   │       ├── build.docs.ts
+│   │       ├── build.html_css.ts
+│   │       ├── build.index.dev.ts
+│   │       ├── build.index.prod.ts
+│   │       ├── build.js.dev.ts
+│   │       ├── build.js.e2e.ts
+│   │       ├── build.js.prod.ts
+│   │       ├── build.js.test.ts
+│   │       ├── build.js.tools.ts
+│   │       ├── check.versions.ts
+│   │       ├── clean.all.ts
+│   │       ├── clean.dev.ts
+│   │       ├── clean.prod.ts
+│   │       ├── clean.tools.ts
+│   │       ├── copy.js.prod.ts
+│   │       ├── css-lint.ts
+│   │       ├── e2e.ts
+│   │       ├── generate.manifest.ts
+│   │       ├── karma.start.ts
+│   │       ├── serve.coverage.ts
+│   │       ├── serve.docs.ts
+│   │       ├── server.prod.ts
+│   │       ├── server.start.ts
+│   │       ├── tslint.ts
+│   │       ├── watch.dev.ts
+│   │       ├── watch.e2e.ts
+│   │       ├── watch.test.ts
+│   │       └── webdriver.ts
+│   ├── utils                  <- build utils
+│   │   ├── project            <- project specific gulp utils
+│   │   │   └── sample_util.ts
+│   │   ├── project.utils.ts
+│   │   ├── seed               <- seed specific gulp utils
+│   │   │   ├── clean.ts
+│   │   │   ├── code_change_tools.ts
+│   │   │   ├── server.ts
+│   │   │   ├── tasks_tools.ts
+│   │   │   ├── template_locals.ts
+│   │   │   ├── tsproject.ts
+│   │   │   └── watch.ts
+│   │   └── seed.utils.ts
+│   └── utils.ts
 ├── tsconfig.json              <- configuration of the typescript project (ts-node, which runs the tasks defined in gulpfile.ts)
 ├── tslint.json                <- tslint configuration
 ├── typings                    <- typings directory. Contains all the external typing definitions defined with typings
