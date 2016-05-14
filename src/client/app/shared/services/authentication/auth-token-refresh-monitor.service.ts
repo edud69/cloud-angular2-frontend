@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Observable, Subscription} from 'rxjs/Rx';
 
 import {AuthTokenService} from './auth-token.service';

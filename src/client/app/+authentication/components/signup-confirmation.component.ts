@@ -1,5 +1,5 @@
-import {Component, OnInit, Injectable} from 'angular2/core';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+import {Component, OnInit, Injectable} from '@angular/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 
 import {SignupConfirmationService} from '../index';
 

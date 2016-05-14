@@ -1,5 +1,5 @@
-import {Directive, Input} from 'angular2/core';
-import {TemplateRef, ViewContainerRef} from 'angular2/core';
+import {Directive, Input} from '@angular/core';
+import {TemplateRef, ViewContainerRef} from '@angular/core';
 
 import {IPermission, AuthoritiesService, PermissionConstants} from '../../index';
 
@@ -13,7 +13,7 @@ export class HasAllPermissionDirective {
      * Ctor.
      */
     constructor(
-        private _templateRef: TemplateRef,
+        private _templateRef: TemplateRef<any>,
         private _viewContainer: ViewContainerRef,
         private _authoritiesService: AuthoritiesService
         ) { }

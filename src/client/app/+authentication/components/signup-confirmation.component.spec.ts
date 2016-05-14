@@ -2,9 +2,9 @@ import {
   describe,
   expect,
   it
-} from 'angular2/testing';
-import {Component} from 'angular2/core';
-//import {DOM} from 'angular2/src/platform/dom/dom_adapter';
+} from '@angular/testing';
+import {Component} from '@angular/core';
+//import {DOM} from '@angular/src/platform/dom/dom_adapter';
 import {SignupConfirmationComponent} from './signup-confirmation.component';
 
 export function main() {

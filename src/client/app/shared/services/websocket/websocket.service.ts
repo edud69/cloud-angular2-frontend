@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {Stomp, Client, Subscription} from 'stompjs/lib/stomp';
 
 import {JsonModelConverter} from '../../models/json-model-converter';

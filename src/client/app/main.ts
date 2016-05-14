@@ -1,30 +1,31 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { enableProdMode, provide, PLATFORM_DIRECTIVES } from '@angular/core';
-import { HTTP_PROVIDERS, Http } from '@angular2/http';
+import { bootstrap } from '@angular/platform-browser-dynamic';
+import { HTTP_PROVIDERS, Http } from '@angular/http';
 import { ROUTER_PROVIDERS } from '@angular/router';
 
 import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
-import {Logger} from 'angular2-logger/core';
+import {Logger, Options} from 'angular2-logger/core';
 
 import { AppComponent } from './app.component';
-import { JwtConstants, HttpConstants } from './app/shared/index';
+import { JwtConstants, HttpConstants } from './shared/index';
 
 
 // shared service
-import {AuthoritiesService} from './app/shared/index';
-import {AuthTokenService} from './app/shared/index';
-import {AuthTokenRefreshMonitorService} from './app/shared/index';
-import {ChatService} from './app/shared/index';
-import {LoggerService} from './app/shared/index';
-import {TenantResolverService} from './app/shared/index';
-import {WebsocketService} from './app/shared/index';
+import {AuthoritiesService} from './shared/index';
+import {AuthTokenService} from './shared/index';
+import {AuthTokenRefreshMonitorService} from './shared/index';
+import {ChatService} from './shared/index';
+import {LoggerService} from './shared/index';
+import {TenantResolverService} from './shared/index';
+import {WebsocketService} from './shared/index';
 
 var sharedServices = [AuthoritiesService, AuthTokenService, AuthTokenRefreshMonitorService, ChatService, LoggerService,
                       TenantResolverService, WebsocketService];
 
 
 // shared directives
-import {HasPermissionDirective, HasAllPermissionDirective, HasAnyPermissionDirective} from './app/shared/index';
+import {HasPermissionDirective, HasAllPermissionDirective, HasAnyPermissionDirective} from './shared/index';
 
 var sharedDirectives = [
   provide(PLATFORM_DIRECTIVES, {useValue: HasAllPermissionDirective, multi: true }),
@@ -44,6 +45,7 @@ bootstrap(AppComponent, [
   sharedDirectives,
   HTTP_PROVIDERS,
   Logger,
+  Options,
   provide(AuthHttp, {
     useFactory: (http : any, authTokenService : AuthTokenService) => {
       return new AuthHttp(new AuthConfig({
