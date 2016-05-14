@@ -1,13 +1,13 @@
-import {provide, enableProdMode, PLATFORM_DIRECTIVES} from 'angular2/core';
-import {bootstrap} from 'angular2/platform/browser';
-import {HTTP_PROVIDERS, Http} from 'angular2/http';
-import {ROUTER_PROVIDERS} from 'angular2/router';
-import {APP_BASE_HREF} from 'angular2/platform/common';
+import { APP_BASE_HREF } from '@angular/common';
+import { enableProdMode, provide, PLATFORM_DIRECTIVES } from '@angular/core';
+import { HTTP_PROVIDERS, Http } from '@angular2/http';
+import { ROUTER_PROVIDERS } from '@angular/router';
+
 import {AuthHttp, AuthConfig} from 'angular2-jwt/angular2-jwt';
 import {Logger} from 'angular2-logger/core';
-import {AppComponent} from './app/components/app.component';
 
-import {JwtConstants, HttpConstants} from './app/shared/index';
+import { AppComponent } from './app.component';
+import { JwtConstants, HttpConstants } from './app/shared/index';
 
 
 // shared service

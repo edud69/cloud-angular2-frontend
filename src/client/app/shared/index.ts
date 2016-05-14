@@ -1,3 +1,6 @@
+export * from './navbar/index';
+export * from './toolbar/index';
+
 // constants
 export * from './constants/http.constants';
 export * from './constants/jwt.constants';
@@ -12,7 +15,6 @@ export * from './models/json-model-converter';
 
 // services
 export * from './services/observable-service-action';
-
 export * from './services/authentication/auth-token.service';
 export * from './services/authentication/auth-token-refresh-monitor.service';
 export * from './services/authentication/authorities.service';
