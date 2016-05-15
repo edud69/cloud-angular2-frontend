@@ -9,8 +9,8 @@ import {AuthTokenService} from '../authentication/auth-token.service';
 import {LoggerService} from '../logger/logger.service';
 
 
-const TOKEN_UPDATE_SEND_DESTINATION : string = '/app/token/update';
-const USER_QUEUE_TOKEN_UPDATE_SUBSCRIPTION_DESTINATION : string = '/user/queue/tenant.?/token/update';
+const TOKEN_UPDATE_SEND_DESTINATION : string = '/app/token.update';
+const USER_QUEUE_TOKEN_UPDATE_SUBSCRIPTION_DESTINATION : string = '/user/queue/tenant.?-token.update';
 
 /**
  * Websocket handler types.
