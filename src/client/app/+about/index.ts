@@ -1,2 +1,5 @@
-export * from './components/about.component';
+/**
+ * This barrel file provides the export for the lazy loaded AboutComponent.
+ */
+ export * from './components/about.component';
 
