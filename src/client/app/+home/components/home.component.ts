@@ -7,9 +7,10 @@ import {ChatService} from '../../shared/index';
 
 
 @Component({
+  moduleId: module.id,
   selector: 'sd-home',
-  templateUrl: 'app/+home/components/home.component.html',
-  styleUrls: ['app/+home/components/home.component.css'],
+  templateUrl: 'home.component.html',
+  styleUrls: ['home.component.css'],
   directives: [FORM_DIRECTIVES]
 })
 export class HomeComponent {

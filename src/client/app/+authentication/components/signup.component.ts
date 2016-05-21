@@ -4,10 +4,11 @@ import {CORE_DIRECTIVES, FORM_DIRECTIVES} from '@angular/common';
 import {SignupService} from '../index';
 
 @Component({
+  moduleId: module.id,
   selector: 'sd-signup',
   providers: [SignupService],
-  templateUrl: 'app/+authentication/components/signup.component.html',
-  styleUrls: ['app/+authentication/components/signup.component.css'],
+  templateUrl: 'signup.component.html',
+  styleUrls: ['signup.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
 /**

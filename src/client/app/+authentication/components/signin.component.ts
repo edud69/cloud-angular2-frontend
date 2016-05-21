@@ -7,10 +7,11 @@ import {SigninService, ISocialProviderSigninLinks} from '../index';
 import {AuthTokenService} from '../../shared/index';
 
 @Component({
+  moduleId: module.id,
   selector: 'sd-signin',
   providers: [SigninService],
-  templateUrl: 'app/+authentication/components/signin.component.html',
-  styleUrls: ['app/+authentication/components/signin.component.css'],
+  templateUrl: 'signin.component.html',
+  styleUrls: ['signin.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
 })
 /**

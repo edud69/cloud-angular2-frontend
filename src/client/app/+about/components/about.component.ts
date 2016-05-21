@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
+  moduleId: module.id,
   selector: 'sd-about',
-  templateUrl: 'app/+about/components/about.component.html',
-  styleUrls: ['app/+about/components/about.component.css']
+  templateUrl: 'about.component.html',
+  styleUrls: ['about.component.css']
 })
 export class AboutComponent {}
