@@ -8,7 +8,7 @@
     "url": "https://bitbucket.org/the-shire/frontend-web"
   },
   "publishConfig": {
-    "registry": "https://build.theshire.io:8444/nexus/content/repositories/npm/"
+    "registry": "https://build.theshire.io:8444/nexus/repository/npm/"
   },
   "scripts": {
     "build.dev": "gulp build.dev --color",
