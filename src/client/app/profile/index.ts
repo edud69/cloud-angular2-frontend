@@ -13,6 +13,3 @@ export * from './services/profile.service';
 
 // Components
 export * from './components/profile.component';
-
-// Routes
-export * from './profile.routes';
