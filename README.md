@@ -8,9 +8,19 @@
 
 This repository is based on [angular-seed](https://github.com/mgechev/angular-seed) repository. Big thanks!
 
+# Contributing
+
+Please see the [CONTRIBUTING](https://github.com/edud69/cloud-angular2-frontend/blob/master/.github/CONTRIBUTING.md) file for guidelines.
+
+# Submitting an issue or feature request
+
+Please see the [ISSUES](https://github.com/edud69/cloud-angular2-frontend/blob/master/.github/ISSUE_TEMPLATE.md) file for guidelines.
+
 # Table of Contents
 
 - [Introduction](#introduction)
+- [Contributing](#contributing)
+- [Submitting an issue or feature request](#submitting-an-issue-or-feature-request)
 - [How to start](#how-to-start)
 - [How to start with Aot](#how-to-start-with-aot-compilation)
 - [Tree-shaking with Rollup](#tree-shaking-with-rollup)
@@ -23,7 +33,6 @@ This repository is based on [angular-seed](https://github.com/mgechev/angular-se
 - [Environment Configuration](#environment-configuration)
 - [Tools documentation](#tools-documentation)
 - [Running tests](#running-tests)
-- [Contributing](#contributing)
 
 Coding tips:
 - [Adding a dependency](#adding-an-external-library)
@@ -243,11 +252,6 @@ $ npm run e2e
 $ npm run e2e.live
 ```
 You can learn more about [Protractor Interactive Mode here](https://github.com/angular/protractor/blob/master/docs/debugging.md#testing-out-protractor-interactively)
-
-# Contributing
-
-Please see the [CONTRIBUTING](https://github.com/mgechev/angular-seed/blob/master/.github/CONTRIBUTING.md) file for guidelines.
-
 
 # Adding an external library
 A. Add your dependency to *package.json*
