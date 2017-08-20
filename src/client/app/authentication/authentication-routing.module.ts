@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Route } from '@angular/router';
-import { applySecurity } from '../route-manager';
+import { applySecurity } from '../route-guard';
 
 import { ChangePasswordComponent, LostPasswordComponent, RestorePasswordComponent,
          SigninComponent, SignupComponent, SignupConfirmationComponent } from './index';

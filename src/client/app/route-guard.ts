@@ -11,11 +11,22 @@ import { AuthoritiesService, ManagedComponent, LoggerService,
  * @param routes the route to be secured
  */
 export function applySecurity(routes : Route[]) : Route[] {
-  return routes.concat({ path: '**', component: Http404Component }).map(route => {
-    route.canActivate = route.canActivate ? [RouteManager, route.canActivate] : [RouteManager];
-    route.canDeactivate = route.canDeactivate ? [RouteManager, route.canDeactivate] : [RouteManager];
+  return injectErrorHandlingRoutes(routes.map(route => {
+    route.canActivate = route.canActivate ? [RouteGuard, route.canActivate] : [RouteGuard];
+    route.canDeactivate = route.canDeactivate ? [RouteGuard, route.canDeactivate] : [RouteGuard];
     return route;
-  });
+  }));
+}
+
+/**
+ * Injects the error handling route to the given routes.
+ * @param routes the routes
+ */
+export function injectErrorHandlingRoutes(routes : Route[]) : Route[] {
+  return [
+    ...routes,
+    { path: '**', component: Http404Component }
+  ];
 }
 
 
@@ -24,7 +35,7 @@ export function applySecurity(routes : Route[]) : Route[] {
  */
 
 @Injectable()
-export class RouteManager implements CanActivate, CanDeactivate<any> {
+export class RouteGuard implements CanActivate, CanDeactivate<any> {
 
   constructor(private _authoritiesService : AuthoritiesService,
               private _authStateService : AuthStateService,

@@ -5,7 +5,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { RouteManager } from './route-manager';
+import { RouteGuard } from './route-guard';
 import { SharedModule } from './shared/shared.module';
 
 
@@ -17,8 +17,8 @@ import { SharedModule } from './shared/shared.module';
     useValue: '<%= APP_BASE %>'
   },
   {
-    provide: RouteManager,
-    useClass: RouteManager
+    provide: RouteGuard,
+    useClass: RouteGuard
   }
   ],
   bootstrap: [AppComponent]
