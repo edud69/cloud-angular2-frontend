@@ -3,7 +3,7 @@
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
 [![Build Status](https://travis-ci.org/edud69/cloud-angular2-frontend.svg?branch=master)](https://travis-ci.org/edud69/cloud-angular2-frontend)
 [![Build Status](https://ci.appveyor.com/api/projects/status/5kol417xq7p4fkk3/branch/master?svg=true)](https://ci.appveyor.com/project/edud69/cloud-angular2-frontend)
-[![Dependency Status](https://david-dm.org/edud69/cloud-angular2-frontend)](https://david-dm.org/edud69/cloud-angular2-frontend)
+[![Dependency Status](https://david-dm.org/edud69/cloud-angular2-frontend.svg)](https://david-dm.org/edud69/cloud-angular2-frontend)
 [![devDependency Status](https://david-dm.org/edud69/cloud-angular2-frontend/dev-status.svg)](https://david-dm.org/edud69/cloud-angular2-frontend#info=devDependencies)
 
 This repository is based on [angular-seed](https://github.com/mgechev/angular-seed) repository. Big thanks!
