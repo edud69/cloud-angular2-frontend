@@ -11,7 +11,7 @@
 
 <md-card>
   <md-card-title>Websocket test (will become eventually a directive for chat / one for push notifications</md-card-title>
-  <md-card-subtitle>CHAT-WEBSOCKET status: {{status}}</md-card-subtitle>
+  <md-card-subtitle>CHAT-WEBSOCKET status: {{ status }}</md-card-subtitle>
   <md-card-content>        
       <form (submit)="sendChat()" *ngIf="status == 'ONLINE'">
         <input [(ngModel)]="chatMessage" [ngModelOptions]="{standalone: true}" placeholder="Enter your message!" (keypress)="enableTypingAction()">
@@ -29,7 +29,7 @@
       </div>
     
       <md-list dense style="margin-top: 10px;">
-        <md-list-item *ngFor="let chatmsgs of displayChatMessages()"><div>{{chatmsgs}}</div></md-list-item>
+        <md-list-item *ngFor="let chatmsgs of displayChatMessages()"><div>{{ chatmsgs }}</div></md-list-item>
       </md-list>
   </md-card-content>
 </md-card>
@@ -39,7 +39,7 @@
     <md-card-title>Forms components</md-card-title>
     <md-card-content> 
       <b>Image upload</b>
-      <div>Url: {{docBackendApi}}</div>
+      <div>Url: {{ docBackendApi }}</div>
       <div style="margin-top: 10px;">
         <div><b>Single file upload:</b></div>
         <sd-file-upload [uploadUrl]="docBackendApi" uploaderType="singlefile" maxSizeKb="500" fileTypes="*" [subscriber]="fileuploadSub"></sd-file-upload>

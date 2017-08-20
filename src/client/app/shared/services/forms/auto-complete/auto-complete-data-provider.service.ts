@@ -1,9 +1,9 @@
-import {Subject} from 'rxjs/Subject';
-import {Injectable} from '@angular/core';
-import {Headers} from '@angular/http';
-import {CompleterData, CompleterItem} from 'ng2-completer';
+import { Subject } from 'rxjs/Subject';
+import { Injectable } from '@angular/core';
+import { Headers } from '@angular/http';
+import { CompleterData, CompleterItem } from 'ng2-completer';
 
-import {BaseModel, ApiError, LoggerService, HttpRestService, HttpConstants, SearchResults} from '../../../index';
+import { BaseModel, ApiError, LoggerService, HttpRestService, HttpConstants, SearchResults } from '../../../index';
 
 @Injectable()
 export class AutoCompleteDataProviderService extends Subject<CompleterItem[]> implements CompleterData {

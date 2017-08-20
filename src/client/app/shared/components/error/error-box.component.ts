@@ -16,8 +16,6 @@ export class ErrorBoxComponent {
 
   errorMessage : string;
 
-  constructor() {}
-
     @Input()
     set error(apiError: ApiError) {
         if (apiError) {

@@ -1,6 +1,6 @@
-import {Component, Injectable, Input} from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 
-import {ManagedComponent} from '../../index';
+import { ManagedComponent } from '../../index';
 
 
 @Component({

@@ -1,4 +1,4 @@
-import { Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { IApiResult, HttpRestService, AuthTokenService, EventService, ProfileLiteRefreshEvent, HttpUrlUtils } from '../../shared/index';
 
@@ -28,7 +28,8 @@ export class ProfileService {
   updateProfile(form : ProfileForm) : IApiResult<Profile> {
       let userId = this._authTokenService.currentUserId();
       let payload = new Profile(userId, form.firstName, form.lastName, form.gender, form.birthday, form.avatarUrl);
-      let apiResult = this._httpRestService.httpPut<Profile>(HttpUrlUtils.combineId('<%= BACKEND_API.ACCOUNTSERVICE_API_updateProfile %>', payload.userId), payload);
+      let apiResult = this._httpRestService.httpPut<Profile>(
+          HttpUrlUtils.combineId('<%= BACKEND_API.ACCOUNTSERVICE_API_updateProfile %>', payload.userId), payload);
       this._addProfileUpdatedInterceptor(apiResult);
       return apiResult;
   }

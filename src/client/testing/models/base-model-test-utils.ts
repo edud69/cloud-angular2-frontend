@@ -31,7 +31,7 @@ export namespace BaseModelTestUtils {
                     result.message = `Expected ${input.bindingClassName} to be ` +
                                      `registered as ${input.targetClass}, but it was not`;
                 }
-                
+
                 return result;
             }
         })

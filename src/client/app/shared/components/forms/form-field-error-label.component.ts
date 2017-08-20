@@ -21,8 +21,6 @@ export class FormFieldErrorLabelComponent implements OnDestroy {
 
   private _sub : any;
 
-  constructor() {}
-
     @Input()
     set form(baseForm: BaseForm) {
         this.baseForm = baseForm;

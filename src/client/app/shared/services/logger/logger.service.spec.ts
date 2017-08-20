@@ -73,7 +73,7 @@ export function main() {
       loggerService.info(message, [':-)', [1,2,3,'YO']]);
       expect(console.info).toHaveBeenCalled();
       let logStr = <string>(spy.calls.mostRecent().args[0]);
-      let logged = logStr.substring(logStr.indexOf('INFO -') + 7, logStr.length)
+      let logged = logStr.substring(logStr.indexOf('INFO -') + 7, logStr.length);
       expect(logged).toBe(expected);
     });
   });

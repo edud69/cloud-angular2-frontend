@@ -27,7 +27,7 @@ export function main() {
         beforeEach(() => {
             // weird bug that displays a Karma warning for missing css. It should not happen as this is a service, not component
             // maybe the service is loading a component (when it should not)
-            document.body.insertAdjacentHTML('afterbegin', '<link rel=\"stylesheet\" href=\"/base/dist/dev/css/indigo-pink.css\" />')
+            document.body.insertAdjacentHTML('afterbegin', '<link rel=\"stylesheet\" href=\"/base/dist/dev/css/indigo-pink.css\" />');
 
             mockedAuthTokenService = new MockedAuthTokenService(null, mockedLoggerService);
             serviceUnderTest = new WebsocketService(mockedLoggerService, mockedAuthTokenService);

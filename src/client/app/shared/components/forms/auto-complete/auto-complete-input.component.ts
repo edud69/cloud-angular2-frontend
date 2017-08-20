@@ -1,5 +1,5 @@
 import { Component, Injectable, Input } from '@angular/core';
-import {CompleterItem } from 'ng2-completer';
+import { CompleterItem } from 'ng2-completer';
 
 import { AutoCompleteDataProviderService } from '../../../services/forms/auto-complete/auto-complete-data-provider.service';
 

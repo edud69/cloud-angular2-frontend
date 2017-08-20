@@ -20,7 +20,7 @@ export class FacebookSocialSigninButtonComponent {
 
   getLink() : string {
     let tid = this._tenantResolverService.resolveCurrentTenant();
-	  return this._signinService.socialProviderLinks.facebook + '?tenant=' + tid;
+    return this._signinService.socialProviderLinks.facebook + '?tenant=' + tid;
   }
-  
+
 }
