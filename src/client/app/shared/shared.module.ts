@@ -22,10 +22,11 @@ import { MdCoreModule, OVERLAY_PROVIDERS, MdProgressBarModule, MdInputModule,
 const angular2MdModules: any = [MdCoreModule, MdProgressBarModule, MdInputModule,
                                 MdCardModule, MdButtonModule, MdToolbarModule, MdTooltipModule,
                                 MdIconModule, MdMenuModule, MdChipsModule, MdCheckboxModule, MdDatepickerModule,
-                                MdNativeDateModule, MdButtonToggleModule, MdDialogModule, MdRadioModule, MdListModule, MdOptionModule,
-                                MdSelectModule, MdSliderModule, MdSelectionModule, MdLineModule, MdExpansionModule, MdTableModule, MdSortModule,
-                                MdTabsModule, MdProgressSpinnerModule, MdSlideToggleModule, MdGridListModule,
-                                MdPaginatorModule, MdRippleModule, MdSidenavModule, MdSnackBarModule];
+                                MdNativeDateModule, MdButtonToggleModule, MdDialogModule, MdRadioModule, MdListModule,
+                                MdOptionModule, MdSelectModule, MdSliderModule, MdSelectionModule, MdLineModule,
+                                MdExpansionModule, MdTableModule, MdSortModule, MdTabsModule, MdProgressSpinnerModule,
+                                MdSlideToggleModule, MdGridListModule, MdPaginatorModule, MdRippleModule,
+                                MdSidenavModule, MdSnackBarModule];
 const angular2MdProviders: any = [MdIconRegistry, OVERLAY_PROVIDERS];
 
 /**
