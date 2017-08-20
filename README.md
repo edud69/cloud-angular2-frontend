@@ -50,7 +50,7 @@ In order to start the seed use:
 
 
 ```bash
-$ git clone --depth 1 https://github.com/mgechev/angular-seed.git
+$ git clone --depth 1 https://github.com/edud69/cloud-angular2-frontend.git
 $ cd angular-seed
 
 # install the project's dependencies
