@@ -1,0 +1,8 @@
+.completer-wrapper {
+  border-radius: 25px;
+  background: lightgray;
+}
+
+:host >>> .match {
+  color: orangered;
+}

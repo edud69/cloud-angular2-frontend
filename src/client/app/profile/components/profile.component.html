@@ -1,0 +1,46 @@
+Profile page
+<div align="center"><sd-error-box [error]="error"></sd-error-box></div>
+
+<div align="center" [hidden]="isSuccess">
+  <md-card class="demo-card demo-basic" style="width: 600px">
+    <md-toolbar color="primary">Edit profile</md-toolbar>
+    <form [formGroup]="form.formGroup" (ngSubmit)="submit()" style="width: 100%">
+        <table width="70%">
+          <tr>
+            <td>
+              <md-input-container>
+                <input mdInput placeholder="Firstname" type="input" formControlName="firstName" required>
+              </md-input-container>
+              <sd-error-field-label [form]="form" fieldname="firstName"></sd-error-field-label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <md-input-container>
+                <input mdInput placeholder="Lastname" type="input" formControlName="lastName" required>
+              </md-input-container>
+              <sd-error-field-label [form]="form" fieldname="lastName"></sd-error-field-label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Avatar:
+              <sd-file-upload [uploadUrl]="avatarUploadEndpoint" uploaderType="singlefile" maxSizeKb="500" fileTypes="*" [subscriber]="avatarUploadCallback"></sd-file-upload>
+              Current Avatar:
+              <div [hidden]="!form.avatarUrl">
+                <img [src]="form.avatarUrl" height="25" width="25"/>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div align="right">
+                <sd-form-reset-button [host]="this"></sd-form-reset-button>
+                <sd-form-submit-button [host]="this"></sd-form-submit-button>
+              </div>
+            </td>
+          </tr>
+        </table>
+    </form>
+  </md-card>
+</div>

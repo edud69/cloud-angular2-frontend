@@ -1,0 +1,46 @@
+<div align="center"><sd-error-box [error]="error"></sd-error-box></div>
+
+<md-progress-bar *ngIf="isProcessing" mode="indeterminate"></md-progress-bar>
+
+<div align="center" style="margin-top: 20px">
+    <md-card class="demo-card demo-basic" style="width: 480px">
+      <md-toolbar color="primary">Sign-in</md-toolbar>
+
+        <form [formGroup]="form.formGroup" (ngSubmit)="login()" style="width: 100%">
+
+          <div style="margin-bottom: 20px; margin-top: 20px;">
+            <md-input-container>  
+              <input mdInput placeholder="TODO translate:Forms.AuthenticationModule.Signin.fields.username.placeholder"
+                formControlName="username" required>
+              <span md-prefix><md-icon>person_outline</md-icon></span>
+              <md-hint align="left"><sd-error-field-label [form]="form" fieldname="username"></sd-error-field-label></md-hint>
+            </md-input-container>
+
+            <div>
+              <md-input-container>
+                <input mdInput placeholder="TODO translate:Forms.AuthenticationModule.Signin.fields.password.placeholder" 
+                  type="password" formControlName="password" required>
+                  <span md-prefix><md-icon>lock_outline</md-icon></span>
+                  <md-hint align="left"><sd-error-field-label [form]="form" fieldname="password"></sd-error-field-label></md-hint>
+              </md-input-container>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 10px">
+            <sd-form-reset-button [host]="this"></sd-form-reset-button>
+            <sd-form-submit-button [host]="this"></sd-form-submit-button>
+          </div>
+
+          <div style="margin-bottom: 5px">
+            <sd-facebook-signin-button></sd-facebook-signin-button>
+            <sd-google-signin-button></sd-google-signin-button>
+          </div>
+
+          <div align="right">
+            <button md-button class="md-primary md-hue-1" [routerLink]="['/password/lost']">Lost password</button>
+          </div>
+
+        </form>
+
+  </md-card>
+</div>

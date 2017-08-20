@@ -1,0 +1,46 @@
+<style>
+    .my-drop-zone { border: dotted 3px lightgray; }
+    .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+    .another-file-over-class { border: dotted 3px green; }
+    html, body { height: 100%; }
+</style>
+
+<!-- File upload input -->
+<div [ngSwitch]="uploaderTypeStringify">
+    <div *ngSwitchCase="'basedrop'"
+            ng2FileDrop
+            [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+            (fileOver)="fileOverBase($event)"
+            [uploader]="uploader"
+            class="well my-drop-zone">
+            TODO translate: Forms.uploadBaseDropLabel
+    </div>
+    <div *ngSwitchCase="'multifile'"><input type="file" ng2FileSelect [uploader]="uploader" multiple/></div>
+    <div *ngSwitchCase="'singlefile'"><input  type="file" ng2FileSelect [uploader]="uploader" /></div>
+</div>
+
+<!-- File lists -->
+<div *ngFor="let item of uploader.queue">
+    {{ item.file.name }}&nbsp;TODO translate:Forms.uploadFileSizeLabel&nbsp;{{ item.file.size/1024/1024 | number:'.2' }}&nbsp;TODO translate: Forms.uploadMegabytesLabel
+    <div *ngIf="uploader.isUploading && uploader.queue.length > 1"><md-progress-bar mode="determinate" value="item.progress"></md-progress-bar></div>
+</div>
+
+<div *ngIf="uploader.isUploading">
+    TODO translate: Forms.uploadOverallProgressLabel
+    <md-progress-bar mode="determinate" value="uploader.progress"></md-progress-bar>
+</div>
+
+<!-- upload button -->
+<button (click)="uploadAll()" [disabled]="uploader.isUploading || !uploader.getNotUploadedItems().length" md-mini-fab>
+    <md-icon>cloud_upload</md-icon>
+</button>
+
+<!-- Clear list button only for multifile or basedrop modes -->
+<button *ngIf="uploaderTypeStringify !== 'singlefile'" (click)="clearAll()" [disabled]="uploader.isUploading || !uploader.queue.length" md-mini-fab>
+    <md-icon>clear</md-icon>
+</button>
+
+<!-- Errors -->
+<div *ngFor="let error of errorMessages">
+    <span *ngIf="error" style="color:red;">{{error}}</span>
+</div>

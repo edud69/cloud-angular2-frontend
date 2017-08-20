@@ -1,0 +1,47 @@
+<sd-error-box [error]="error"></sd-error-box>
+
+<div [hidden]="!isSuccess">
+    We have sent you an email.
+</div>
+
+<div align="center" [hidden]="isSuccess">
+  <md-card class="demo-card demo-basic" style="width: 600px">
+    <md-toolbar color="primary">Sign-up</md-toolbar>
+    <form [formGroup]="form.formGroup" (ngSubmit)="signup()" style="width: 100%">
+        <table width="70%">
+          <tr>
+            <td>
+              <md-input-container>
+                  <input mdInput placeholder="Email" type="email" formControlName="username" required>
+              </md-input-container>
+              <sd-error-field-label [form]="form" fieldname="username"></sd-error-field-label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <md-input-container>
+                <input mdInput placeholder="Password" type="password" formControlName="password" required>
+              </md-input-container>
+              <sd-error-field-label [form]="form" fieldname="password"></sd-error-field-label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <md-input-container>
+                <input mdInput placeholder="Password Confirm" type="password" formControlName="passwordConfirm" required>
+              </md-input-container>
+              <sd-error-field-label [form]="form" fieldname="passwordConfirm"></sd-error-field-label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div align="right">
+                <sd-form-reset-button [host]="this"></sd-form-reset-button>
+                <sd-form-submit-button [host]="this"></sd-form-submit-button>
+              </div>
+            </td>
+          </tr>
+        </table>
+    </form>
+  </md-card>
+</div>

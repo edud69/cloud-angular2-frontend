@@ -1,0 +1,140 @@
+<h1>Test JIG</h1>
+
+<md-card>
+  <md-card-title>Logout button</md-card-title>
+  <md-card-subtitle>You need to be logged in to make it appear.</md-card-subtitle>
+  <md-card-content>
+      <sd-logout-button></sd-logout-button>
+  </md-card-content>
+</md-card>
+
+
+<md-card>
+  <md-card-title>Websocket test (will become eventually a directive for chat / one for push notifications</md-card-title>
+  <md-card-subtitle>CHAT-WEBSOCKET status: {{status}}</md-card-subtitle>
+  <md-card-content>        
+      <form (submit)="sendChat()" *ngIf="status == 'ONLINE'">
+        <input [(ngModel)]="chatMessage" [ngModelOptions]="{standalone: true}" placeholder="Enter your message!" (keypress)="enableTypingAction()">
+        <button type="submit">Send</button>
+      </form>
+
+      <div [ngSwitch]="status"  style="margin-top: 10px;">
+          <form (submit)="connectChat()" *ngSwitchCase="'OFFLINE'">
+            <button type="submit">Connect</button>
+          </form>
+        
+          <form (submit)="disconnectChat()" *ngSwitchCase="'ONLINE'">
+            <button type="submit">Disconnect</button>
+          </form>
+      </div>
+    
+      <md-list dense style="margin-top: 10px;">
+        <md-list-item *ngFor="let chatmsgs of displayChatMessages()"><div>{{chatmsgs}}</div></md-list-item>
+      </md-list>
+  </md-card-content>
+</md-card>
+
+
+<md-card>
+    <md-card-title>Forms components</md-card-title>
+    <md-card-content> 
+      <b>Image upload</b>
+      <div>Url: {{docBackendApi}}</div>
+      <div style="margin-top: 10px;">
+        <div><b>Single file upload:</b></div>
+        <sd-file-upload [uploadUrl]="docBackendApi" uploaderType="singlefile" maxSizeKb="500" fileTypes="*" [subscriber]="fileuploadSub"></sd-file-upload>
+      </div>
+      <div style="margin-top: 10px;">
+        <div><b>Multi-file upload:</b></div>
+        <sd-file-upload [uploadUrl]="docBackendApi" uploaderType="multifile"  maxSizeKb="500"></sd-file-upload>
+      </div>
+      <div style="margin-top: 10px;">
+        <div><b>Base-drop upload:</b></div>
+        <sd-file-upload [uploadUrl]="docBackendApi" uploaderType="basedrop" fileTypes="image, video, text, multipart, audio"></sd-file-upload>
+      </div>
+
+      <div style="margin-top: 30px;"><b>Auto-complete</b></div>
+      <sd-input-auto-complete [queryUrl]="docBackendApi" 
+                              [selectedItemCallback]="onAutoCompleteItemSelected"
+                              imgBaseModelProperty="uploadedDestination"
+                              titleBaseModelProperty="uploadedDestination"
+                              descriptionBaseModelProperty="uploadedDestination"></sd-input-auto-complete>
+
+      <div style="margin-top: 30px;"><b>Checkbox</b></div>
+      <md-checkbox>A checkbox</md-checkbox>
+
+      <div style="margin-top: 30px;"><b>Datepicker</b></div>
+      <md-input-container>
+          <input mdInput [mdDatepicker]="myDatepicker">
+          <button mdSuffix [mdDatepickerToggle]="myDatepicker"></button>
+      </md-input-container>
+      <md-datepicker #myDatepicker></md-datepicker>
+
+      <div style="margin-top: 30px;"><b>Radio button</b></div>
+      <md-radio-group>
+        <md-radio-button>Opt1</md-radio-button>
+        <md-radio-button>Opt2</md-radio-button>
+        <md-radio-button>Opt3</md-radio-button>
+      </md-radio-group>
+
+      <div style="margin-top: 30px;"><b>Select droplist</b></div>
+      <md-select placeholder="Selectable Items">
+          <md-option value="1">Opt1</md-option>
+          <md-option value="2">Opt1</md-option>
+          <md-option value="3">Opt1</md-option>
+      </md-select>
+
+      <div style="margin-top: 30px;"><b>Slider</b></div>
+      <md-slider min="1" max="5" step="0.5" value="1.5"></md-slider>
+      <md-slide-toggle>Slide Type2</md-slide-toggle>
+   
+      <div style="margin-top: 30px;"><b>Tabs</b></div>
+      <md-tab-group>
+          <md-tab>
+            <ng-template md-tab-label>
+              The <em>best</em> pasta
+            </ng-template>
+            <h1>Best pasta restaurants</h1>
+            <p>...</p>
+          </md-tab>
+          <md-tab>
+            <ng-template md-tab-label>
+              <md-icon>thumb_down</md-icon> The worst sushi
+            </ng-template>
+            <h1>Terrible sushi restaurants</h1>
+            <p>...</p>
+          </md-tab>
+      </md-tab-group>
+
+      <div style="margin-top: 30px;"><b>Buttons</b></div>
+      <md-button-toggle-group>
+        <md-button-toggle>Opt1</md-button-toggle>
+        <md-button-toggle>Opt2</md-button-toggle>
+        <md-button-toggle>Opt3</md-button-toggle>
+      </md-button-toggle-group>
+
+      <div style="margin-top: 30px;"><b>Chips</b></div>
+      <md-chip-list>
+          <md-chip>Papadum</md-chip>
+          <md-chip>Naan</md-chip>
+          <md-chip>Dal</md-chip>
+      </md-chip-list>
+
+      <div style="margin-top: 30px;"><b>Tooltip</b></div>
+      <span mdTooltip="Tooltip!">I have a tooltip</span>
+
+    </md-card-content>
+</md-card>
+
+<md-card>
+  <md-card-title>Security</md-card-title>
+  <h2>Permissions testing (it should appear if you have the rights)</h2><br/>
+  (only appear when authenticated)
+  <div>
+    <md-list dense>
+      <md-list-item *sdHasPermission="'INDEX_ALL'">You have the INDEX_ALL permission!</md-list-item>
+      <md-list-item *sdHasAnyPermission="'INDEX_ALL, CHAT_SEND'">You have the one of the permission INDEX_ALL <u>or</u> UNEXISTING_ACTION_PERM permission!</md-list-item>
+      <md-list-item *sdHasAllPermissions="'INDEX_ALL, CHAT_SEND'">You have the one of the permission INDEX_ALL <u>and</u> CHAT_SEND permission!</md-list-item>
+    </md-list>
+  </div>
+</md-card>

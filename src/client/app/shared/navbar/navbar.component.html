@@ -1,0 +1,6 @@
+<nav *ngIf="!isAuthenticated">
+  <a [routerLink]="['/']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}"><md-icon>home</md-icon></a>
+  <a [routerLink]="['/signin']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}"><md-icon>security</md-icon></a>
+  <a [routerLink]="['/signup']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}"><md-icon>assignment ind</md-icon></a>
+  <a [routerLink]="['/about']" [routerLinkActive]="['router-link-active']" [routerLinkActiveOptions]="{exact:true}"><md-icon>info outline</md-icon></a>
+</nav>
