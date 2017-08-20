@@ -66,7 +66,9 @@ module.exports = function (config) {
       { pattern: 'node_modules/angular2-jwt/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/angular2-jwt/**/*.js.map', included: false, watched: false },
       { pattern: 'node_modules/lodash/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/stompjs/**/*.js', included: false, watched: false }
+      { pattern: 'node_modules/stompjs/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/hammerjs/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/hammerjs/**/*.js.map', included: false, watched: false },
     ],
 
     // must go along with above, suppress annoying 404 warnings.

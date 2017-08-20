@@ -6,7 +6,8 @@ System.config({
     lodash: 'node_modules/lodash/lodash.js',
     'angular2-jwt/*': 'node_modules/angular2-jwt/*.js',
     'ng2-completer/*': 'node_modules/ng2-completer/*.js',
-    'ng2-file-upload/*': 'node_modules/ng2-file-upload/*.js'
+    'ng2-file-upload/*': 'node_modules/ng2-file-upload/*.js',
+    'hammerjs/*': 'node_modules/hammerjs/*.js',
   },
   packages: {
     '': {
